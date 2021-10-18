@@ -52,12 +52,27 @@ if (isset($form_data['cm_type'])) {
     <div class="col-12 mt-4 mb-4" id="cm_alerts">
       <div class="alert alert-green fade show alert-fixed" role="alert">
         <strong>Atenção!</strong> A importação depende da matriz padrão para efetuar o carregamentos dos dados, caso não tenha a matriz atualizada clique no link para efetuar o download.
-        <a href="<?php echo plugins_url('matriz.xlsx', CM_PATH_ROOT); ?>" download><b>Baixar Matriz</b></a>
+        <br>
+        <a href="<?php echo plugins_url('matriz_nova.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz dinâmica - Meios</b></a> |
+        <a href="<?php echo plugins_url('matriz_antiga.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz estática - Meios</b></a> |
+        <a href="<?php echo plugins_url('ranking.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking</b></a> |
+        <a href="<?php echo plugins_url('ranking_uf.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking por Estado</b></a>
       </div>
     </div>
   </div>
   <div class="form-row">
-    <div class="col-12 col-md-12 col-lg-4 form-group">
+    <div class="col-12 col-md-12 col-lg-6 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Tipo de Planilha', CM_TEXT_DOMAIN) ?></label>
+      <p class="text-muted"><?php echo __('Selecione o tipo de planilha correspondente.', CM_TEXT_DOMAIN); ?></p>
+      <select class="form-control" name="cm_spreadsheet_type" required>
+        <option value=""><?php echo __('Selecionar', CM_TEXT_DOMAIN); ?></option>
+        <option value="1" <?php echo (isset($form_data['cm_spreadsheet_type']) && $form_data['cm_spreadsheet_type'] == 1) ? 'selected' : null; ?>><?php echo __('Matriz dinâmica - Meios', CM_TEXT_DOMAIN); ?></option>
+        <option value="2" <?php echo (isset($form_data['cm_spreadsheet_type']) && $form_data['cm_spreadsheet_type'] == 2) ? 'selected' : null; ?>><?php echo __('Matriz estática - Meios', CM_TEXT_DOMAIN); ?></option>
+        <option value="3" <?php echo (isset($form_data['cm_spreadsheet_type']) && $form_data['cm_spreadsheet_type'] == 3) ? 'selected' : null; ?>><?php echo __('Matriz - Ranking', CM_TEXT_DOMAIN); ?></option>
+        <option value="4" <?php echo (isset($form_data['cm_spreadsheet_type']) && $form_data['cm_spreadsheet_type'] == 4) ? 'selected' : null; ?>><?php echo __('Matriz - Ranking por Estado', CM_TEXT_DOMAIN); ?></option>
+      </select>
+    </div>
+    <div class="col-12 col-md-12 col-lg-6 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Periodo de Apuração', CM_TEXT_DOMAIN) ?></label>
       <p class="text-muted"><?php echo __('Selecione o período de apuração correspondentes.', CM_TEXT_DOMAIN); ?></p>
       <select class="form-control" name="cm_period" required>
@@ -68,7 +83,7 @@ if (isset($form_data['cm_type'])) {
         <option value="4" <?php echo (isset($form_data['cm_period']) && $form_data['cm_period'] == 4) ? 'selected' : null; ?>><?php echo __('JAN A DEZ', CM_TEXT_DOMAIN); ?></option>
       </select>
     </div>
-    <div class="col-12 col-md-12 col-lg-4 form-group">
+    <div class="col-12 col-md-12 col-lg-6 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Tipo de Painel', CM_TEXT_DOMAIN) ?></label>
       <p class="text-muted"><?php echo __('Selecione o tipo de painel a ser criado.', CM_TEXT_DOMAIN); ?></p>
       <div class="form-check form-check-inline mt-2">
@@ -84,7 +99,7 @@ if (isset($form_data['cm_type'])) {
         <label class="form-check-label font-weight-bold" for="cm_type_rank_state"><?php echo __('Ranking por UF', CM_TEXT_DOMAIN); ?></label>
       </div>
     </div>
-    <div class="col-12 col-md-12 col-lg-4 form-group">
+    <div class="col-12 col-md-12 col-lg-6 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Planilha', CM_TEXT_DOMAIN) ?></label>
       <p class="text-muted"><?php echo __('Selecione o arquivo XLSX para efetuar a importação.', CM_TEXT_DOMAIN); ?></p>
       <div class="custom-file">
@@ -95,27 +110,24 @@ if (isset($form_data['cm_type'])) {
     </div>
   </div>
   <div class="form-row">
-    <div class="col-12 col-md-12 col-lg-4 form-group">
-      <label class="form-label font-weight-bold"><?php echo __('Arredondar Valores', CM_TEXT_DOMAIN) ?></label>
-      <p class="text-muted"><?php echo __('Efetua o arrendondamento dos valores.', CM_TEXT_DOMAIN); ?></p>
-      <div class="form-check form-check-inline mt-2">
-        <input class="form-check-input" type="radio" name="cm_round" id="cm_round_yes" value="1" <?php echo $round_yes; ?>>
-        <label class="form-check-label font-weight-bold" for="cm_round_yes"><?php echo __('Sim', CM_TEXT_DOMAIN); ?></label>
-      </div>
-      <div class="form-check form-check-inline mt-2">
-        <input class="form-check-input" type="radio" name="cm_round" id="cm_round_no" value="2" <?php echo $round_no; ?>>
-        <label class="form-check-label font-weight-bold" for="cm_round_no"><?php echo __('Não', CM_TEXT_DOMAIN); ?></label>
-      </div>
+    <div class="col-12">
+      <p class="h4 mt-4 mb-4"><?php echo __('Referências', CM_TEXT_DOMAIN); ?></p>
     </div>
-	<div class="col-12 col-md-12 col-lg-4 form-group">
-      <label class="form-label font-weight-bold"><?php echo __('Fonte Valor Faturado', CM_TEXT_DOMAIN) ?></label>
-      <p class="text-muted"><?php echo __('Informe a referencia a ser exibida.', CM_TEXT_DOMAIN); ?></p>
-	  <input type="text" class="form-control" name="cm_source_real" id="cm_source_real" value="<?php echo (isset($form_data['cm_source_real'])) ? $form_data['cm_source_real'] : '' ?>">
+    <div class="col-12 col-md-12 col-lg-3 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Valor Faturado', CM_TEXT_DOMAIN) ?></label>
+      <input type="number" class="form-control" name="cm_source_real" id="cm_source_real" value="<?php echo (isset($form_data['cm_source_real'])) ? $form_data['cm_source_real'] : '' ?>" min="1" max="100">
     </div>
-	<div class="col-12 col-md-12 col-lg-4 form-group">
-      <label class="form-label font-weight-bold"><?php echo __('Fonte USD', CM_TEXT_DOMAIN) ?></label>
-      <p class="text-muted"><?php echo __('Informe a referencia a ser exibida.', CM_TEXT_DOMAIN); ?></p>
-	  <input type="text" class="form-control" name="cm_source_dollar" id="cm_source_dollar" value="<?php echo (isset($form_data['cm_source_dollar'])) ? $form_data['cm_source_dollar'] : '' ?>">
+    <div class="col-12 col-md-12 col-lg-3 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Dólar', CM_TEXT_DOMAIN) ?></label>
+      <input type="number" class="form-control" name="cm_source_dollar" id="cm_source_dollar" value="<?php echo (isset($form_data['cm_source_dollar'])) ? $form_data['cm_source_dollar'] : '' ?>" min="1" max="100">
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Mídias', CM_TEXT_DOMAIN) ?></label>
+      <input type="number" class="form-control" name="cm_source_midia" id="cm_source_midia" value="<?php echo (isset($form_data['cm_source_midia'])) ? $form_data['cm_source_midia'] : '' ?>" min="1" max="100">
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Mercado Nacional', CM_TEXT_DOMAIN) ?></label>
+      <input type="number" class="form-control" name="cm_source_mercado" id="cm_source_mercado" value="<?php echo (isset($form_data['cm_source_mercado'])) ? $form_data['cm_source_mercado'] : '' ?>" min="1" max="100">
     </div>
   </div>
   <div class="form-row">
@@ -128,9 +140,9 @@ if (isset($form_data['cm_type'])) {
         'textarea_name' =>  'cm_description',
         'textarea_rows' =>  10,
         'teeny'         =>  false,
-		 'quicktags' => array(
-            // Items for the Text Tab
-            'buttons' => 'strong,em,underline,ul,ol,li,link,code'
+        'quicktags' => array(
+          // Items for the Text Tab
+          'buttons' => 'strong,em,underline,ul,ol,li,link,code'
         )
       ));
       ?>
@@ -165,21 +177,19 @@ if (isset($form_data['cm_type'])) {
     </div>
   </div>
   <div class="form-row">
-    <div class="col-12 col-lg-4 mt-4 form-group">
-      <p class="font-weight-bold" for="cm_agency_title"><?php echo __('Agências Participantes', CM_TEXT_DOMAIN); ?></p>
+    <div class="col-12">
+      <p class="h4"><?php echo __('Agências Participantes', CM_TEXT_DOMAIN); ?></p>
+    </div>
+    <div class="col-12 col-lg-6 mt-4 form-group">
       <label class="form-label font-weight-bold" for="cm_agency_title">Título</label>
       <input type="text" class="form-control" name="cm_agency_title" id="cm_agency_title" value="<?php echo (isset($form_data['cm_agency_title'])) ? $form_data['cm_agency_title'] : '' ?>">
     </div>
-    <div class="col-12">
-    <?php
-      wp_editor((isset($form_data['cm_agency_text'])) ? $form_data['cm_agency_text'] : '', 'cm_agency_text', array(
-        'wpautop'       =>  true,
-        'media_buttons' =>  false,
-        'textarea_name' =>  'cm_agency_text',
-        'textarea_rows' =>  10,
-        'teeny'         =>  false
-      ));
-      ?>
+    <div class="col-12 col-lg-6 mt-4 form-group">
+      <label class="form-label font-weight-bold" for="cm_agency_file">Planilha</label>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" name="cm_agency_file" id="cm_agency_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        <label class="custom-file-label" for="cm_agency_file">Selecione</label>
+      </div>
     </div>
   </div>
 </div>

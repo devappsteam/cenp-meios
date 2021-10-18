@@ -73,14 +73,14 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
       echo '<p class="cm-empty">' . __('Nenhum resultado foi encontrado.', CM_TEXT_DOMAIN) . '</p>';
       wp_die();
     }
-	
-	$year = get_the_terms($post->ID, 'cenp-category');
-	$year = (!empty($year)) ? (int) filter_var($year[0]->name, FILTER_SANITIZE_NUMBER_INT) : '';
-	  
+
+    $year = get_the_terms($post->ID, 'cenp-category');
+    $year = (!empty($year)) ? (int) filter_var($year[0]->name, FILTER_SANITIZE_NUMBER_INT) : '';
+
     $post_meta = get_post_meta($post->ID, '_meios', true);
 
     $this->get_data_mean_comunication($post->ID);
-	
+
     //FILE CONTENT
     $header = file_get_contents(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/header.php');
     $source_note = file_get_contents(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/source.php');
@@ -89,28 +89,28 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     $html = str_replace('[LOGO_URL]', plugins_url() . '/cenp-mean/assets/images/logo.png', $header);
     $html = str_replace('[TITLE]', $post->post_title, $html);
 
-	  
+
     // HTML BY TYPE
     switch ($post_meta['cm_type']) {
       case 1:
       default:
         switch ($post_meta['cm_period']) {
           case 1:
-			$table_title = 'JAN-MAR' . '/' . $year;
+            $table_title = 'JAN-MAR' . '/' . $year;
             $html .= $this->render_mean_comunication($post, $post_meta);
             break;
           case 2:
-				$table_title = 'JAN-JUN' . '/' . $year;
-				$html .= $this->render_mean_comunication($post, $post_meta);
-            	$html .= $this->render_region($post, $post_meta);
-			break;
+            $table_title = 'JAN-JUN' . '/' . $year;
+            $html .= $this->render_mean_comunication($post, $post_meta);
+            $html .= $this->render_region($post, $post_meta);
+            break;
           case 3:
-				$table_title = 'JAN-SET' . '/' . $year;
-				$html .= $this->render_mean_comunication($post, $post_meta);
-				$html .= $this->render_region($post, $post_meta);
+            $table_title = 'JAN-SET' . '/' . $year;
+            $html .= $this->render_mean_comunication($post, $post_meta);
+            $html .= $this->render_region($post, $post_meta);
             break;
           case 4:
-				$table_title = 'JAN-DEZ' . '/' . $year;
+            $table_title = 'JAN-DEZ' . '/' . $year;
             $html .= $this->render_mean_comunication($post, $post_meta);
             $html .= $this->render_region($post, $post_meta);
             $html .= $this->render_mean_region($post, $post_meta);
@@ -125,9 +125,11 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     $html = str_replace('[DISPLAY]', (empty($post_meta['cm_note'])) ? 'display: none;' : '', $html);
     $html = str_replace('[AGENCY_TITLE]', $post_meta['cm_agency_title'], $html);
     $html = str_replace('[AGENCY_TEXT]', $post_meta['cm_agency_text'], $html);
-	$html = str_replace('[TABLE_TITLE]', $table_title, $html);
-	$html = str_replace('[SOURCE_FONT]', $post_meta['cm_source_real'], $html);
-	$html = str_replace('[SOURCE_DOLLAR]', $post_meta['cm_source_dollar'], $html);
+    $html = str_replace('[TABLE_TITLE]', $table_title, $html);
+    $html = str_replace('[SOURCE_FONT]', $post_meta['cm_source_real'], $html);
+    $html = str_replace('[SOURCE_DOLLAR]', $post_meta['cm_source_dollar'], $html);
+    $html = str_replace('[SOURCE_MIDIA]', $post_meta['cm_source_midia'], $html);
+    $html = str_replace('[SOURCE_MERCADO]', $post_meta['cm_source_mercado'], $html);
     echo $html;
     wp_die();
   }
@@ -1015,8 +1017,8 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
   {
     $total = 0;
     foreach ($data as $value) {
-	  $slug = $this->slugify($value['state']);
-	  //print_r($this->slugify($value['state']) . '--' . $region . '<br>');
+      $slug = $this->slugify($value['state']);
+      //print_r($this->slugify($value['state']) . '--' . $region . '<br>');
       if ($total_general) {
         $total += $value[$type];
       } else {

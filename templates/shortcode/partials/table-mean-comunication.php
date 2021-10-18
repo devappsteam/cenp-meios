@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <!-- SEM GRUPO -->
-        <td style="text-transform: uppercase;">Internet<br>
+        <td style="text-transform: uppercase;">Internet<sup>[SOURCE_MIDIA]</sup><br>
           <?php if (isset($data['internet']['meios'])) { ?>
             <table class="cm-meio-interna">
               <tbody>
@@ -97,7 +97,7 @@
       </tr>
       <!-- Jornal -->
       <tr>
-        <td style="text-transform: uppercase;">JORNAL</td>
+        <td style="text-transform: uppercase;">JORNAL<sup>[SOURCE_MIDIA]</sup></td>
         <td style="border-right-color: transparent;">R$</td>
         <td id="total_jornal"><?php echo $data['jornal']['real']; ?></td>
         <td style="border-right-color:transparent;text-align: left;">$</td>
@@ -125,7 +125,7 @@
 
       <!-- Revista -->
       <tr>
-        <td style="text-transform: uppercase;">REVISTA</td>
+        <td style="text-transform: uppercase;">REVISTA<sup>[SOURCE_MIDIA]</sup></td>
         <td style="border-right-color: transparent;">R$</td>
         <td id="total_revista"><?php echo $data['revista']['real']; ?></td>
         <td style="border-right-color:transparent;text-align: left;">$</td>
@@ -145,7 +145,7 @@
 
       <!-- TV Assinada -->
       <tr>
-        <td style="text-transform: uppercase;">TELEVISÃO POR ASSINATURA</td>
+        <td style="text-transform: uppercase;">TELEVISÃO POR ASSINATURA<sup>[SOURCE_MIDIA]</sup></td>
         <td style="border-right-color: transparent;">R$</td>
         <td id="total_assinada"><?php echo $data['tv_assinada']['real']; ?></td>
         <td style="border-right-color:transparent;text-align: left;">$</td>
@@ -198,6 +198,7 @@
             },
             sliceVisibilityThreshold: 0,
             title: "",
+            enableInteractivity: false,
             is3D: true,
             pieSliceText: 'none',
             chartArea: {
@@ -205,7 +206,6 @@
               height: '100%'
             },
             legend: {
-
               position: 'labeled',
               alignment: 'center',
               textStyle: {
@@ -215,7 +215,7 @@
             },
             tooltip: {
               showColorCode: true,
-              text: 'percentage'
+              text: 'percentage',
             },
           };
 
@@ -225,6 +225,12 @@
           jQuery(window).resize(function() {
             chart.draw(data, options);
           });
+
+          jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10">[SOURCE_MIDIA]</tspan></tspan>`);
+          jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10">[SOURCE_MIDIA]</tspan></tspan>`);
+          jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10">[SOURCE_MIDIA]</tspan></tspan>`);
+          jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10">[SOURCE_MIDIA]</tspan></tspan>`);
+          
         }
       });
     })(jQuery);

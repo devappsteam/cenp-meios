@@ -11,7 +11,7 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     add_action('init', array($this, 'cm_register_post_type'));
     add_action('init', array($this, 'cm_register_taxonomy'));
     add_action('save_post', array($this, 'cm_save'));
-	add_filter('mce_buttons_2', array($this, 'cm_mce_buttons_2'));
+    add_filter('mce_buttons_2', array($this, 'cm_mce_buttons_2'));
   }
 
   public function admin_scripts()
@@ -173,20 +173,20 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     if (!isset($_POST['cm_nonce']) || !wp_verify_nonce($_POST['cm_nonce'], 'cm_nonce')) {
       return;
     }
-    //$old = get_post_meta($post_id, '_meios', true);
 
     $form_data = array(
-      'cm_period'       => $_POST['cm_period'],
-      'cm_type'         => $_POST['cm_type'],
-      'cm_description'  => $_POST['cm_description'],
-      'cm_source'       => $_POST['cm_source'],
-      'cm_note'         => $_POST['cm_note'],
-      //'cm_json'         => (!empty($_POST['cm_json'])) ? $_POST['cm_json'] : $old['cm_json'],
-      'cm_round'        => $_POST['cm_round'],
+      'cm_period'             => $_POST['cm_period'],
+      'cm_type'               => $_POST['cm_type'],
+      'cm_description'        => $_POST['cm_description'],
+      'cm_source'             => $_POST['cm_source'],
+      'cm_note'               => $_POST['cm_note'],
       'cm_agency_title'       => $_POST['cm_agency_title'],
-      'cm_agency_text'       => $_POST['cm_agency_text'],
-	  'cm_source_real'	=> $_POST['cm_source_real'],
-		'cm_source_dollar'	=> $_POST['cm_source_dollar'],
+      'cm_agency_text'        => $_POST['cm_agency_text'],
+      'cm_spreadsheet_type'   => $_POST['cm_spreadsheet_type'],
+      'cm_source_real'        => $_POST['cm_source_real'],
+      'cm_source_dollar'      => $_POST['cm_source_dollar'],
+      'cm_source_midia'       => $_POST['cm_source_midia'],
+      'cm_source_mercado'     => $_POST['cm_source_mercado']
     );
 
     if (!empty($_POST['cm_json'])) {
@@ -219,12 +219,12 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     $sql = "INSERT INTO $table_spreadsheet (`post_id`,`state`,`mean`,`real`,`dollar`) VALUES " . implode(',', $data);
     $wpdb->query($sql);
   }
-	
-	public function cm_mce_buttons_2($buttons) {	
-		$buttons[] = 'superscript';
-		$buttons[] = 'subscript';
-		$buttons[] = 'code';
-		return $buttons;
-	}
-	
+
+  public function cm_mce_buttons_2($buttons)
+  {
+    $buttons[] = 'superscript';
+    $buttons[] = 'subscript';
+    $buttons[] = 'code';
+    return $buttons;
+  }
 }
