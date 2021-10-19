@@ -45,6 +45,10 @@ function activate()
 
   $table_region = $wpdb->prefix . "cm_states_region";
   $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets";
+  $table_spreadsheet_means = $wpdb->prefix . "cm_spreadsheets_means";
+  $table_spreadsheet_means_regions = $wpdb->prefix . "cm_spreadsheets_means_regions";
+  $table_spreadsheet_regions = $wpdb->prefix . "cm_spreadsheets_regions";
+  $table_spreadsheet_states = $wpdb->prefix . "cm_spreadsheets_states";
   $charset_collate = $wpdb->get_charset_collate();
 
   $wpdb->query("DROP TABLE IF EXISTS `$table_region`;");
@@ -67,6 +71,55 @@ function activate()
         `dollar` DECIMAL(20,2) NOT NULL DEFAULT 0,
         PRIMARY KEY (`ID`)
       ) $charset_collate;";
+
+  dbDelta($sql);
+
+  $sql = "CREATE TABLE `$table_spreadsheet_means`(
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `post_id` BIGINT NOT NULL,
+    `mean` VARCHAR(20) NOT NULL,
+    `real` VARCHAR(20) NOT NULL DEFAULT 0,
+    `dollar` VARCHAR(20) NOT NULL DEFAULT 0,
+    `share` VARCHAR(20) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`ID`)
+  ) $charset_collate;";
+
+  dbDelta($sql);
+
+  $sql = "CREATE TABLE `$table_spreadsheet_regions`(
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `post_id` BIGINT NOT NULL,
+    `region` VARCHAR(20) NOT NULL,
+    `real` VARCHAR(20) NOT NULL DEFAULT 0,
+    `dollar` VARCHAR(20) NOT NULL DEFAULT 0,
+    `share` VARCHAR(20) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`ID`)
+  ) $charset_collate;";
+
+  dbDelta($sql);
+
+  $sql = "CREATE TABLE `$table_spreadsheet_means_regions`(
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `post_id` BIGINT NOT NULL,
+    `mean` VARCHAR(20) NOT NULL,
+    `real` VARCHAR(20) NOT NULL DEFAULT 0,
+    `dollar` VARCHAR(20) NOT NULL DEFAULT 0,
+    `share` VARCHAR(20) NOT NULL DEFAULT 0,
+    `region` VARCHAR(5) NOT NULL,
+    PRIMARY KEY (`ID`)
+  ) $charset_collate;";
+
+  dbDelta($sql);
+
+  $sql = "CREATE TABLE `$table_spreadsheet_states`(
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `post_id` BIGINT NOT NULL,
+    `state` VARCHAR(20) NOT NULL,
+    `real` VARCHAR(20) NOT NULL DEFAULT 0,
+    `dollar` VARCHAR(20) NOT NULL DEFAULT 0,
+    `share` VARCHAR(20) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`ID`)
+  ) $charset_collate;";
 
   dbDelta($sql);
 

@@ -190,8 +190,16 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     );
 
     if (!empty($_POST['cm_json'])) {
-      $this->delete_spreadsheet_by_post($post_id);
-      $this->insert_spreadsheet_by_post($post_id, $this->base64_to_array($_POST['cm_json']));
+      switch ($_POST['cm_spreadsheet_type']) {
+        case '1':
+          $this->delete_spreadsheet_by_post($post_id);
+          $this->insert_spreadsheet_by_post($post_id, $this->base64_to_array($_POST['cm_json']));
+          break;
+        case '2':
+          $this->delete_old_spreadsheet_by_post($post_id);
+          $this->insert_old_spreadsheet_by_post($post_id, $this->base64_to_array($_POST['cm_json']));
+          break;
+      }
     }
 
     update_post_meta($post_id, '_meios', $form_data);
@@ -202,6 +210,20 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     global $wpdb;
     $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets";
     $wpdb->delete($table_spreadsheet, array('post_id' => intval($post_id)));
+  }
+
+  private function delete_old_spreadsheet_by_post(int $post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet_means = $wpdb->prefix . "cm_spreadsheets_means";
+    $table_spreadsheet_means_regions = $wpdb->prefix . "cm_spreadsheets_means_regions";
+    $table_spreadsheet_regions = $wpdb->prefix . "cm_spreadsheets_regions";
+    $table_spreadsheet_states = $wpdb->prefix . "cm_spreadsheets_states";
+
+    $wpdb->delete($table_spreadsheet_means, array('post_id' => intval($post_id)));
+    $wpdb->delete($table_spreadsheet_means_regions, array('post_id' => intval($post_id)));
+    $wpdb->delete($table_spreadsheet_regions, array('post_id' => intval($post_id)));
+    $wpdb->delete($table_spreadsheet_states, array('post_id' => intval($post_id)));
   }
 
   private function base64_to_array(string $value)
@@ -219,6 +241,55 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     $sql = "INSERT INTO $table_spreadsheet (`post_id`,`state`,`mean`,`real`,`dollar`) VALUES " . implode(',', $data);
     $wpdb->query($sql);
   }
+
+  private function insert_old_spreadsheet_by_post(int $post_id, array $values)
+  {
+    global $wpdb;
+
+    $table_spreadsheet_means = $wpdb->prefix . "cm_spreadsheets_means";
+    $table_spreadsheet_means_regions = $wpdb->prefix . "cm_spreadsheets_means_regions";
+    $table_spreadsheet_regions = $wpdb->prefix . "cm_spreadsheets_regions";
+    $table_spreadsheet_states = $wpdb->prefix . "cm_spreadsheets_states";
+
+    if (!empty($values['meios'])) {
+      $means = array_map(function ($item) use ($post_id) {
+        return "($post_id,'" . $item['meio'] . "','" . $item['real'] . "','" . $item['dolar'] . "','" . $item['share'] . "')";
+      }, $values['meios']);
+
+      $sql = "INSERT INTO $table_spreadsheet_means (`post_id`,`mean`,`real`,`dollar`,`share`) VALUES " . implode(',', $means);
+      $wpdb->query($sql);
+    }
+
+    if (!empty($values['regioes'])) {
+      $regions = array_map(function ($item) use ($post_id) {
+        return "($post_id,'" . $item['regiao'] . "','" . $item['real'] . "','" . $item['dolar'] . "','" . $item['share'] . "')";
+      }, $values['regioes']);
+
+      $sql = "INSERT INTO $table_spreadsheet_regions (`post_id`,`region`,`real`,`dollar`,`share`) VALUES " . implode(',', $regions);
+      $wpdb->query($sql);
+    }
+
+    if ($values['meios_regioes']) {
+      $means_regions = array_map(function ($item) use ($post_id) {
+        return "($post_id,'" . $item['meio'] . "','" . $item['real'] . "','" . $item['dolar'] . "','" . $item['share'] . "','" . $item['regiao'] . "')";
+      }, $values['meios_regioes']);
+
+      $sql = "INSERT INTO $table_spreadsheet_means_regions (`post_id`,`mean`,`real`,`dollar`,`share`,`region`) VALUES " . implode(',', $means_regions);
+      $wpdb->query($sql);
+    }
+
+    if ($values['estados']) {
+      $states = array_map(function ($item) use ($post_id) {
+        return "($post_id,'" . $item['uf'] . "','" . $item['real'] . "','" . $item['dolar'] . "','" . $item['share'] . "')";
+      }, $values['estados']);
+
+      $sql = "INSERT INTO $table_spreadsheet_states (`post_id`,`state`,`real`,`dollar`,`share`) VALUES " . implode(',', $states);
+      $wpdb->query($sql);
+    }
+  }
+
+
+
 
   public function cm_mce_buttons_2($buttons)
   {

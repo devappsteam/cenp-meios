@@ -64,7 +64,7 @@ if (isset($form_data['cm_type'])) {
     <div class="col-12 col-md-12 col-lg-6 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Tipo de Planilha', CM_TEXT_DOMAIN) ?></label>
       <p class="text-muted"><?php echo __('Selecione o tipo de planilha correspondente.', CM_TEXT_DOMAIN); ?></p>
-      <select class="form-control" name="cm_spreadsheet_type" required>
+      <select class="form-control" name="cm_spreadsheet_type" id="cm_spreadsheet_type" required>
         <option value=""><?php echo __('Selecionar', CM_TEXT_DOMAIN); ?></option>
         <option value="1" <?php echo (isset($form_data['cm_spreadsheet_type']) && $form_data['cm_spreadsheet_type'] == 1) ? 'selected' : null; ?>><?php echo __('Matriz dinâmica - Meios', CM_TEXT_DOMAIN); ?></option>
         <option value="2" <?php echo (isset($form_data['cm_spreadsheet_type']) && $form_data['cm_spreadsheet_type'] == 2) ? 'selected' : null; ?>><?php echo __('Matriz estática - Meios', CM_TEXT_DOMAIN); ?></option>

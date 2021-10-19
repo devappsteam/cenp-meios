@@ -128,15 +128,40 @@ jQuery(document).ready(function ($) {
       if (json_validate(json_string)) {
         $('#cm_json').val(btoa(json_string));
         var json_obj = JSON.parse(json_string);
-        if (json_obj.hasOwnProperty('matriz')) {
-          create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.matriz.length}</strong> registros em sua matriz!`, 'success', true, true);
-        } else {
-          create_alert(`
-            <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
-          `, 'danger', true, true);
-          $('.custom-file-input').val(null);
-          $('#cm_json').val(null);
-          $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
+
+        switch ($('#cm_spreadsheet_type').find('option:selected').val()) {
+          case '1':
+            if (json_obj.hasOwnProperty('matriz')) {
+              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.matriz.length}</strong> registros em sua matriz!`, 'success', true, true);
+            } else {
+              create_alert(`
+                <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
+              `, 'danger', true, true);
+              $('.custom-file-input').val(null);
+              $('#cm_json').val(null);
+              $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
+            }
+            break;
+          case '2':
+            if (
+              json_obj.hasOwnProperty('meios') && 
+              json_obj.hasOwnProperty('regioes') &&
+              json_obj.hasOwnProperty('meios_regioes') &&
+              json_obj.hasOwnProperty('estados')
+            ) {
+              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.meios.length}</strong> registros por meios de comunicação!`, 'success', true, true);
+              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.regioes.length}</strong> registros por regiões!`, 'success', true, false);
+              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.meios_regioes.length}</strong> registros por meios e regiões!`, 'success', true, false);
+              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.estados.length}</strong> registros por estado!`, 'success', true, false);
+            } else {
+              create_alert(`
+                <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
+              `, 'danger', true, true);
+              $('.custom-file-input').val(null);
+              $('#cm_json').val(null);
+              $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
+            }
+            break;
         }
       }
     };
