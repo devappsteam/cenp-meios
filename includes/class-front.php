@@ -130,6 +130,12 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     $html = str_replace('[SOURCE_DOLLAR]', $post_meta['cm_source_dollar'], $html);
     $html = str_replace('[SOURCE_MIDIA]', $post_meta['cm_source_midia'], $html);
     $html = str_replace('[SOURCE_MERCADO]', $post_meta['cm_source_mercado'], $html);
+    if (!empty($post_meta['cm_description_footer'])) {
+      $html = str_replace('[DESCRIPTION_FOOTER]', '<div class="cm-border">' . $post_meta['cm_description_footer'] . '</div>', $html);
+    } else {
+      $html = str_replace('[DESCRIPTION_FOOTER]', '', $html);
+    }
+
     echo $html;
     wp_die();
   }
@@ -144,8 +150,11 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
   {
     ob_start();
     $updated = $this->getMonthAndYearByDate($post->post_modified);
-    $round = ($post_meta['cm_round'] == "1") ? true : false;
-    $data = $this->get_data_mean_comunication($post->ID, $round);
+    if ($post_meta['cm_spreadsheet_type'] == 1) {
+      $data = $this->get_data_mean_comunication($post->ID, true);
+    } else {
+      $data = $this->get_data_old_mean_comunication($post->ID, true);
+    }
     include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-mean-comunication.php');
     $html = ob_get_contents();
     ob_end_clean();
@@ -155,8 +164,11 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
   public function render_mean_region($post, $post_meta)
   {
     ob_start();
-    $round = ($post_meta['cm_round'] == "1") ? true : false;
-    $data = $this->get_data_mean_region($post->ID, $round);
+    if ($post_meta['cm_spreadsheet_type'] == 1) {
+      $data = $this->get_data_mean_region($post->ID, true);
+    } else {
+      $data = $this->get_data_old_mean_region($post->ID);
+    }
     include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-mean-region.php');
     $html = ob_get_contents();
     ob_end_clean();
@@ -166,8 +178,11 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
   public function render_region($post, $post_meta)
   {
     ob_start();
-    $round = ($post_meta['cm_round'] == "1") ? true : false;
-    $data = $this->get_data_region($post->ID, $round);
+    if ($post_meta['cm_spreadsheet_type'] == 1) {
+      $data = $this->get_data_region($post->ID, true);
+    } else {
+      $data = $this->get_data_old_region($post->ID);
+    }
     include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-region.php');
     $html = ob_get_contents();
     ob_end_clean();
@@ -177,12 +192,105 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
   public function render_state($post, $post_meta)
   {
     ob_start();
-    $round = ($post_meta['cm_round'] == "1") ? true : false;
-    $data = $this->get_data_state($post->ID, $round);
+    if ($post_meta['cm_spreadsheet_type'] == 1) {
+      $data = $this->get_data_state($post->ID, true);
+    } else {
+      $data = $this->get_data_old_state($post->ID);
+    }
     include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-state.php');
     $html = ob_get_contents();
     ob_end_clean();
     return $html;
+  }
+
+  private function get_data_old_mean_comunication($post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_means";
+    $sql = "SELECT * FROM `$table_spreadsheet` WHERE `post_id` = $post_id;";
+    $result = $wpdb->get_results($sql, ARRAY_A);
+
+    $sql = "SELECT COUNT(Id) AS total FROM `$table_spreadsheet`  WHERE `mean` IN ('MIDIAIA', 'MIDIAIB', 'MIDIAID', 'MIDIAIN', 'MIDIAIS', 'MIDIAIV') AND `post_id` = $post_id";
+    $meios = $wpdb->get_row($sql, ARRAY_A);
+
+    $process_data = array(
+      'cinema' => array(
+        'real'      => $this->get_data_old($result, 'MIDIACN', 'real'),
+        'dollar'    => $this->get_data_old($result, 'MIDIACN', 'dollar'),
+        'share'     => $this->get_data_old($result, 'MIDIACN', 'share'),
+      ),
+      'internet' => array(
+        'real'      => $this->get_data_old($result, 'MIDIAINT', 'real'),
+        'dollar'    => $this->get_data_old($result, 'MIDIAINT', 'dollar'),
+        'share'     => $this->get_data_old($result, 'MIDIAINT', 'share')
+      ),
+      'jornal' => array(
+        'real'     => $this->get_data_old($result, 'MIDIAJR', 'real'),
+        'dollar'   => $this->get_data_old($result, 'MIDIAJR', 'dollar'),
+        'share'    => $this->get_data_old($result, 'MIDIAJR', 'share'),
+      ),
+      'midia_exterior' => array(
+        'real'     => $this->get_data_old($result, 'MIDIAOU', 'real'),
+        'dollar'  =>  $this->get_data_old($result, 'MIDIAOU', 'dollar'),
+        'share'   =>  $this->get_data_old($result, 'MIDIAOU', 'share'),
+      ),
+      'radio' => array(
+        'real'     => $this->get_data_old($result, 'MIDIARD', 'real'),
+        'dollar'  =>  $this->get_data_old($result, 'MIDIARD', 'dollar'),
+        'share'   =>  $this->get_data_old($result, 'MIDIARD', 'share'),
+      ),
+      'revista' => array(
+        'real'     => $this->get_data_old($result, 'MIDIARV', 'real'),
+        'dollar'  => $this->get_data_old($result, 'MIDIARV', 'dollar'),
+        'share'   =>  $this->get_data_old($result, 'MIDIARV', 'share'),
+      ),
+      'tv_aberta' => array(
+        'real'     => $this->get_data_old($result, 'MIDIATV', 'real'),
+        'dollar'  =>  $this->get_data_old($result, 'MIDIATV', 'dollar'),
+        'share'   =>  $this->get_data_old($result, 'MIDIATV', 'share')
+      ),
+      'tv_assinada' => array(
+        'real'     => $this->get_data_old($result, 'MIDIATA', 'real'),
+        'dollar'  =>  $this->get_data_old($result, 'MIDIATA', 'dollar'),
+        'share'   =>  $this->get_data_old($result, 'MIDIATA', 'share'),
+      ),
+      'total' => array(
+        'real' => $this->get_data_old($result, 'TOTAL', 'real'),
+        'dollar' => $this->get_data_old($result, 'TOTAL', 'dollar'),
+      )
+    );
+
+    if ($meios['total'] > 0) {
+      $process_data['internet']['meios'] = array(
+        'audio' => array(
+          'real'     =>  $this->get_data_old($result, 'MIDIAIA', 'real'),
+          'dollar'   =>  $this->get_data_old($result, 'MIDIAIA', 'dollar'),
+          'share'    =>  $this->get_data_old($result, 'MIDIAIA', 'share'),
+        ),
+        'busca' => array(
+          'real'     =>  $this->get_data_old($result, 'MIDIAIB', 'real'),
+          'dollar'   =>  $this->get_data_old($result, 'MIDIAIB', 'dollar'),
+          'share'    =>  $this->get_data_old($result, 'MIDIAIB', 'share'),
+        ),
+        'outros' => array(
+          'real'     =>  $this->get_data_old($result, 'MIDIAID', 'real'),
+          'dollar'   =>  $this->get_data_old($result, 'MIDIAID', 'dollar'),
+          'share'    =>  $this->get_data_old($result, 'MIDIAID', 'share'),
+        ),
+        'social' => array(
+          'real'     =>  $this->get_data_old($result, 'MIDIAIS', 'real'),
+          'dollar'   =>  $this->get_data_old($result, 'MIDIAIS', 'dollar'),
+          'share'    =>  $this->get_data_old($result, 'MIDIAIS', 'share'),
+        ),
+        'video' => array(
+          'real'     => $this->get_data_old($result, 'MIDIAIV', 'real'),
+          'dollar'   => $this->get_data_old($result, 'MIDIAIV', 'dollar'),
+          'share'    => $this->get_data_old($result, 'MIDIAIV', 'share'),
+        )
+      );
+    }
+
+    return $process_data;
   }
 
   private function get_data_mean_comunication($post_id, $round = false)
@@ -275,6 +383,50 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     return $process_data;
   }
 
+  private function get_data_old_region($post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_regions";
+    $sql = "SELECT * FROM `$table_spreadsheet` WHERE post_id = $post_id";
+    $result = $wpdb->get_results($sql, ARRAY_A);
+    return array(
+      'centro_oeste' => array(
+        'real'    =>  $this->get_data_old($result, null, 'real', 'CO'),
+        'dollar'  =>  $this->get_data_old($result, null, 'dollar', 'CO'),
+        'share'   =>  $this->get_data_old($result, null, 'share', 'CO'),
+      ),
+      'nordeste' => array(
+        'real'    =>  $this->get_data_old($result, null, 'real', 'NE'),
+        'dollar'  =>  $this->get_data_old($result, null, 'dollar', 'NE'),
+        'share'   =>  $this->get_data_old($result, null, 'share', 'NE'),
+      ),
+      'norte' => array(
+        'real'    =>  $this->get_data_old($result, null, 'real', 'NO'),
+        'dollar'  =>  $this->get_data_old($result, null, 'dollar', 'NO'),
+        'share'   =>  $this->get_data_old($result, null, 'share', 'NO'),
+      ),
+      'sudeste' => array(
+        'real'    =>  $this->get_data_old($result, null, 'real', 'SE'),
+        'dollar'  =>  $this->get_data_old($result, null, 'dollar', 'SE'),
+        'share'   =>  $this->get_data_old($result, null, 'share', 'SE'),
+      ),
+      'sul' => array(
+        'real'    =>  $this->get_data_old($result, null, 'real', 'SU'),
+        'dollar'  =>  $this->get_data_old($result, null, 'dollar', 'SU'),
+        'share'   =>  $this->get_data_old($result, null, 'share', 'SU'),
+      ),
+      'merc_nascional' => array(
+        'real'    =>  $this->get_data_old($result, null, 'real', 'MN'),
+        'dollar'  =>  $this->get_data_old($result, null, 'dollar', 'MN'),
+        'share'   =>  $this->get_data_old($result, null, 'share', 'MN'),
+      ),
+      'total' => array(
+        'real'    =>  $this->get_data_old($result, null, 'real', 'TOTAL'),
+        'dollar'  =>  $this->get_data_old($result, null, 'dollar', 'TOTAL'),
+      )
+    );
+  }
+
   private function get_data_region($post_id, $round = false)
   {
     global $wpdb;
@@ -321,7 +473,469 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         'dollar'  =>  $this->process_data_region($result, 'dollar', null, false, true, $round),
       )
     );
-    exit;
+  }
+
+  private function get_data_old_mean_region($post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_means_regions";
+    $sql = "SELECT * FROM `$table_spreadsheet` WHERE post_id = $post_id";
+    $result = $wpdb->get_results($sql, ARRAY_A);
+
+    $sql = "SELECT COUNT(Id) AS total FROM `$table_spreadsheet`  WHERE `mean` IN ('MIDIAIA', 'MIDIAIB', 'MIDIAID', 'MIDIAIN', 'MIDIAIS', 'MIDIAIV') AND `post_id` = $post_id";
+    $meios = $wpdb->get_row($sql, ARRAY_A);
+
+    $process_data =  array(
+      'cinema' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIACN', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIACN', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIACN', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIACN', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIACN', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIACN', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIACN', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIACN', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIACN', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIACN', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIACN', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIACN', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIACN', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIACN', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIACN', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIACN', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIACN', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIACN', 'share', 'MN'),
+        ),
+      ),
+      'internet' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAINT', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIAINT', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIAINT', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAINT', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIAINT', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIAINT', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIAINT', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIAINT', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIAINT', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAINT', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIAINT', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIAINT', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIAINT', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIAINT', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIAINT', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIAINT', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIAINT', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIAINT', 'share', 'MN'),
+        ),
+      ),
+      'jornal' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAJR', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIAJR', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIAJR', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAJR', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIAJR', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIAJR', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIAJR', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIAJR', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIAJR', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAJR', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIAJR', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIAJR', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIAJR', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIAJR', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIAJR', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIAJR', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIAJR', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIAJR', 'share', 'MN'),
+        ),
+      ),
+      'midia_exterior' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAOU', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIAOU', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIAOU', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAOU', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIAOU', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIAOU', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIAOU', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIAOU', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIAOU', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIAOU', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIAOU', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIAOU', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIAOU', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIAOU', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIAOU', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIAOU', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIAOU', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIAOU', 'share', 'MN'),
+        ),
+      ),
+      'radio' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIARD', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIARD', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIARD', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIARD', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIARD', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIARD', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIARD', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIARD', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIARD', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIARD', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIARD', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIARD', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIARD', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIARD', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIARD', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIARD', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIARD', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIARD', 'share', 'MN'),
+        ),
+      ),
+      'revista' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIARV', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIARV', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIARV', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIARV', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIARV', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIARV', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIARV', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIARV', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIARV', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIARV', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIARV', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIARV', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIARV', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIARV', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIARV', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIARV', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIARV', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIARV', 'share', 'MN'),
+        ),
+      ),
+      'tv_aberta' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIATV', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIATV', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIATV', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIATV', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIATV', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIATV', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIATV', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIATV', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIATV', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIATV', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIATV', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIATV', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIATV', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIATV', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIATV', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIATV', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIATV', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIATV', 'share', 'MN'),
+        ),
+      ),
+      'tv_assinada' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIATA', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'MIDIATA', 'dollar', 'CO'),
+          'share' => $this->get_data_old($result, 'MIDIATA', 'share', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIATA', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'MIDIATA', 'dollar', 'NE'),
+          'share' => $this->get_data_old($result, 'MIDIATA', 'share', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'MIDIATA', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'MIDIATA', 'dollar', 'NO'),
+          'share' => $this->get_data_old($result, 'MIDIATA', 'share', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'MIDIATA', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'MIDIATA', 'dollar', 'SE'),
+          'share' => $this->get_data_old($result, 'MIDIATA', 'share', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'MIDIATA', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'MIDIATA', 'dollar', 'SU'),
+          'share' => $this->get_data_old($result, 'MIDIATA', 'share', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'MIDIATA', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'MIDIATA', 'dollar', 'MN'),
+          'share' => $this->get_data_old($result, 'MIDIATA', 'share', 'MN'),
+        ),
+      ),
+      'total' => array(
+        'centro_oeste' => array(
+          'real' => $this->get_data_old($result, 'TOTAL', 'real', 'CO'),
+          'dollar' => $this->get_data_old($result, 'TOTAL', 'dollar', 'CO'),
+        ),
+        'nordeste' => array(
+          'real' => $this->get_data_old($result, 'TOTAL', 'real', 'NE'),
+          'dollar' => $this->get_data_old($result, 'TOTAL', 'dollar', 'NE'),
+        ),
+        'norte' => array(
+          'real' => $this->get_data_old($result, 'TOTAL', 'real', 'NO'),
+          'dollar' => $this->get_data_old($result, 'TOTAL', 'dollar', 'NO'),
+        ),
+        'sudeste' => array(
+          'real' => $this->get_data_old($result, 'TOTAL', 'real', 'SE'),
+          'dollar' => $this->get_data_old($result, 'TOTAL', 'dollar', 'SE'),
+        ),
+        'sul' => array(
+          'real' => $this->get_data_old($result, 'TOTAL', 'real', 'SU'),
+          'dollar' => $this->get_data_old($result, 'TOTAL', 'dollar', 'SU'),
+        ),
+        'mer_nacional' => array(
+          'real' => $this->get_data_old($result, 'TOTAL', 'real', 'MN'),
+          'dollar' => $this->get_data_old($result, 'TOTAL', 'dollar', 'MN'),
+        ),
+      ),
+    );
+
+    if ($meios['total'] > 0) {
+      $process_data['internet']['meios'] = array(
+        'audio' => array(
+          'centro_oeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIA', 'real', 'CO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIA', 'dollar', 'CO'),
+            'share' => $this->get_data_old($result, 'MIDIAIA', 'share', 'CO'),
+          ),
+          'nordeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIA', 'real', 'NE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIA', 'dollar', 'NE'),
+            'share' => $this->get_data_old($result, 'MIDIAIA', 'share', 'NE'),
+          ),
+          'norte' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIA', 'real', 'NO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIA', 'dollar', 'NO'),
+            'share' => $this->get_data_old($result, 'MIDIAIA', 'share', 'NO'),
+          ),
+          'sudeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIA', 'real', 'SE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIA', 'dollar', 'SE'),
+            'share' => $this->get_data_old($result, 'MIDIAIA', 'share', 'SE'),
+          ),
+          'sul' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIA', 'real', 'SU'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIA', 'dollar', 'SU'),
+            'share' => $this->get_data_old($result, 'MIDIAIA', 'share', 'SU'),
+          ),
+          'mer_nacional' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIA', 'real', 'MN'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIA', 'dollar', 'MN'),
+            'share' => $this->get_data_old($result, 'MIDIAIA', 'share', 'MN'),
+          ),
+        ),
+        'busca' => array(
+          'centro_oeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIB', 'real', 'CO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIB', 'dollar', 'CO'),
+            'share' => $this->get_data_old($result, 'MIDIAIB', 'share', 'CO'),
+          ),
+          'nordeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIB', 'real', 'NE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIB', 'dollar', 'NE'),
+            'share' => $this->get_data_old($result, 'MIDIAIB', 'share', 'NE'),
+          ),
+          'norte' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIB', 'real', 'NO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIB', 'dollar', 'NO'),
+            'share' => $this->get_data_old($result, 'MIDIAIB', 'share', 'NO'),
+          ),
+          'sudeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIB', 'real', 'SE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIB', 'dollar', 'SE'),
+            'share' => $this->get_data_old($result, 'MIDIAIB', 'share', 'SE'),
+          ),
+          'sul' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIB', 'real', 'SU'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIB', 'dollar', 'SU'),
+            'share' => $this->get_data_old($result, 'MIDIAIB', 'share', 'SU'),
+          ),
+          'mer_nacional' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIB', 'real', 'MN'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIB', 'dollar', 'MN'),
+            'share' => $this->get_data_old($result, 'MIDIAIB', 'share', 'MN'),
+          ),
+        ),
+        'outros' => array(
+          'centro_oeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAID', 'real', 'CO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAID', 'dollar', 'CO'),
+            'share' => $this->get_data_old($result, 'MIDIAID', 'share', 'CO'),
+          ),
+          'nordeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAID', 'real', 'NE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAID', 'dollar', 'NE'),
+            'share' => $this->get_data_old($result, 'MIDIAID', 'share', 'NE'),
+          ),
+          'norte' => array(
+            'real' => $this->get_data_old($result, 'MIDIAID', 'real', 'NO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAID', 'dollar', 'NO'),
+            'share' => $this->get_data_old($result, 'MIDIAID', 'share', 'NO'),
+          ),
+          'sudeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAID', 'real', 'SE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAID', 'dollar', 'SE'),
+            'share' => $this->get_data_old($result, 'MIDIAID', 'share', 'SE'),
+          ),
+          'sul' => array(
+            'real' => $this->get_data_old($result, 'MIDIAID', 'real', 'SU'),
+            'dollar' => $this->get_data_old($result, 'MIDIAID', 'dollar', 'SU'),
+            'share' => $this->get_data_old($result, 'MIDIAID', 'share', 'SU'),
+          ),
+          'mer_nacional' => array(
+            'real' => $this->get_data_old($result, 'MIDIAID', 'real', 'MN'),
+            'dollar' => $this->get_data_old($result, 'MIDIAID', 'dollar', 'MN'),
+            'share' => $this->get_data_old($result, 'MIDIAID', 'share', 'MN'),
+          ),
+        ),
+        'social' => array(
+          'centro_oeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIS', 'real', 'CO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIS', 'dollar', 'CO'),
+            'share' => $this->get_data_old($result, 'MIDIAIS', 'share', 'CO'),
+          ),
+          'nordeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIS', 'real', 'NE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIS', 'dollar', 'NE'),
+            'share' => $this->get_data_old($result, 'MIDIAIS', 'share', 'NE'),
+          ),
+          'norte' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIS', 'real', 'NO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIS', 'dollar', 'NO'),
+            'share' => $this->get_data_old($result, 'MIDIAIS', 'share', 'NO'),
+          ),
+          'sudeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIS', 'real', 'SE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIS', 'dollar', 'SE'),
+            'share' => $this->get_data_old($result, 'MIDIAIS', 'share', 'SE'),
+          ),
+          'sul' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIS', 'real', 'SU'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIS', 'dollar', 'SU'),
+            'share' => $this->get_data_old($result, 'MIDIAIS', 'share', 'SU'),
+          ),
+          'mer_nacional' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIS', 'real', 'MN'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIS', 'dollar', 'MN'),
+            'share' => $this->get_data_old($result, 'MIDIAIS', 'share', 'MN'),
+          ),
+        ),
+        'video' => array(
+          'centro_oeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIV', 'real', 'CO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIV', 'dollar', 'CO'),
+            'share' => $this->get_data_old($result, 'MIDIAIV', 'share', 'CO'),
+          ),
+          'nordeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIV', 'real', 'NE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIV', 'dollar', 'NE'),
+            'share' => $this->get_data_old($result, 'MIDIAIV', 'share', 'NE'),
+          ),
+          'norte' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIV', 'real', 'NO'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIV', 'dollar', 'NO'),
+            'share' => $this->get_data_old($result, 'MIDIAIV', 'share', 'NO'),
+          ),
+          'sudeste' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIV', 'real', 'SE'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIV', 'dollar', 'SE'),
+            'share' => $this->get_data_old($result, 'MIDIAIV', 'share', 'SE'),
+          ),
+          'sul' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIV', 'real', 'SU'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIV', 'dollar', 'SU'),
+            'share' => $this->get_data_old($result, 'MIDIAIV', 'share', 'SU'),
+          ),
+          'mer_nacional' => array(
+            'real' => $this->get_data_old($result, 'MIDIAIV', 'real', 'MN'),
+            'dollar' => $this->get_data_old($result, 'MIDIAIV', 'dollar', 'MN'),
+            'share' => $this->get_data_old($result, 'MIDIAIV', 'share', 'MN'),
+          ),
+        ),
+      );
+    }
+
+    return $process_data;
   }
 
   private function get_data_mean_region($post_id, $round = false)
@@ -798,6 +1412,162 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     return $process_data;
   }
 
+  private function get_data_old_state($post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_states";
+    $sql = "SELECT * FROM `$table_spreadsheet` WHERE post_id = $post_id";
+    $data = $wpdb->get_results($sql, ARRAY_A);
+
+    return array(
+      'acre' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'AC'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'AC'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'AC'),
+      ),
+      'alagoas' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'AL'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'AL'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'AL'),
+      ),
+      'amapa' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'AP'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'AP'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'AP'),
+      ),
+      'amazonas' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'AM'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'AM'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'AM'),
+      ),
+      'bahia' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'BA'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'BA'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'BA'),
+      ),
+      'ceara' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'CE'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'CE'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'CE'),
+      ),
+      'distrito_federal' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'DF'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'DF'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'DF'),
+      ),
+      'espirito_santo' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'ES'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'ES'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'ES'),
+      ),
+      'goias' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'GO'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'GO'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'GO'),
+      ),
+      'maranhao' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'MA'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'MA'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'MA'),
+      ),
+      'mato_grosso' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'MT'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'MT'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'MT'),
+      ),
+      'mato_grosso_do_sul' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'MS'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'MS'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'MS'),
+      ),
+      'minas_gerais' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'MG'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'MG'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'MG'),
+      ),
+      'para' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'PA'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'PA'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'PA'),
+      ),
+      'paraiba' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'PB'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'PB'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'PB'),
+      ),
+      'parana' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'PR'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'PR'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'PR'),
+      ),
+      'pernambuco' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'PE'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'PE'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'PE'),
+      ),
+      'piaui' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'PI'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'PI'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'PI'),
+      ),
+      'rio_de_janeiro' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'RJ'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'RJ'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'RJ'),
+      ),
+      'rio_grande_do_norte' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'RN'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'RN'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'RN'),
+      ),
+      'rio_grande_do_sul' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'RS'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'RS'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'RS'),
+      ),
+      'rondonia' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'RO'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'RO'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'RO'),
+      ),
+      'roraima' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'RR'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'RR'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'RR'),
+      ),
+      'santa_catarina' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'SC'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'SC'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'SC'),
+      ),
+      'sao_paulo' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'SP'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'SP'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'SP'),
+      ),
+      'sergipe' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'SE'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'SE'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'SE'),
+      ),
+      'tocantins' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'TO'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'TO'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'TO'),
+      ),
+      'brasil' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'MN'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'MN'),
+        'share' => $this->get_data_old($data, null, 'share', null, 'MN'),
+      ),
+      'total' => array(
+        'real' => $this->get_data_old($data, null, 'real', null, 'TOTAL'),
+        'dollar' => $this->get_data_old($data, null, 'dollar', null, 'TOTAL'),
+      )
+    );
+  }
+
+
   private function get_data_state($post_id, $round = false)
   {
     global $wpdb;
@@ -956,7 +1726,6 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
       )
     );
   }
-
 
   public function sum_mean($data, $means = [], $type, $total_general = false)
   {
@@ -1128,6 +1897,28 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     return $this->sum_region($data, $type, $region, false);
   }
 
+  private function get_data_old($data, $mean, $type, $region = null, $state = null)
+  {
+    foreach ($data as $row) {
+      if (!empty($mean) && !empty($region) && empty($state)) {
+        if ($row['mean'] == $mean && $row['region'] == $region) {
+          return (!empty($row[$type])) ? $row[$type] : 0;
+        }
+      } else if (empty($mean) && !empty($region) && empty($state)) {
+        if ($row['region'] == $region) {
+          return (!empty($row[$type])) ? $row[$type] : 0;
+        }
+      } else if (empty($mean) && empty($region) && !empty($state)) {
+        if ($row['state'] == $state) {
+          return (!empty($row[$type])) ? $row[$type] : 0;
+        }
+      } else {
+        if ($row['mean'] == $mean) {
+          return (!empty($row[$type])) ? $row[$type] : 0;
+        }
+      }
+    }
+  }
 
 
   private function roundUpToNearestThousand($n, $increment = 1000)

@@ -12,6 +12,9 @@
     </p>
   </div>
 </div>
+<div class="cm-description-footer">
+    [DESCRIPTION_FOOTER]
+</div>
 <div class="cm-footer">
   <div class="cm-accordion">
     <a href="javascript:void(0);" id="accordion" class="accordion cm-link">[AGENCY_TITLE]</a>

@@ -190,8 +190,18 @@
   height: 490px;
 }
 
-.cm-fonte {
-  margin: 2.5rem 0;
+.cm-fonte, .cm-description-footer {
+  margin: 1rem 0;
+}
+
+.cm-description-footer {
+  padding: 0 1.5rem 1rem;
+}
+
+.cm-border {
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: .5rem;
 }
 
 .cm-font-content {
@@ -302,7 +312,6 @@
 .cm-accordion .accordion {
   transition: 0.4s;
 }
-
 
 .cm-accordion .panel {
   padding: 0 18px;

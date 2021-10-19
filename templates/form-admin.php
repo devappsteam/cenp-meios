@@ -53,8 +53,8 @@ if (isset($form_data['cm_type'])) {
       <div class="alert alert-green fade show alert-fixed" role="alert">
         <strong>Atenção!</strong> A importação depende da matriz padrão para efetuar o carregamentos dos dados, caso não tenha a matriz atualizada clique no link para efetuar o download.
         <br>
-        <a href="<?php echo plugins_url('matriz_nova.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz dinâmica - Meios</b></a> |
-        <a href="<?php echo plugins_url('matriz_antiga.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz estática - Meios</b></a> |
+        <a href="<?php echo plugins_url('matriz_dinamica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz dinâmica - Meios</b></a> |
+        <a href="<?php echo plugins_url('matriz_estatica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz estática - Meios</b></a> |
         <a href="<?php echo plugins_url('ranking.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking</b></a> |
         <a href="<?php echo plugins_url('ranking_uf.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking por Estado</b></a>
       </div>
@@ -170,6 +170,20 @@ if (isset($form_data['cm_type'])) {
         'wpautop'       =>  true,
         'media_buttons' =>  false,
         'textarea_name' =>  'cm_note',
+        'textarea_rows' =>  10,
+        'teeny'         =>  false
+      ));
+      ?>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-12 mt-4 mb-4">
+      <p class="h4"><?php echo __('Descrição Rodapé', CM_TEXT_DOMAIN); ?></p>
+      <?php
+      wp_editor((isset($form_data['cm_description_footer'])) ? $form_data['cm_description_footer'] : '', 'cm_description_footer', array(
+        'wpautop'       =>  true,
+        'media_buttons' =>  false,
+        'textarea_name' =>  'cm_description_footer',
         'textarea_rows' =>  10,
         'teeny'         =>  false
       ));

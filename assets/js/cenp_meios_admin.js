@@ -144,15 +144,17 @@ jQuery(document).ready(function ($) {
             break;
           case '2':
             if (
-              json_obj.hasOwnProperty('meios') && 
+              json_obj.hasOwnProperty('meios') &&
               json_obj.hasOwnProperty('regioes') &&
               json_obj.hasOwnProperty('meios_regioes') &&
               json_obj.hasOwnProperty('estados')
             ) {
-              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.meios.length}</strong> registros por meios de comunicação!`, 'success', true, true);
-              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.regioes.length}</strong> registros por regiões!`, 'success', true, false);
-              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.meios_regioes.length}</strong> registros por meios e regiões!`, 'success', true, false);
-              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.estados.length}</strong> registros por estado!`, 'success', true, false);
+              create_alert(`
+                <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.meios.length}</strong> registros por meios de comunicação!<br>
+                <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.regioes.length}</strong> registros por regiões!<br>
+                <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.meios_regioes.length}</strong> registros por meios e regiões!<br>
+                <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.estados.length}</strong> registros por estado!
+              `, 'success', true, true);
             } else {
               create_alert(`
                 <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
