@@ -55,8 +55,7 @@ if (isset($form_data['cm_type'])) {
         <br>
         <a href="<?php echo plugins_url('matriz_dinamica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz dinâmica - Meios</b></a> |
         <a href="<?php echo plugins_url('matriz_estatica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz estática - Meios</b></a> |
-        <a href="<?php echo plugins_url('ranking.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking</b></a> |
-        <a href="<?php echo plugins_url('ranking_uf.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking por Estado</b></a>
+        <a href="<?php echo plugins_url('ranking.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking</b></a>
       </div>
     </div>
   </div>
@@ -128,6 +127,12 @@ if (isset($form_data['cm_type'])) {
     <div class="col-12 col-md-12 col-lg-3 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Mercado Nacional', CM_TEXT_DOMAIN) ?></label>
       <input type="number" class="form-control" name="cm_source_mercado" id="cm_source_mercado" value="<?php echo (isset($form_data['cm_source_mercado'])) ? $form_data['cm_source_mercado'] : '' ?>" min="1" max="100">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-4 form-group mt-4">
+      <label class="form-label font-weight-bold" for="cm_update"><?php echo __('Atualizado Em', CM_TEXT_DOMAIN); ?></label>
+      <input type="text" class="form-control" name="cm_update" id="cm_update" value="<?php echo (isset($form_data['cm_update'])) ? $form_data['cm_update'] : '' ?>">
     </div>
   </div>
   <div class="form-row">

@@ -1,8 +1,8 @@
 <div class="cm-description">
-  <h4><?php echo $post_meta['cm_description']; ?>, POR MEIOS E REGIÕES</h4>
+  <h4><?php echo $post_meta['cm_description']; ?>, por meios e regiões</h4>
 </div>
 <div class="cm-table-responsive">
-  <table class="cm-table" style="font-size:10px">
+  <table class="cm-table" style="font-size:10px" >
     <thead>
       <tr>
         <th class="transparent"></th>

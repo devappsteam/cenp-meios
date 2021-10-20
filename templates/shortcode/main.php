@@ -35,7 +35,7 @@
       <div class="cm-sidebar-footer">
         <ul class="cm-list">
           <li>
-            <a href="/meios/#cm_cronog" class="cm-link">Cronograma</a>
+            <a href="/cenp-meios/#cm_cronog" class="cm-link">Cronograma</a>
           </li>
         </ul>
       </div>

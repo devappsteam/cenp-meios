@@ -126,7 +126,7 @@ jQuery(document).ready(function ($) {
       }, {});
       var json_string = JSON.stringify(normalizeKeys(res), undefined, 2);
       if (json_validate(json_string)) {
-        $('#cm_json').val(btoa(json_string));
+        $('#cm_json').val(btoa(unescape(encodeURIComponent(json_string))));
         var json_obj = JSON.parse(json_string);
 
         switch ($('#cm_spreadsheet_type').find('option:selected').val()) {
@@ -159,6 +159,19 @@ jQuery(document).ready(function ($) {
               create_alert(`
                 <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
               `, 'danger', true, true);
+              $('.custom-file-input').val(null);
+              $('#cm_json').val(null);
+              $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
+            }
+            break;
+          case '3':
+          case '4':
+            if (json_obj.hasOwnProperty('ranking')) {
+              create_alert(`
+                <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.ranking.length}</strong> registros por meios de comunicação!`, 'success', true, true);
+            } else {
+              create_alert(`
+                <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido!`, 'danger', true, true);
               $('.custom-file-input').val(null);
               $('#cm_json').val(null);
               $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');

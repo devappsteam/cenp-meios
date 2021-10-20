@@ -118,10 +118,16 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
             break;
         }
         break;
+      case 2:
+        $html .= $this->render_ranking($post, $post_meta);
+      case 3:
+        $html .= $this->render_ranking_uf($post, $post_meta);
+        break;
     }
     // HTML - SOURCE + NOTE
     $html .= str_replace('[SOURCE]', $post_meta['cm_source'], $source_note);
     $html = str_replace('[NOTE]', $post_meta['cm_note'], $html);
+    $html = str_replace('[UPDATEDAT]', $post_meta['cm_update'], $html);
     $html = str_replace('[DISPLAY]', (empty($post_meta['cm_note'])) ? 'display: none;' : '', $html);
     $html = str_replace('[AGENCY_TITLE]', $post_meta['cm_agency_title'], $html);
     $html = str_replace('[AGENCY_TEXT]', $post_meta['cm_agency_text'], $html);
@@ -202,6 +208,37 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     ob_end_clean();
     return $html;
   }
+
+  public function render_ranking($post, $post_meta)
+  {
+    ob_start();
+    $data_ranking = $this->get_data_ranking($post->ID);
+    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-ranking.php');
+    $html = ob_get_contents();
+    ob_end_clean();
+    return $html;
+  }
+
+  public function render_ranking_uf($post, $post_meta)
+  {
+    ob_start();
+    $data_ranking = $this->get_data_ranking($post->ID);
+    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-ranking-uf.php');
+    $html = ob_get_contents();
+    ob_end_clean();
+    return $html;
+  }
+
+
+  private function get_data_ranking($post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";
+    $sql = "SELECT * FROM `$table_spreadsheet` WHERE `post_id` = $post_id;";
+    $result = $wpdb->get_results($sql, ARRAY_A);
+    return $result;
+  }
+
 
   private function get_data_old_mean_comunication($post_id)
   {

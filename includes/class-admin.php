@@ -177,6 +177,7 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     $form_data = array(
       'cm_period'             => $_POST['cm_period'],
       'cm_type'               => $_POST['cm_type'],
+      'cm_update'             => $_POST['cm_update'],
       'cm_description'        => $_POST['cm_description'],
       'cm_source'             => $_POST['cm_source'],
       'cm_note'               => $_POST['cm_note'],
@@ -199,6 +200,11 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
         case '2':
           $this->delete_old_spreadsheet_by_post($post_id);
           $this->insert_old_spreadsheet_by_post($post_id, $this->base64_to_array($_POST['cm_json']));
+          break;
+        case '3':
+        case '4':
+          $this->delete_spreadsheet_ranking_by_post($post_id);
+          $this->insert_spreadsheet_ranking_by_post($post_id, $this->base64_to_array($_POST['cm_json']));
           break;
       }
     }
@@ -227,6 +233,13 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     $wpdb->delete($table_spreadsheet_states, array('post_id' => intval($post_id)));
   }
 
+  private function delete_spreadsheet_ranking_by_post(int $post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";
+    $wpdb->delete($table_spreadsheet, array('post_id' => intval($post_id)));
+  }
+
   private function base64_to_array(string $value)
   {
     return json_decode(utf8_encode(base64_decode($value)), true);
@@ -242,6 +255,19 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     $sql = "INSERT INTO $table_spreadsheet (`post_id`,`state`,`mean`,`real`,`dollar`) VALUES " . implode(',', $data);
     $wpdb->query($sql);
   }
+
+  private function insert_spreadsheet_ranking_by_post(int $post_id, array $values)
+  {
+    global $wpdb;
+    $data = array_map(function ($item) use ($post_id) {
+      $name = (isset($item['nome'])) ? "'" . $item['nome'] . "'" : 'null';
+      return "($post_id,'" . $item['posicao'] . "'," . $name . ",'" . $item['uf'] . "')";
+    }, $values['ranking']);
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";
+    $sql = "INSERT INTO $table_spreadsheet (`post_id`,`position`,`name`,`state`) VALUES " . implode(',', $data);
+    $wpdb->query($sql);
+  }
+
 
   private function insert_old_spreadsheet_by_post(int $post_id, array $values)
   {

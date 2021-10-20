@@ -1,8 +1,8 @@
 <div class="cm-description">
-  <h4><?php echo $post_meta['cm_description']; ?>, POR REGIÕES</h4>
+  <h4><?php echo $post_meta['cm_description']; ?>, por regiões</h4>
 </div>
 <div class="cm-table-responsive">
-  <table class="cm-table">
+  <table class="cm-table" id="table_region">
     <thead>
       <tr>
         <th style="background: transparent;border: none;"></th>
@@ -60,7 +60,7 @@
         <td class="text-center"><?php echo $data['sul']['share']; ?>%</td>
       </tr>
       <tr>
-        <td style="text-transform: uppercase;">MERC. NACIONAL</td>
+        <td style="text-transform: uppercase;">MERC. NACIONAL<sup>[SOURCE_MERCADO]</sup></td>
         <td style="border-right-color: transparent;">R$</td>
         <td><?php echo $data['merc_nascional']['real']; ?></td>
         <td style="border-right-color:transparent;text-align: left;">$</td>
@@ -97,7 +97,7 @@
             ['NORTE', <?php echo str_replace(',', '.', $data['norte']['share']); ?>],
             ['SUDESTE', <?php echo str_replace(',', '.', $data['sudeste']['share']); ?>],
             ['SUL', <?php echo str_replace(',', '.', $data['sul']['share']); ?>],
-            ['MERC. NACIONAL⁶', <?php echo str_replace(',', '.', $data['merc_nascional']['share']); ?>]
+            ['MERC. NACIONAL', <?php echo str_replace(',', '.', $data['merc_nascional']['share']); ?>]
           ]);
 
           var options = {
@@ -108,6 +108,7 @@
             title: "",
             is3D: true,
             pieSliceText: 'none',
+            enableInteractivity: false,
             chartArea: {
               width: '100%',
               height: '100%'
@@ -129,6 +130,10 @@
 
           var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-region"));
           chart.draw(data, options);
+
+          jQuery("#cenp-chart-region > div > div:nth-child(1) > div > svg > g:nth-child(9) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>MERC. NACIONAL<tspan dy ="-10" font-size="8">[SOURCE_MERCADO]</tspan></tspan>`);
+
+          
 
           $(window).resize(function() {
             chart.draw(data, options);

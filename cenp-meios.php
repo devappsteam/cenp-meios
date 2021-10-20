@@ -12,7 +12,7 @@
  * Plugin Name:       Cenp Meios
  * Plugin URI:        https://github.com/devappsteam/cenp-meios
  * Description:       Efetua a importação do meios de comunicação atráves de uma matriz XLSX e disponibiliza os dados em uma página atraves de shortcode.
- * Version:           1.0.7
+ * Version:           1.0.8
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            DevApps Consultoria e Desenvolvimento de Software
@@ -24,7 +24,7 @@
 defined('ABSPATH') || exit;
 
 // Constantes
-define('CM_VERSION', '1.0.6');
+define('CM_VERSION', '1.0.8');
 define('CM_TEXT_DOMAIN', 'cenp-mean');
 define('CM_PATH_ROOT', plugin_basename(__FILE__));
 
@@ -49,6 +49,7 @@ function activate()
   $table_spreadsheet_means_regions = $wpdb->prefix . "cm_spreadsheets_means_regions";
   $table_spreadsheet_regions = $wpdb->prefix . "cm_spreadsheets_regions";
   $table_spreadsheet_states = $wpdb->prefix . "cm_spreadsheets_states";
+  $table_spreadsheet_ranking = $wpdb->prefix . "cm_spreadsheets_ranking";
   $charset_collate = $wpdb->get_charset_collate();
 
   $wpdb->query("DROP TABLE IF EXISTS `$table_region`;");
@@ -118,6 +119,17 @@ function activate()
     `real` VARCHAR(20) NOT NULL DEFAULT 0,
     `dollar` VARCHAR(20) NOT NULL DEFAULT 0,
     `share` VARCHAR(20) NOT NULL DEFAULT 0,
+    PRIMARY KEY (`ID`)
+  ) $charset_collate;";
+
+  dbDelta($sql);
+
+  $sql = "CREATE TABLE `$table_spreadsheet_ranking`(
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `post_id` BIGINT NOT NULL,
+    `position` VARCHAR(5) NULL,
+    `name` VARCHAR(150) NULL DEFAULT '',
+    `state` VARCHAR(5) NULL DEFAULT '',
     PRIMARY KEY (`ID`)
   ) $charset_collate;";
 
