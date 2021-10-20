@@ -120,6 +120,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         break;
       case 2:
         $html .= $this->render_ranking($post, $post_meta);
+        break;
       case 3:
         $html .= $this->render_ranking_uf($post, $post_meta);
         break;
