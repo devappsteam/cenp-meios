@@ -16,7 +16,7 @@
       $mark = false;
       for ($i = 0; $i < count($data_ranking); $i++) {
       ?>
-        <tr class="<?php echo ($mark) ? 'tr-strip' : ''; ?>">
+        <tr class="<?php echo ($mark) ? 'tr-blue' : 'tr-white'; ?>">
           <td><?php echo $data_ranking[$i]['position']; ?></td>
           <td><?php echo $data_ranking[$i]['name']; ?></td>
           <td><?php echo $data_ranking[$i]['state']; ?></td>

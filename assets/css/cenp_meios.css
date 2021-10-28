@@ -338,14 +338,14 @@
   text-align: right;
 }
 
-.tr-white td {
-  background: #FFF;
-}
-
 .tr-green td {
   background: #F7F7F7;
 }
 
-.tr-strip {
-  background: #e8f6ff;
+.tr-blue>td {
+  background: #e8f6ff !important;
+}
+
+.tr-white>td {
+  background: #FFF !important;
 }
