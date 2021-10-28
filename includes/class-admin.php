@@ -263,8 +263,8 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
   {
     global $wpdb;
     $data = array_map(function ($item) use ($post_id) {
-      $name = (isset($item['nome'])) ? "'" . htmlspecialchars($item['nome']) . "'" : 'null';
-      return "($post_id,'" . $item['posicao'] . "'," . $name . ",'" . $item['uf'] . "')";
+      $name = (isset($item['nome'])) ? "'" . addslashes(esc_sql($item['nome'])) . "'" : 'null';
+      return "($post_id,'" . esc_sql($item['posicao']) . "'," . $name . ",'" . esc_sql($item['uf']) . "')";
     }, $values['ranking']);
     $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";
     $sql = "INSERT INTO $table_spreadsheet (`post_id`,`position`,`name`,`state`) VALUES " . implode(',', $data);

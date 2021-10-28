@@ -16,7 +16,7 @@
       ?>
         <tr>
           <td><?php echo $data_ranking[$i]['position']; ?></td>
-          <td><?php echo $data_ranking[$i]['name']; ?></td>
+          <td><?php echo stripslashes($data_ranking[$i]['name']); ?></td>
           <td><?php echo $data_ranking[$i]['state']; ?></td>
         </tr>
       <?php

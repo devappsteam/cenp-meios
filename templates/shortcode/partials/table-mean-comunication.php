@@ -1,6 +1,6 @@
 <div class="cm-description">
   <h4><?php echo $post_meta['cm_description']; ?>, por meio de comunicação</h4>
-  <span class="cm-modified">Atualizado em [UPDATEDAT]</span>
+  <span class="cm-modified">[UPDATEDAT]</span>
 </div>
 <div class="cm-table-responsive">
   <table class="cm-table">
