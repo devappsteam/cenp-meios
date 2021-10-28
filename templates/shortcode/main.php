@@ -17,11 +17,24 @@
                 $posts = $this->getPostsByTaxonomyId($category->term_id);
                 if (!empty($posts)) {
                   foreach ($posts as $post) {
+                    $meta = get_post_meta($post->ID, '_meios', true);
+                    if ($is_ranking) {
+                      if ($meta['cm_type'] == 2 || $meta['cm_type'] == 3) {
                 ?>
-                    <li>
-                      <a href="javascript:void(0)" class="cm-item" data-post="<?php echo $post->ID; ?>"><?php echo esc_attr($post->post_title); ?></a>
-                    </li>
+                        <li>
+                          <a href="javascript:void(0)" class="cm-item" data-post="<?php echo $post->ID; ?>"><?php echo esc_attr($post->post_title); ?></a>
+                        </li>
+                      <?php
+                      }
+                    } else {
+                      if ($meta['cm_type'] == 1) {
+                      ?>
+                        <li>
+                          <a href="javascript:void(0)" class="cm-item" data-post="<?php echo $post->ID; ?>"><?php echo esc_attr($post->post_title); ?></a>
+                        </li>
                 <?php
+                      }
+                    }
                   }
                 }
                 ?>

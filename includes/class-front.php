@@ -26,8 +26,13 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     ));
   }
 
-  public function create_shortcode()
+  public function create_shortcode($attr)
   {
+    $attributes = shortcode_atts(array(
+      'category' => 'meio',
+    ), $attr);
+
+    $is_ranking = ($attributes['category'] == 'ranking') ? true : false;
     $categories = $this->getTaxonomies('cenp-category');
     include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/main.php');
   }
@@ -84,6 +89,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     //FILE CONTENT
     $header = file_get_contents(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/header.php');
     $source_note = file_get_contents(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/source.php');
+    $display = '';
 
     // HTML - HEADER
     $html = str_replace('[LOGO_URL]', plugins_url() . '/cenp-mean/assets/images/logo.png', $header);
@@ -120,11 +126,17 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         break;
       case 2:
         $html .= $this->render_ranking($post, $post_meta);
+        $display = 'display: none;';
         break;
       case 3:
         $html .= $this->render_ranking_uf($post, $post_meta);
+        $display = 'display: none;';
         break;
     }
+    //echo "<pre>";
+    //print_r($post_meta['cm_source']);
+    // echo "</pre>";
+    // exit;
     // HTML - SOURCE + NOTE
     $html .= str_replace('[SOURCE]', $post_meta['cm_source'], $source_note);
     $html = str_replace('[NOTE]', $post_meta['cm_note'], $html);
@@ -132,10 +144,13 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     $html = str_replace('[DISPLAY]', (empty($post_meta['cm_note'])) ? 'display: none;' : '', $html);
     $html = str_replace('[AGENCY_TITLE]', $post_meta['cm_agency_title'], $html);
     $html = str_replace('[AGENCY_TEXT]', $post_meta['cm_agency_text'], $html);
+    $html = str_replace('[DESCRIPTION_AGENCY]', $post_meta['cm_description_agency'], $html);
     $html = str_replace('[TABLE_TITLE]', $table_title, $html);
     $html = str_replace('[SOURCE_FONT]', $post_meta['cm_source_real'], $html);
     $html = str_replace('[SOURCE_DOLLAR]', $post_meta['cm_source_dollar'], $html);
     $html = str_replace('[SOURCE_MIDIA]', $post_meta['cm_source_midia'], $html);
+    $html = str_replace('[DISPLAY_NONE]', $display, $html);
+
     $html = str_replace('[SOURCE_MERCADO]', $post_meta['cm_source_mercado'], $html);
     if (!empty($post_meta['cm_description_footer'])) {
       $html = str_replace('[DESCRIPTION_FOOTER]', '<div class="cm-border">' . $post_meta['cm_description_footer'] . '</div>', $html);

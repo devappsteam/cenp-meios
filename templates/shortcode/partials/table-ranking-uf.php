@@ -12,14 +12,22 @@
     </thead>
     <tbody>
       <?php
+      $state = 'AL';
+      $mark = false;
       for ($i = 0; $i < count($data_ranking); $i++) {
       ?>
-        <tr>
-          <td><?php echo $data_ranking[$i]['position'];?></td>
-          <td><?php echo $data_ranking[$i]['name'];?></td>
-          <td><?php echo $data_ranking[$i]['state'];?></td>
+        <tr class="<?php echo ($mark) ? 'tr-strip' : ''; ?>">
+          <td><?php echo $data_ranking[$i]['position']; ?></td>
+          <td><?php echo $data_ranking[$i]['name']; ?></td>
+          <td><?php echo $data_ranking[$i]['state']; ?></td>
         </tr>
       <?php
+        if ($i <= (count($data_ranking) - 1)) {
+          if ($data_ranking[$i + 1]['state'] != $state) {
+            $state = $data_ranking[$i + 1]['state'];
+            $mark = !$mark;
+          }
+        }
       }
       ?>
     </tbody>

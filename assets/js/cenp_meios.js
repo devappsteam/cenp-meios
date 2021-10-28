@@ -29,7 +29,7 @@
         }
       });
     });
-    jQuery('.cm-category').first().find('.cm-item').first().click();
+    jQuery('.cm-category').find('.cm-item').first().click();
 
     var sidebar = jQuery('.cm-main').offset().top;
     $(window).scroll(function (event) {

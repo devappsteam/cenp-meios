@@ -140,15 +140,13 @@ if (isset($form_data['cm_type'])) {
       <label class="form-label font-weight-bold" for="cm_description"><?php echo __('Descrição', CM_TEXT_DOMAIN); ?></label>
       <?php
       wp_editor((isset($form_data['cm_description'])) ? $form_data['cm_description'] : '', 'cm_description', array(
-        'wpautop'       =>  true,
+        'wpautop'       =>  false,
         'media_buttons' =>  false,
         'textarea_name' =>  'cm_description',
         'textarea_rows' =>  10,
         'teeny'         =>  false,
-        'quicktags' => array(
-          // Items for the Text Tab
-          'buttons' => 'strong,em,underline,ul,ol,li,link,code'
-        )
+        'tinymce' => true,
+        'quicktags' => true
       ));
       ?>
     </div>
@@ -158,11 +156,13 @@ if (isset($form_data['cm_type'])) {
       <label class="form-label font-weight-bold" for="cm_source"><?php echo __('Fonte', CM_TEXT_DOMAIN); ?></label>
       <?php
       wp_editor((isset($form_data['cm_source'])) ? $form_data['cm_source'] : '', 'cm_source', array(
-        'wpautop'       =>  true,
+        'wpautop'       =>  false,
         'media_buttons' =>  false,
         'textarea_name' =>  'cm_source',
         'textarea_rows' =>  10,
-        'teeny'         =>  false
+        'teeny'         =>  false,
+        'tinymce' => true,
+        'quicktags' => true
       ));
       ?>
     </div>
@@ -172,11 +172,13 @@ if (isset($form_data['cm_type'])) {
       <label class="form-label font-weight-bold" for="cm_note"><?php echo __('Nota Técnica do CTCM', CM_TEXT_DOMAIN); ?></label>
       <?php
       wp_editor((isset($form_data['cm_note'])) ? $form_data['cm_note'] : '', 'cm_note', array(
-        'wpautop'       =>  true,
+        'wpautop'       =>  false,
         'media_buttons' =>  false,
         'textarea_name' =>  'cm_note',
         'textarea_rows' =>  10,
-        'teeny'         =>  false
+        'teeny'         =>  false,
+        'tinymce' => true,
+        'quicktags' => true
       ));
       ?>
     </div>
@@ -186,11 +188,13 @@ if (isset($form_data['cm_type'])) {
       <p class="h4"><?php echo __('Descrição Rodapé', CM_TEXT_DOMAIN); ?></p>
       <?php
       wp_editor((isset($form_data['cm_description_footer'])) ? $form_data['cm_description_footer'] : '', 'cm_description_footer', array(
-        'wpautop'       =>  true,
+        'wpautop'       =>  false,
         'media_buttons' =>  false,
         'textarea_name' =>  'cm_description_footer',
         'textarea_rows' =>  10,
-        'teeny'         =>  false
+        'teeny'         =>  false,
+        'tinymce' => true,
+        'quicktags' => true
       ));
       ?>
     </div>
@@ -209,6 +213,20 @@ if (isset($form_data['cm_type'])) {
         <input type="file" class="custom-file-input" name="cm_agency_file" id="cm_agency_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
         <label class="custom-file-label" for="cm_agency_file">Selecione</label>
       </div>
+    </div>
+    <div class="col-12 mt-4 mb-4">
+      <label class="form-label font-weight-bold" for="cm_description_agency"><?php echo __('Descrição Legendas Agências', CM_TEXT_DOMAIN); ?></label>
+      <?php
+      wp_editor((isset($form_data['cm_description_agency'])) ? $form_data['cm_description_agency'] : '', 'cm_description_agency', array(
+        'wpautop'       =>  false,
+        'media_buttons' =>  false,
+        'textarea_name' =>  'cm_description_agency',
+        'textarea_rows' =>  10,
+        'teeny'         =>  false,
+        'tinymce' => true,
+        'quicktags' => true
+      ));
+      ?>
     </div>
   </div>
 </div>

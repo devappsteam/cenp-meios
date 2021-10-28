@@ -12,14 +12,15 @@
     </p>
   </div>
 </div>
-<div class="cm-description-footer">
+<div class="cm-description-footer" style="[DISPLAY_NONE]">
     [DESCRIPTION_FOOTER]
 </div>
-<div class="cm-footer">
+<div class="cm-footer" style="[DISPLAY_NONE]">
   <div class="cm-accordion">
     <a href="javascript:void(0);" id="accordion" class="accordion cm-link">[AGENCY_TITLE]</a>
     <div class="panel">
       [AGENCY_TEXT]
+      [DESCRIPTION_AGENCY]
     </div>
   </div>
   <a href="/cenp-meio/cenp-meios-faq/" class="cm-link">Perguntas e Respostas (FAQ)</a>

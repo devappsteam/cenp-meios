@@ -337,3 +337,15 @@
 #table-state tr td:nth-child(3), #table_region tr td:nth-child(3) {
   text-align: right;
 }
+
+.tr-white td {
+  background: #FFF;
+}
+
+.tr-green td {
+  background: #F7F7F7;
+}
+
+.tr-strip {
+  background: #e8f6ff;
+}

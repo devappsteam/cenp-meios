@@ -12,9 +12,17 @@
     </thead>
     <tbody>
       <?php
+      $mark = false;
       for ($i = 0; $i < count($data_ranking); $i++) {
+        if ($i > 0) {
+          if (trim($data_ranking[$i]['state']) != trim($data_ranking[$i - 1]['state'])) {
+            $mark = true;
+          } else {
+            $mark = false;
+          }
+        }
       ?>
-        <tr>
+        <tr class="<?php echo ($mark) ? 'tr-strip' : ''; ?>">
           <td><?php echo $data_ranking[$i]['position']; ?></td>
           <td><?php echo $data_ranking[$i]['name']; ?></td>
           <td><?php echo $data_ranking[$i]['state']; ?></td>

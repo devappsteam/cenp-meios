@@ -189,6 +189,7 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
       'cm_source_midia'       => $_POST['cm_source_midia'],
       'cm_source_mercado'     => $_POST['cm_source_mercado'],
       'cm_description_footer' => $_POST['cm_description_footer'],
+      'cm_description_agency' => $_POST['cm_description_agency'],
     );
 
     if (!empty($_POST['cm_json'])) {
