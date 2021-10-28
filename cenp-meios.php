@@ -12,7 +12,7 @@
  * Plugin Name:       Cenp Meios
  * Plugin URI:        https://github.com/devappsteam/cenp-meios
  * Description:       Efetua a importação do meios de comunicação atráves de uma matriz XLSX e disponibiliza os dados em uma página atraves de shortcode.
- * Version:           1.0.9
+ * Version:           1.0.10
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            DevApps Consultoria e Desenvolvimento de Software
@@ -24,7 +24,7 @@
 defined('ABSPATH') || exit;
 
 // Constantes
-define('CM_VERSION', '1.0.9');
+define('CM_VERSION', '1.0.10');
 define('CM_TEXT_DOMAIN', 'cenp-mean');
 define('CM_PATH_ROOT', plugin_basename(__FILE__));
 

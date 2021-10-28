@@ -276,9 +276,9 @@
       <tr>
         <td>Total</td>
         <td style="text-align: left;border-right-color: transparent;">R$</td>
-        <td>14.214.558</td>
+        <td><?php echo $data['total']['real']; ?></td>
         <td style="background:#00936c;border-right-color:transparent;text-align: left">$</td>
-        <td style="background:#00936c;text-align: right;">2.730.600</td>
+        <td style="background:#00936c;text-align: right;"><?php echo $data['total']['dollar']; ?></td>
       </tr>
     </tfoot>
 

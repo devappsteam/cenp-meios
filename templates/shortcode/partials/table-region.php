@@ -81,7 +81,7 @@
 </div>
 <div class="cm-charts">
   <div class="cm-chart" id="cenp-chart-region"></div>
-  <script defer>
+  <script>
     (function($) {
       $(function() {
         google.charts.load("current", {
@@ -133,10 +133,9 @@
 
           jQuery("#cenp-chart-region > div > div:nth-child(1) > div > svg > g:nth-child(9) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>MERC. NACIONAL<tspan dy ="-10" font-size="8">[SOURCE_MERCADO]</tspan></tspan>`);
 
-          
-
           $(window).resize(function() {
             chart.draw(data, options);
+            jQuery("#cenp-chart-region > div > div:nth-child(1) > div > svg > g:nth-child(9) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>MERC. NACIONAL<tspan dy ="-10" font-size="8">[SOURCE_MERCADO]</tspan></tspan>`);
           });
         }
       });

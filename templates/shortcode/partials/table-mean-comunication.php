@@ -171,7 +171,7 @@
     </h4>
   </div>
   <div class="cm-chart" id="cenp-chart-todos-meios"></div>
-  <script defer>
+  <script>
     (function($) {
       $(function() {
         google.charts.load("current", {
@@ -224,6 +224,10 @@
 
           jQuery(window).resize(function() {
             chart.draw(data, options);
+            jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+            jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+            jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+            jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
           });
 
           jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
@@ -242,7 +246,7 @@
       </h4>
     </div>
     <div class="cm-chart" id="cenp-chart-internet"></div>
-    <script defer>
+    <script>
       (function($) {
         $(function() {
           google.charts.load("current", {
