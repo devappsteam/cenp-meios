@@ -112,21 +112,29 @@ if (isset($form_data['cm_type'])) {
     <div class="col-12">
       <p class="h4 mt-4 mb-4"><?php echo __('Referências', CM_TEXT_DOMAIN); ?></p>
     </div>
-    <div class="col-12 col-md-12 col-lg-3 form-group">
+    <div class="col-12 col-md-12 col-lg-4 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Valor Faturado', CM_TEXT_DOMAIN) ?></label>
       <input type="number" class="form-control" name="cm_source_real" id="cm_source_real" value="<?php echo (isset($form_data['cm_source_real'])) ? $form_data['cm_source_real'] : '' ?>" min="1" max="100">
     </div>
-    <div class="col-12 col-md-12 col-lg-3 form-group">
+    <div class="col-12 col-md-12 col-lg-4 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Dólar', CM_TEXT_DOMAIN) ?></label>
       <input type="number" class="form-control" name="cm_source_dollar" id="cm_source_dollar" value="<?php echo (isset($form_data['cm_source_dollar'])) ? $form_data['cm_source_dollar'] : '' ?>" min="1" max="100">
     </div>
-    <div class="col-12 col-md-12 col-lg-3 form-group">
+    <div class="col-12 col-md-12 col-lg-4 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Mídias', CM_TEXT_DOMAIN) ?></label>
       <input type="number" class="form-control" name="cm_source_midia" id="cm_source_midia" value="<?php echo (isset($form_data['cm_source_midia'])) ? $form_data['cm_source_midia'] : '' ?>" min="1" max="100">
     </div>
-    <div class="col-12 col-md-12 col-lg-3 form-group">
+    <div class="col-12 col-md-12 col-lg-4 form-group">
       <label class="form-label font-weight-bold"><?php echo __('Mercado Nacional', CM_TEXT_DOMAIN) ?></label>
       <input type="number" class="form-control" name="cm_source_mercado" id="cm_source_mercado" value="<?php echo (isset($form_data['cm_source_mercado'])) ? $form_data['cm_source_mercado'] : '' ?>" min="1" max="100">
+    </div>
+    <div class="col-12 col-md-12 col-lg-4 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Meios e Regiões', CM_TEXT_DOMAIN) ?></label>
+      <input type="number" class="form-control" name="cm_source_meios_regioes" id="cm_source_meios_regioes" value="<?php echo (isset($form_data['cm_source_meios_regioes'])) ? $form_data['cm_source_meios_regioes'] : '' ?>" min="1" max="100">
+    </div>
+    <div class="col-12 col-md-12 col-lg-4 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Estado', CM_TEXT_DOMAIN) ?></label>
+      <input type="number" class="form-control" name="cm_source_estado" id="cm_source_estado" value="<?php echo (isset($form_data['cm_source_estado'])) ? $form_data['cm_source_estado'] : '' ?>" min="1" max="100">
     </div>
   </div>
   <div class="form-row">

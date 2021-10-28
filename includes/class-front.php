@@ -133,10 +133,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         $display = 'display: none;';
         break;
     }
-    //echo "<pre>";
-    //print_r($post_meta['cm_source']);
-    // echo "</pre>";
-    // exit;
+    
     // HTML - SOURCE + NOTE
     $html .= str_replace('[SOURCE]', $post_meta['cm_source'], $source_note);
     $html = str_replace('[NOTE]', $post_meta['cm_note'], $html);
@@ -150,8 +147,10 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     $html = str_replace('[SOURCE_DOLLAR]', $post_meta['cm_source_dollar'], $html);
     $html = str_replace('[SOURCE_MIDIA]', $post_meta['cm_source_midia'], $html);
     $html = str_replace('[DISPLAY_NONE]', $display, $html);
-
     $html = str_replace('[SOURCE_MERCADO]', $post_meta['cm_source_mercado'], $html);
+    $html = str_replace('[SOURCE_MEIOS_REGIOES]', $post_meta['cm_source_meios_regioes'], $html);
+    $html = str_replace('[SOURCE_ESTADO]', $post_meta['cm_source_estado'], $html);
+
     if (!empty($post_meta['cm_description_footer'])) {
       $html = str_replace('[DESCRIPTION_FOOTER]', '<div class="cm-border">' . $post_meta['cm_description_footer'] . '</div>', $html);
     } else {

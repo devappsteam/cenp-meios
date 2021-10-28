@@ -175,21 +175,23 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     }
 
     $form_data = array(
-      'cm_period'             => $_POST['cm_period'],
-      'cm_type'               => $_POST['cm_type'],
-      'cm_update'             => $_POST['cm_update'],
-      'cm_description'        => $_POST['cm_description'],
-      'cm_source'             => $_POST['cm_source'],
-      'cm_note'               => $_POST['cm_note'],
-      'cm_agency_title'       => $_POST['cm_agency_title'],
-      'cm_agency_text'        => $_POST['cm_agency_text'],
-      'cm_spreadsheet_type'   => $_POST['cm_spreadsheet_type'],
-      'cm_source_real'        => $_POST['cm_source_real'],
-      'cm_source_dollar'      => $_POST['cm_source_dollar'],
-      'cm_source_midia'       => $_POST['cm_source_midia'],
-      'cm_source_mercado'     => $_POST['cm_source_mercado'],
-      'cm_description_footer' => $_POST['cm_description_footer'],
-      'cm_description_agency' => $_POST['cm_description_agency'],
+      'cm_period'               => $_POST['cm_period'],
+      'cm_type'                 => $_POST['cm_type'],
+      'cm_update'               => $_POST['cm_update'],
+      'cm_description'          => $_POST['cm_description'],
+      'cm_source'               => $_POST['cm_source'],
+      'cm_note'                 => $_POST['cm_note'],
+      'cm_agency_title'         => $_POST['cm_agency_title'],
+      'cm_agency_text'          => $_POST['cm_agency_text'],
+      'cm_spreadsheet_type'     => $_POST['cm_spreadsheet_type'],
+      'cm_source_real'          => $_POST['cm_source_real'],
+      'cm_source_dollar'        => $_POST['cm_source_dollar'],
+      'cm_source_midia'         => $_POST['cm_source_midia'],
+      'cm_source_mercado'       => $_POST['cm_source_mercado'],
+      'cm_source_meio_regioes'  => $_POST['cm_source_meio_regioes'],
+      'cm_source_estado'        => $_POST['cm_source_estado'],
+      'cm_description_footer'   => $_POST['cm_description_footer'],
+      'cm_description_agency'   => $_POST['cm_description_agency'],
     );
 
     if (!empty($_POST['cm_json'])) {
@@ -261,7 +263,7 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
   {
     global $wpdb;
     $data = array_map(function ($item) use ($post_id) {
-      $name = (isset($item['nome'])) ? "'" . $item['nome'] . "'" : 'null';
+      $name = (isset($item['nome'])) ? "'" . htmlspecialchars($item['nome']) . "'" : 'null';
       return "($post_id,'" . $item['posicao'] . "'," . $name . ",'" . $item['uf'] . "')";
     }, $values['ranking']);
     $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";

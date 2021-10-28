@@ -242,7 +242,7 @@
   <?php if (isset($data['internet']['meios'])) { ?>
     <div class="cm-title">
       <h4>
-        GRÁFICO MEIO INTERNET
+        GRÁFICO MEIO INTERNET<sup>[SOURCE_MIDIA]</sup>
       </h4>
     </div>
     <div class="cm-chart" id="cenp-chart-internet"></div>
