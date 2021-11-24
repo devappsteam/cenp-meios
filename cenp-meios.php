@@ -24,7 +24,7 @@
 defined('ABSPATH') || exit;
 
 // Constantes
-define('CM_VERSION', '1.1.0');
+define('CM_VERSION', '1.1.8');
 define('CM_TEXT_DOMAIN', 'cenp-mean');
 define('CM_PATH_ROOT', plugin_basename(__FILE__));
 define('CM_PATH', plugin_dir_path(__FILE__));
