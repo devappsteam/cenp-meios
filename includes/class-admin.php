@@ -21,6 +21,9 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
       return;
     }
 
+    wp_enqueue_script('media-upload');
+    wp_enqueue_script('thickbox');
+
     wp_enqueue_style(
       'cm_bootstrap',
       '//cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css',
@@ -66,28 +69,20 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     wp_enqueue_script(
       'cm_scripts',
       apply_filters('cm_scripts_url', plugins_url('assets/js/cenp_meios_admin.js', CM_PATH_ROOT)),
-      array('jquery', 'cm_maskedinput', 'cm_xlsx', 'cm_validate-additional'),
+      array('jquery', 'cm_maskedinput', 'cm_xlsx', 'cm_validate-additional', 'media-upload', 'thickbox'),
       CM_VERSION,
       true
     );
+
+    wp_enqueue_style('thickbox');
+
     wp_enqueue_style(
       'cm_style',
       apply_filters('cm_style_url', plugins_url('assets/css/cenp_meios_admin.css', CM_PATH_ROOT)),
-      array(),
+      array('thickbox'),
       CM_VERSION,
       'all'
     );
-  }
-
-  public function add_admin_menu_item()
-  {
-    $page_title = $menu_title = 'Notificações Nota Fiscal';
-    $capability = 'manage_options';
-    $menu_slug = 'cm_import';
-    $icon_url = 'dashicons-cloud-upload';
-    $position = '21';
-
-    add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position);
   }
 
   public function cm_register_post_type()
@@ -165,7 +160,7 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
   public function meta_box_cm_form($post)
   {
     $form_data = get_post_meta($post->ID, '_meios', true);
-    include_once(dirname(dirname(__FILE__)) . '/templates/form-admin.php');
+    Helpers::load_view('admin', compact('form_data'));
   }
 
   public function cm_save($post_id)
@@ -190,8 +185,12 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
       'cm_source_mercado'       => $_POST['cm_source_mercado'],
       'cm_source_meio_regioes'  => $_POST['cm_source_meio_regioes'],
       'cm_source_estado'        => $_POST['cm_source_estado'],
+      'cm_source_internet'      => $_POST['cm_source_internet'],
       'cm_description_footer'   => $_POST['cm_description_footer'],
       'cm_description_agency'   => $_POST['cm_description_agency'],
+      'cm_agency_notes'         => $_POST['cm_agency_notes'],
+      'cm_legends'              => $_POST['cm_legends'],
+      'cm_description_estate'   => $_POST['cm_description_estate'],
     );
 
     if (!empty($_POST['cm_json'])) {
@@ -212,8 +211,34 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
       }
     }
 
+    if (!empty($_POST['cm_json_agency'])) {
+      $this->delete_agencies_by_post($post_id);
+      $this->insert_agencies_by_post($post_id, $this->base64_to_array($_POST['cm_json_agency']));
+    }
+
+
     update_post_meta($post_id, '_meios', $form_data);
   }
+
+  private function delete_agencies_by_post(int $post_id)
+  {
+    global $wpdb;
+    $table_agencies = $wpdb->prefix . "cm_spreadsheets_agencies";
+    $wpdb->delete($table_agencies, array('post_id' => intval($post_id)));
+  }
+
+  private function insert_agencies_by_post(int $post_id, array $values)
+  {
+    global $wpdb;
+    $data = array_map(function ($item) use ($post_id) {
+      return "($post_id,'" . addslashes(esc_sql(utf8_decode($item['nome']))) . "')";
+    }, $values['agencias']);
+
+    $table_agencies = $wpdb->prefix . "cm_spreadsheets_agencies";
+    $sql = "INSERT INTO $table_agencies (`post_id`,`name`) VALUES " . implode(',', $data);
+    $wpdb->query($sql);
+  }
+
 
   private function delete_spreadsheet_by_post(int $post_id)
   {
@@ -241,6 +266,9 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     global $wpdb;
     $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";
     $wpdb->delete($table_spreadsheet, array('post_id' => intval($post_id)));
+
+    $table_spreadsheet_state = $wpdb->prefix . "cm_spreadsheets_ranking_state";
+    $wpdb->delete($table_spreadsheet_state, array('post_id' => intval($post_id)));
   }
 
   private function base64_to_array(string $value)
@@ -269,6 +297,16 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";
     $sql = "INSERT INTO $table_spreadsheet (`post_id`,`position`,`name`,`state`) VALUES " . implode(',', $data);
     $wpdb->query($sql);
+
+    if (!empty($values['estado'])) {
+      $data = array_map(function ($item) use ($post_id) {
+        $name = (isset($item['nome'])) ? "'" . addslashes(esc_sql($item['nome'])) . "'" : 'null';
+        return "($post_id,'" . esc_sql($item['posicao']) . "'," . $name . ",'" . esc_sql($item['uf']) . "')";
+      }, $values['ranking']);
+      $table_spreadsheet_state = $wpdb->prefix . "cm_spreadsheets_ranking_state";
+      $sql = "INSERT INTO $table_spreadsheet_state (`post_id`,`position`,`name`,`state`) VALUES " . implode(',', $data);
+      $wpdb->query($sql);
+    }
   }
 
 

@@ -1,4 +1,5 @@
 jQuery(document).ready(function ($) {
+
   $('#meta_box_cm').find('.postbox-header').remove();
   $('#meta_box_cm-hide').prop('disabled', true);
 
@@ -10,7 +11,7 @@ jQuery(document).ready(function ($) {
   });
 
   var allowedExtensions = /(\.xml|\.xlsx)$/i;
-  $(".custom-file-input").on("change", function () {
+  $("#cm_file").on("change", function () {
     $('.alert').not('.alert-fixed').remove();
     if (!allowedExtensions.exec($(this).val())) {
       $(this).siblings(".custom-file-label").removeClass("selected").html('Selecione');
@@ -22,9 +23,123 @@ jQuery(document).ready(function ($) {
       var fileName = $(this).val().split("\\").pop();
       $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
       create_alert('<strong>Aguarde!</strong> Estamos avaliando a estrutura da planilha, isso pode levar um tempo!', 'primary', false);
-      create_json($(this)[0].files[0]);
+      create_json($(this)[0].files[0], 'cm_json');
     }
   });
+
+
+  $("#cm_agency_file").on("change", function () {
+    $('.alert').not('.alert-fixed').remove();
+    if (!allowedExtensions.exec($(this).val())) {
+      $(this).siblings(".custom-file-label").removeClass("selected").html('Selecione');
+      create_alert(`
+            <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
+          `, 'danger', true, true);
+      $(this).val(null);
+    } else {
+      var fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+      create_alert('<strong>Aguarde!</strong> Estamos avaliando a estrutura da planilha, isso pode levar um tempo!', 'primary', false);
+      create_json($(this)[0].files[0], 'cm_json_agency');
+    }
+  });
+
+
+
+  $('#btn_select_note').on('click', function () {
+    tb_show('', 'media-upload.php?TB_iframe=true');
+    window.send_to_editor = function (html) {
+      $('#cm_agency_note').val(html);
+      tb_remove();
+    }
+    return false;
+  });
+
+  $(document).on('click', '.btn_remove_note', function () {
+    var item = $(this).data('remove');
+    $(`#${item}`).remove();
+  });
+
+  $(document).on('click', '.btn_remove_legend', function () {
+    var item = $(this).data('remove');
+    $(`#${item}`).remove();
+  })
+
+
+  $('#btn_add_note').on('click', function () {
+    var position = $('#cm_agency_position').val();
+    var note = $('#cm_agency_note').val();
+    var time = new Date().getTime();
+
+    $('#table_note').find('tbody').append(`
+        <tr id="item_${time}">
+          <td>${position}</td>
+          <td>${note}</td>
+          <td>
+            <button type="button" class="btn btn-danger btn_remove_note" data-remove="item_${time}">Remover</button>
+          </td>
+          <input type="hidden" name="cm_agency_notes[${time}][position]" value="${position}">
+          <input type="hidden" name="cm_agency_notes[${time}][note]" value="${note.trim()}">
+        </tr>
+    `);
+
+    $('#cm_agency_position').val(null);
+    $('#cm_agency_note').val(null);
+
+  });
+
+  $('#btn_add_legend').on('click', function () {
+    var indicator = $('#cm_legend_roman').val();
+    var legend = $('#cm_legend_tooltip').val();
+    var agencies = $('#cm_legend_agencies').val();
+    var time = new Date().getTime();
+
+    if (indicator && legend && agencies) {
+      $('#table_legends').find('tbody').append(`
+          <tr id="legend_${time}">
+            <td>${indicator}</td>
+            <td>${legend}</td>
+            <td>${agencies}</td>
+            <td>
+              <button type="button" class="btn btn-danger btn_remove_legend" data-remove="legend_${time}">Remover</button>
+            </td>
+            <input type="hidden" name="cm_legends[${time}][indicator]" value="${indicator.trim()}">
+            <input type="hidden" name="cm_legends[${time}][legend]" value="${legend.trim()}">
+            <input type="hidden" name="cm_legends[${time}][agencies]" value="${agencies.trim()}">
+          </tr>
+      `);
+
+      $('#cm_legend_roman').val(null);
+      $('#cm_legend_tooltip').val(null);
+      $('#cm_legend_agencies').val(null);
+    }
+  });
+
+
+  $('[name="cm_type"]').on('change', function () {
+    var type = $(this).val();
+
+    if (parseInt(type) != 1) {
+      $('#cm_note_wrapper').show();
+    } else {
+      $('#cm_note_wrapper').hide();
+    }
+
+    if (parseInt(type) == 2) {
+      $('#cm_description_estate_wrapper').show();
+    } else {
+      $('#cm_description_estate_wrapper').hide();
+    }
+
+    if (parseInt(type) == 1) {
+      $('#cm_references_wrapper').show();
+    } else {
+      $('#cm_references_wrapper').hide();
+    }
+
+  });
+
+
 
   if (!String.prototype.slugify) {
     String.prototype.slugify = function () {
@@ -79,7 +194,7 @@ jQuery(document).ready(function ($) {
         <pre style="display: none;" id="show_json_error"></pre>
       `, 'danger', false, true);
       $('.custom-file-input').val(null);
-      $('#cm_json').val(null);
+      $(`#${id}`).val(null);
       $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
       sessionStorage.setItem('error_json', str);
       return false;
@@ -110,7 +225,7 @@ jQuery(document).ready(function ($) {
     }
   }
 
-  const create_json = (file) => {
+  const create_json = (file, id) => {
     var file_reader = new FileReader();
 
     file_reader.onload = function (event) {
@@ -126,19 +241,21 @@ jQuery(document).ready(function ($) {
       }, {});
       var json_string = JSON.stringify(normalizeKeys(res), undefined, 2);
       if (json_validate(json_string)) {
-        $('#cm_json').val(btoa(unescape(encodeURIComponent(json_string))));
+        $(`#${id}`).val(btoa(unescape(encodeURIComponent(json_string))));
         var json_obj = JSON.parse(json_string);
 
         switch ($('#cm_spreadsheet_type').find('option:selected').val()) {
           case '1':
             if (json_obj.hasOwnProperty('matriz')) {
               create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.matriz.length}</strong> registros em sua matriz!`, 'success', true, true);
+            } else if (json_obj.hasOwnProperty('agencias')) {
+              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.agencias.length}</strong> registros em sua matriz!`, 'success', true, true);
             } else {
               create_alert(`
                 <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
               `, 'danger', true, true);
               $('.custom-file-input').val(null);
-              $('#cm_json').val(null);
+              $(`#${id}`).val(null);
               $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
             }
             break;
@@ -155,16 +272,31 @@ jQuery(document).ready(function ($) {
                 <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.meios_regioes.length}</strong> registros por meios e regiões!<br>
                 <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.estados.length}</strong> registros por estado!
               `, 'success', true, true);
+            } else if (json_obj.hasOwnProperty('agencias')) {
+              create_alert(`<strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.agencias.length}</strong> registros em sua matriz!`, 'success', true, true);
             } else {
               create_alert(`
                 <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido! 
               `, 'danger', true, true);
               $('.custom-file-input').val(null);
-              $('#cm_json').val(null);
+              $(`#${id}`).val(null);
               $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
             }
             break;
           case '3':
+            if (json_obj.hasOwnProperty('ranking') && json_obj.hasOwnProperty('estado')) {
+              create_alert(`
+              <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.ranking.length}</strong> registros por meios de comunicação!<br>
+              <strong>Sucesso!</strong> Foram encontrados <strong>${json_obj.estado.length}</strong> registros por estado!
+            `, 'success', true, true);
+            } else {
+              create_alert(`
+                <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido!`, 'danger', true, true);
+              $('.custom-file-input').val(null);
+              $(`#${id}`).val(null);
+              $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
+            }
+            break;
           case '4':
             if (json_obj.hasOwnProperty('ranking')) {
               create_alert(`
@@ -173,7 +305,7 @@ jQuery(document).ready(function ($) {
               create_alert(`
                 <strong>Ops!</strong> A planilha selecionada não é compativel com a matriz, por favor informe um arquivo válido!`, 'danger', true, true);
               $('.custom-file-input').val(null);
-              $('#cm_json').val(null);
+              $(`#${id}`).val(null);
               $('.custom-file-input').siblings(".custom-file-label").removeClass("selected").html('Selecione');
             }
             break;

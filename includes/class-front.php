@@ -34,7 +34,14 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
 
     $is_ranking = ($attributes['category'] == 'ranking') ? true : false;
     $categories = $this->getTaxonomies('cenp-category');
-    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/main.php');
+
+    if (!empty($categories)) {
+      foreach ($categories as $key => $value) {
+        $categories[$key]->posts = $this->getPostsByTaxonomyId($value->term_id);
+      }
+    }
+
+    Helpers::load_view('main', compact('is_ranking', 'categories', 'posts'));
   }
 
   public function getTaxonomies(string $taxonomy)
@@ -60,7 +67,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
           )
         ),
         'orderby' => 'title',
-        'order' => 'DESC'
+        'order' => 'DESC',
       )
     );
   }
@@ -87,14 +94,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     $this->get_data_mean_comunication($post->ID);
 
     //FILE CONTENT
-    $header = file_get_contents(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/header.php');
-    $source_note = file_get_contents(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/source.php');
     $display = '';
-
-    // HTML - HEADER
-    $html = str_replace('[LOGO_URL]', plugins_url() . '/cenp-mean/assets/images/logo.png', $header);
-    $html = str_replace('[TITLE]', $post->post_title, $html);
-
 
     // HTML BY TYPE
     switch ($post_meta['cm_type']) {
@@ -126,40 +126,94 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         break;
       case 2:
         $html .= $this->render_ranking($post, $post_meta);
-        $display = 'display: none;';
         break;
       case 3:
         $html .= $this->render_ranking_uf($post, $post_meta);
-        $display = 'display: none;';
         break;
     }
-    
+
+    $html .= $this->render_source($post, $post_meta);
+
+    if ($post_meta['cm_type'] != 2 && $post_meta['cm_type'] != 3) {
+
+      if (!empty($post_meta['cm_note'])) {
+        $html .= $this->render_note($post, $post_meta);
+      }
+
+      if (!empty($post_meta['cm_description_footer'])) {
+        $html .= $this->render_text_footer($post, $post_meta);
+      }
+
+      $html .= $this->render_accordion($post, $post_meta);
+
+      $html .= $this->render_tools($post, $post_meta);
+    }
+
     // HTML - SOURCE + NOTE
-    $html .= str_replace('[SOURCE]', $post_meta['cm_source'], $source_note);
-    $html = str_replace('[NOTE]', $post_meta['cm_note'], $html);
-    $html = str_replace('[UPDATEDAT]', $post_meta['cm_update'], $html);
-    $html = str_replace('[DISPLAY]', (empty($post_meta['cm_note'])) ? 'display: none;' : '', $html);
-    $html = str_replace('[AGENCY_TITLE]', $post_meta['cm_agency_title'], $html);
-    $html = str_replace('[AGENCY_TEXT]', $post_meta['cm_agency_text'], $html);
-    $html = str_replace('[DESCRIPTION_AGENCY]', $post_meta['cm_description_agency'], $html);
     $html = str_replace('[TABLE_TITLE]', $table_title, $html);
-    $html = str_replace('[SOURCE_FONT]', $post_meta['cm_source_real'], $html);
-    $html = str_replace('[SOURCE_DOLLAR]', $post_meta['cm_source_dollar'], $html);
     $html = str_replace('[SOURCE_MIDIA]', $post_meta['cm_source_midia'], $html);
-    $html = str_replace('[DISPLAY_NONE]', $display, $html);
     $html = str_replace('[SOURCE_MERCADO]', $post_meta['cm_source_mercado'], $html);
     $html = str_replace('[SOURCE_MEIOS_REGIOES]', $post_meta['cm_source_meios_regioes'], $html);
-    $html = str_replace('[SOURCE_ESTADO]', $post_meta['cm_source_estado'], $html);
-
-    if (!empty($post_meta['cm_description_footer'])) {
-      $html = str_replace('[DESCRIPTION_FOOTER]', '<div class="cm-border">' . $post_meta['cm_description_footer'] . '</div>', $html);
-    } else {
-      $html = str_replace('[DESCRIPTION_FOOTER]', '', $html);
-    }
 
     echo $html;
     wp_die();
   }
+
+  public function render_source($post, $post_meta)
+  {
+    ob_start();
+    Helpers::load_view('source', compact('post', 'post_meta'));
+    $html = ob_get_contents();
+    ob_end_clean();
+    return $html;
+  }
+
+  public function render_note($post, $post_meta)
+  {
+    ob_start();
+    Helpers::load_view('note', compact('post', 'post_meta'));
+    $html = ob_get_contents();
+    ob_end_clean();
+    return $html;
+  }
+
+  public function render_text_footer($post, $post_meta)
+  {
+    ob_start();
+    Helpers::load_view('footer', compact('post', 'post_meta'));
+    $html = ob_get_contents();
+    ob_end_clean();
+    return $html;
+  }
+
+  public function render_accordion($post, $post_meta)
+  {
+    ob_start();
+    $agencies = $this->get_agencies($post->ID);
+    Helpers::load_view('accordion', compact('post', 'post_meta', 'agencies'));
+    $html = ob_get_contents();
+    ob_end_clean();
+    return $html;
+  }
+
+  public function render_tools($post, $post_meta)
+  {
+    ob_start();
+    Helpers::load_view('tools', compact('post', 'post_meta'));
+    $html = ob_get_contents();
+    ob_end_clean();
+    return $html;
+  }
+
+  private function get_agencies($post_id)
+  {
+    global $wpdb;
+    $table_agencies = $wpdb->prefix . "cm_spreadsheets_agencies";
+    $sql = "SELECT * FROM `$table_agencies` WHERE `post_id` = $post_id;";
+    $result = $wpdb->get_results($sql, ARRAY_A);
+    return $result;
+  }
+
 
   private function getMonthAndYearByDate(string $date)
   {
@@ -176,7 +230,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     } else {
       $data = $this->get_data_old_mean_comunication($post->ID, true);
     }
-    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-mean-comunication.php');
+    Helpers::load_view('table-mean-comunication', compact('data', 'post_meta', 'updated', 'post'));
     $html = ob_get_contents();
     ob_end_clean();
     return $html;
@@ -190,7 +244,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     } else {
       $data = $this->get_data_old_mean_region($post->ID);
     }
-    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-mean-region.php');
+    Helpers::load_view('table-mean-region', compact('data', 'post_meta'));
     $html = ob_get_contents();
     ob_end_clean();
     return $html;
@@ -204,7 +258,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     } else {
       $data = $this->get_data_old_region($post->ID);
     }
-    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-region.php');
+    Helpers::load_view('table-region', compact('post_meta', 'data', 'post'));
     $html = ob_get_contents();
     ob_end_clean();
     return $html;
@@ -218,7 +272,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     } else {
       $data = $this->get_data_old_state($post->ID);
     }
-    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-state.php');
+    Helpers::load_view('table-state', compact('post', 'post_meta', 'data'));
     $html = ob_get_contents();
     ob_end_clean();
     return $html;
@@ -228,17 +282,30 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
   {
     ob_start();
     $data_ranking = $this->get_data_ranking($post->ID);
-    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-ranking.php');
+    $data_ranking_uf = $this->get_data_ranking_uf($post->ID);
+    Helpers::load_view('table-ranking', compact('data_ranking', 'data_ranking_uf', 'post', 'post_meta'));
     $html = ob_get_contents();
     ob_end_clean();
     return $html;
   }
 
+  public function get_data_ranking_uf($post_id)
+  {
+    global $wpdb;
+    $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking_state";
+    $sql = "SELECT * FROM `$table_spreadsheet` WHERE `post_id` = $post_id;";
+    $result = $wpdb->get_results($sql, ARRAY_A);
+    return $result;
+  }
+
+
+
+
   public function render_ranking_uf($post, $post_meta)
   {
     ob_start();
     $data_ranking = $this->get_data_ranking($post->ID);
-    include_once(dirname(dirname(__FILE__)) . '/templates/shortcode/partials/table-ranking-uf.php');
+    Helpers::load_view('table-ranking-uf', compact('data_ranking', 'post', 'post_meta'));
     $html = ob_get_contents();
     ob_end_clean();
     return $html;

@@ -33,6 +33,7 @@ class Cenp_Meios
 
   protected function includes()
   {
+    require_once(dirname(__FILE__) . '/class-helper.php');
     require_once(dirname(__FILE__) . '/class-utils.php');
     require_once(dirname(__FILE__) . '/class-admin.php');
     require_once(dirname(__FILE__) . '/class-front.php');

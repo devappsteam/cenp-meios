@@ -12,7 +12,7 @@
  * Plugin Name:       Cenp Meios
  * Plugin URI:        https://github.com/devappsteam/cenp-meios
  * Description:       Efetua a importação do meios de comunicação atráves de uma matriz XLSX e disponibiliza os dados em uma página atraves de shortcode.
- * Version:           1.0.10
+ * Version:           1.1.8
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            DevApps Consultoria e Desenvolvimento de Software
@@ -24,9 +24,11 @@
 defined('ABSPATH') || exit;
 
 // Constantes
-define('CM_VERSION', '1.0.10');
+define('CM_VERSION', '1.1.0');
 define('CM_TEXT_DOMAIN', 'cenp-mean');
 define('CM_PATH_ROOT', plugin_basename(__FILE__));
+define('CM_PATH', plugin_dir_path(__FILE__));
+define('CM_TEMPLATE_DIR', 'cenp');
 
 register_activation_hook(
   __FILE__,
@@ -43,14 +45,16 @@ function activate()
 
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-  $table_region = $wpdb->prefix . "cm_states_region";
-  $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets";
-  $table_spreadsheet_means = $wpdb->prefix . "cm_spreadsheets_means";
-  $table_spreadsheet_means_regions = $wpdb->prefix . "cm_spreadsheets_means_regions";
-  $table_spreadsheet_regions = $wpdb->prefix . "cm_spreadsheets_regions";
-  $table_spreadsheet_states = $wpdb->prefix . "cm_spreadsheets_states";
-  $table_spreadsheet_ranking = $wpdb->prefix . "cm_spreadsheets_ranking";
-  $charset_collate = $wpdb->get_charset_collate();
+  $table_region                     = $wpdb->prefix . "cm_states_region";
+  $table_spreadsheet                = $wpdb->prefix . "cm_spreadsheets";
+  $table_spreadsheet_means          = $wpdb->prefix . "cm_spreadsheets_means";
+  $table_spreadsheet_means_regions  = $wpdb->prefix . "cm_spreadsheets_means_regions";
+  $table_spreadsheet_regions        = $wpdb->prefix . "cm_spreadsheets_regions";
+  $table_spreadsheet_states         = $wpdb->prefix . "cm_spreadsheets_states";
+  $table_spreadsheet_ranking        = $wpdb->prefix . "cm_spreadsheets_ranking";
+  $table_spreadsheet_ranking_state  = $wpdb->prefix . "cm_spreadsheets_ranking_state";
+  $table_agencies                   = $wpdb->prefix . "cm_spreadsheets_agencies";
+  $charset_collate                  = $wpdb->get_charset_collate();
 
   $wpdb->query("DROP TABLE IF EXISTS `$table_region`;");
 
@@ -133,7 +137,26 @@ function activate()
     PRIMARY KEY (`ID`)
   ) $charset_collate;";
 
+  $sql = "CREATE TABLE `$table_spreadsheet_ranking_state`(
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `post_id` BIGINT NOT NULL,
+    `position` VARCHAR(5) NULL,
+    `name` VARCHAR(150) NULL DEFAULT '',
+    `state` VARCHAR(5) NULL DEFAULT '',
+    PRIMARY KEY (`ID`)
+  ) $charset_collate;";
+
   dbDelta($sql);
+
+  $sql = "CREATE TABLE `$table_agencies`(
+    `ID` BIGINT NOT NULL AUTO_INCREMENT,
+    `post_id` BIGINT NOT NULL,
+    `name` VARCHAR(150) NULL DEFAULT '',
+    PRIMARY KEY (`ID`)
+  ) $charset_collate;";
+
+  dbDelta($sql);
+
 
   $sql = "INSERT INTO `$table_region` (`state`,`region`) VALUES
       ('Acre', 1),

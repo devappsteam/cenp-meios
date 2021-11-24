@@ -55,7 +55,8 @@ if (isset($form_data['cm_type'])) {
         <br>
         <a href="<?php echo plugins_url('matriz_dinamica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz dinâmica - Meios</b></a> |
         <a href="<?php echo plugins_url('matriz_estatica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz estática - Meios</b></a> |
-        <a href="<?php echo plugins_url('ranking.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking</b></a>
+        <a href="<?php echo plugins_url('ranking.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking</b></a> |
+        <a href="<?php echo plugins_url('ranking_estados.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking por Estado</b></a>
       </div>
     </div>
   </div>
@@ -108,7 +109,55 @@ if (isset($form_data['cm_type'])) {
       </div>
     </div>
   </div>
-  <div class="form-row">
+
+  <div class="form-row" id="cm_note_wrapper" <?php echo ($form_data['cm_type'] == 1) ? 'style="display:none;"' : ''; ?>>
+    <div class="col-12 mt-4 mb-4">
+      <label class="form-label font-weight-bold" for="cm_description_agency"><?php echo __('Notas de Esclarecimento', CM_TEXT_DOMAIN); ?></label>
+      <p>Informe a posição da agência que deseja inserir o link da nota.</p>
+    </div>
+    <div class="col-2 mt-4 mb-4">
+      <input type="number" class="form-control" id="cm_agency_position" min="1">
+    </div>
+    <div class="col-7 mt-4 mb-4">
+      <input type="text" class="form-control" id="cm_agency_note">
+    </div>
+    <div class="col-3 mt-4 mb-4">
+      <button type="button" class="btn btn-secondary" id="btn_select_note">Selecionar Nota</button>
+      <button type="button" class="btn btn-success" id="btn_add_note">Adicionar</button>
+    </div>
+    <div class="col-12 mt-4 mb-4 table-responsive">
+      <table class="table" id="table_note">
+        <thead>
+          <tr>
+            <th style="width: 150px;">Posição</th>
+            <th>Nota</th>
+            <th style="width: 150px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          if (!empty($form_data['cm_agency_notes'])) {
+            foreach ($form_data['cm_agency_notes'] as $key => $value) {
+          ?>
+              <tr id="item_<?php echo $key; ?>">
+                <td><?php echo $value['position']; ?></td>
+                <td><?php echo $value['note']; ?></td>
+                <td>
+                  <button type="button" class="btn btn-danger btn_remove_note" data-remove="item_<?php echo $key; ?>">Remover</button>
+                </td>
+                <input type="hidden" name="cm_agency_notes[<?php echo $key; ?>][position]" value="<?php echo $value['position']; ?>">
+                <input type="hidden" name="cm_agency_notes[<?php echo $key; ?>][note]" value="<?php echo $value['note']; ?>">
+              </tr>
+          <?php
+            }
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="form-row" id="cm_references_wrapper" <?php echo ($form_data['cm_type'] != 1) ? 'style="display:none;"' : ''; ?>>
     <div class="col-12">
       <p class="h4 mt-4 mb-4"><?php echo __('Referências', CM_TEXT_DOMAIN); ?></p>
     </div>
@@ -136,6 +185,10 @@ if (isset($form_data['cm_type'])) {
       <label class="form-label font-weight-bold"><?php echo __('Estado', CM_TEXT_DOMAIN) ?></label>
       <input type="number" class="form-control" name="cm_source_estado" id="cm_source_estado" value="<?php echo (isset($form_data['cm_source_estado'])) ? $form_data['cm_source_estado'] : '' ?>" min="1" max="100">
     </div>
+    <div class="col-12 col-md-12 col-lg-4 form-group">
+      <label class="form-label font-weight-bold"><?php echo __('Internet', CM_TEXT_DOMAIN) ?></label>
+      <input type="number" class="form-control" name="cm_source_internet" id="cm_source_internet" value="<?php echo (isset($form_data['cm_source_internet'])) ? $form_data['cm_source_internet'] : '' ?>" min="1" max="100">
+    </div>
   </div>
   <div class="form-row">
     <div class="col-4 form-group mt-4">
@@ -159,6 +212,24 @@ if (isset($form_data['cm_type'])) {
       ?>
     </div>
   </div>
+
+  <div class="form-row" id="cm_description_estate_wrapper" <?php echo ($form_data['cm_type'] != 2) ? 'style="display:none;"' : ''; ?>>
+    <div class="col-12 form-group mt-4">
+      <label class="form-label font-weight-bold" for="cm_description_estate"><?php echo __('Descrição Ranking por Estado', CM_TEXT_DOMAIN); ?></label>
+      <?php
+      wp_editor((isset($form_data['cm_description_estate'])) ? $form_data['cm_description_estate'] : '', 'cm_description_estate', array(
+        'wpautop'       =>  false,
+        'media_buttons' =>  false,
+        'textarea_name' =>  'cm_description_estate',
+        'textarea_rows' =>  10,
+        'teeny'         =>  false,
+        'tinymce' => true,
+        'quicktags' => true
+      ));
+      ?>
+    </div>
+  </div>
+
   <div class="form-row">
     <div class="col-12 form-group mt-4">
       <label class="form-label font-weight-bold" for="cm_source"><?php echo __('Fonte', CM_TEXT_DOMAIN); ?></label>
@@ -211,17 +282,83 @@ if (isset($form_data['cm_type'])) {
     <div class="col-12">
       <p class="h4"><?php echo __('Agências Participantes', CM_TEXT_DOMAIN); ?></p>
     </div>
-    <div class="col-12 col-lg-6 mt-4 form-group">
+    <div class="col-12 col-lg-12 mt-4 form-group">
       <label class="form-label font-weight-bold" for="cm_agency_title">Título</label>
-      <input type="text" class="form-control" name="cm_agency_title" id="cm_agency_title" value="<?php echo (isset($form_data['cm_agency_title'])) ? $form_data['cm_agency_title'] : '' ?>">
+      <?php
+      wp_editor((isset($form_data['cm_agency_title'])) ? $form_data['cm_agency_title'] : '', 'cm_agency_title', array(
+        'wpautop'       =>  false,
+        'media_buttons' =>  false,
+        'textarea_name' =>  'cm_agency_title',
+        'textarea_rows' =>  1,
+        'teeny'         =>  false,
+        'tinymce' => true,
+        'quicktags' => true
+      ));
+      ?>
     </div>
     <div class="col-12 col-lg-6 mt-4 form-group">
       <label class="form-label font-weight-bold" for="cm_agency_file">Planilha</label>
       <div class="custom-file">
         <input type="file" class="custom-file-input" name="cm_agency_file" id="cm_agency_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        <input type="hidden" name="cm_json_agency" id="cm_json_agency" value="">
         <label class="custom-file-label" for="cm_agency_file">Selecione</label>
       </div>
     </div>
+  </div>
+  <div class="form-row">
+    <div class="col-12">
+      <label class="form-label font-weight-bold" for="cm_legends"><?php echo __('Legendas e Tooltips', CM_TEXT_DOMAIN); ?></label>
+      <p>Informe a legenda,tooltip e o nome da agência que deseja adicionar as informações.</p>
+      <p>Utilize o delimitador <span class="text-danger font-weight-bold">;</span> para adicioanar múltilplas agências.</p>
+      <p><b>Ex:</b> AERO DM COMUNICACAO LTDA- ME; AFRICA DDB BRASIL PUBLICIDADE LTDA</p>
+    </div>
+    <div class="col-12 col-lg-2 mt-4 mb-4">
+      <input type="text" class="form-control" id="cm_legend_roman" placeholder="Indicador">
+    </div>
+    <div class="col-12 col-lg-3 mt-4 mb-4">
+      <input type="text" class="form-control" id="cm_legend_tooltip" placeholder="Legenda">
+    </div>
+    <div class="col-12 col-lg-5 mt-4 mb-4">
+      <input class="form-control" id="cm_legend_agencies" placeholder="Agências">
+    </div>
+    <div class="col-12 col-lg-2 mt-4 mb-4">
+      <button type="button" class="btn btn-success" id="btn_add_legend">Adicionar</button>
+    </div>
+    <div class="col-12 mt-4 mb-4 table-responsive">
+      <table class="table" id="table_legends">
+        <thead>
+          <tr>
+            <th style="width: 150px;">Indicador</th>
+            <th>Legenda</th>
+            <th>Agências</th>
+            <th style="width: 150px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          if (!empty($form_data['cm_legends'])) {
+            foreach ($form_data['cm_legends'] as $key => $value) {
+          ?>
+              <tr id="legend_<?php echo $key; ?>">
+                <td><?php echo $value['indicator']; ?></td>
+                <td><?php echo $value['legend']; ?></td>
+                <td><?php echo $value['agencies']; ?></td>
+                <td>
+                  <button type="button" class="btn btn-danger btn_remove_legend" data-remove="legend_<?php echo $key; ?>">Remover</button>
+                </td>
+                <input type="hidden" name="cm_legends[<?php echo $key; ?>][indicator]" value="<?php echo $value['indicator']; ?>">
+                <input type="hidden" name="cm_legends[<?php echo $key; ?>][legend]" value="<?php echo $value['legend']; ?>">
+                <input type="hidden" name="cm_legends[<?php echo $key; ?>][agencies]" value="<?php echo $value['agencies']; ?>">
+              </tr>
+          <?php
+            }
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-row">
     <div class="col-12 mt-4 mb-4">
       <label class="form-label font-weight-bold" for="cm_description_agency"><?php echo __('Descrição Legendas Agências', CM_TEXT_DOMAIN); ?></label>
       <?php
@@ -229,7 +366,7 @@ if (isset($form_data['cm_type'])) {
         'wpautop'       =>  false,
         'media_buttons' =>  false,
         'textarea_name' =>  'cm_description_agency',
-        'textarea_rows' =>  10,
+        'textarea_rows' =>  1,
         'teeny'         =>  false,
         'tinymce' => true,
         'quicktags' => true
