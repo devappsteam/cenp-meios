@@ -28,7 +28,7 @@
           ?>
             <tr>
               <td><?php echo $data_ranking[$i]['position']; ?></td>
-              <td><a href="<?php echo (!empty($note_final)) ? get_bloginfo('url') . '/' . $note_final : '#'; ?>" target="_blank" class="cm-note <?php echo (!empty($note_final)) ? 'has-note' : ''; ?>"><?php echo stripslashes($data_ranking[$i]['name']); ?></span></td>
+              <td><a href="<?php echo (!empty($note_final)) ? get_bloginfo('url') . '/' . $note_final : '#'; ?>" target="_blank" class="cm-note <?php echo (!empty($note_final)) ? 'has-note' : ''; ?>" style="cursor:<?php echo (!empty($note_final)) ? 'pointer !important' : 'auto !important'; ?>;"><?php echo stripslashes($data_ranking[$i]['name']); ?></a></td>
               <td><?php echo $data_ranking[$i]['state']; ?></td>
             </tr>
           <?php
@@ -58,6 +58,7 @@
           <?php
           $state = 'AL';
           $mark = false;
+			
           for ($i = 0; $i < count($data_ranking_uf); $i++) {
           ?>
             <tr class="<?php echo ($mark) ? 'tr-blue' : 'tr-white'; ?>">
