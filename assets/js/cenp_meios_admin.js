@@ -45,14 +45,28 @@ jQuery(document).ready(function ($) {
   });
 
 
+	var pdf_file_frame;
+  $('#btn_select_note').on('click', function (e) {
+	  
+	e.preventDefault();
 
-  $('#btn_select_note').on('click', function () {
-    tb_show('', 'media-upload.php?TB_iframe=true');
-    window.send_to_editor = function (html) {
-      $('#cm_agency_note').val(html);
-      tb_remove();
+    if ( pdf_file_frame ) {
+        pdf_file_frame.open();
+        return;
     }
-    return false;
+
+    pdf_file_frame = wp.media.frames.file_frame = wp.media({
+        library: { type: 'application/pdf' },
+        multiple: false
+    });
+	  
+    pdf_file_frame.on('select', function(){
+        var media_attachment = pdf_file_frame.state().get('selection').first().toJSON();
+       $('#cm_agency_note').val(media_attachment.url);
+    });
+
+    pdf_file_frame.open();
+	  
   });
 
   $(document).on('click', '.btn_remove_note', function () {

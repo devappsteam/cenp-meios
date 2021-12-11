@@ -56,7 +56,8 @@ if (isset($form_data['cm_type'])) {
         <a href="<?php echo plugins_url('matriz_dinamica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz dinâmica - Meios</b></a> |
         <a href="<?php echo plugins_url('matriz_estatica.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz estática - Meios</b></a> |
         <a href="<?php echo plugins_url('ranking.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking</b></a> |
-        <a href="<?php echo plugins_url('ranking_estados.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking por Estado</b></a>
+        <a href="<?php echo plugins_url('ranking_estados.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Ranking por Estado</b></a> | 
+		<a href="<?php echo plugins_url('matriz_agencias_participantes.xlsx', CM_PATH_ROOT); ?>" download><b>Matriz - Agências Participantes</b></a>
       </div>
     </div>
   </div>
@@ -204,6 +205,22 @@ if (isset($form_data['cm_type'])) {
         'wpautop'       =>  false,
         'media_buttons' =>  false,
         'textarea_name' =>  'cm_description',
+        'textarea_rows' =>  10,
+        'teeny'         =>  false,
+        'tinymce' => true,
+        'quicktags' => true
+      ));
+      ?>
+    </div>
+  </div>
+  <div class="form-row" id="cm_source_ranking_wrapper" <?php echo ($form_data['cm_type'] != 2) ? 'style="display:none;"' : ''; ?>>
+    <div class="col-12 form-group mt-4">
+      <label class="form-label font-weight-bold" for="cm_source_ranking"><?php echo __('Fonte Ranking', CM_TEXT_DOMAIN); ?></label>
+      <?php
+      wp_editor((isset($form_data['cm_source_ranking'])) ? $form_data['cm_source_ranking'] : '', 'cm_source_ranking', array(
+        'wpautop'       =>  false,
+        'media_buttons' =>  false,
+        'textarea_name' =>  'cm_source_ranking',
         'textarea_rows' =>  10,
         'teeny'         =>  false,
         'tinymce' => true,

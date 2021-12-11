@@ -2,13 +2,13 @@
   <div class="cm-header"></div>
   <div class="cm-tools">
     <div class="cm-tools__items">
-      <a href="/cenp-meio" class="cm-btn" <?php echo (!$is_ranking) ? 'id="cm_meios"' : '' ?> title="Meios">Meios</a>
+      <a href="/cenp-meio" class="cm-btn" <?php echo (!$is_ranking) ? 'id="cm_meios"' : '' ?> title="Painéis">Painéis</a>
     </div>
     <div class="cm-tools__items">
       <a href="/cenp-ranking" class="cm-btn cm-btn--link" <?php echo ($is_ranking) ? 'id="cm_meios"' : '' ?> title="Ranking">Ranking</a>
     </div>
     <div class="cm-tools__items">
-      <a href="/cenp-meios/#cm_cronog" class="cm-btn cm-btn--link" title="Cronograma">Cronograma</a>
+      <a href="/cenpmeios/#cm_cronog" class="cm-btn cm-btn--link" title="Cronograma">Cronograma</a>
     </div>
   </div>
   <div class="cm-main">
@@ -25,7 +25,7 @@
   <div class="cm-modal" id="cm-modal">
     <div class="cm-modal-content">
       <div class="cm-modal__header">
-        <h3 class="cm-modal__title">Selecione um meio</h3>
+        <h3 class="cm-modal__title">Selecione um <?php echo (!$is_ranking) ? 'meio' : 'ranking'; ?></h3>
         <button class="cm-modal__close" data-button="close">
           <svg height="24" width="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path stroke="#333" stroke-linecap="round" stroke-linejoin="round" d="M16.95 7.049l-9.901 9.9m9.9 0l-9.9-9.9"></path>
@@ -36,12 +36,14 @@
         <ul class="cm-list">
           <?php
           foreach ($categories as $category) {
-            if (!empty($category->posts)) {
-          ?>
+            if ($category->posts){
+				//if (!$is_ranking) {
+          ?> 
               <li class="cm-list__item cm-bold cm-my-10">
                 <?php echo $category->name; ?>
               </li>
               <?php
+				//}
               foreach ($category->posts as $post) {
                 $meta = get_post_meta($post->ID, '_meios', true);
                 if ($is_ranking) {

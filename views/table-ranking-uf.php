@@ -6,6 +6,11 @@
     <div class="cm-table-responsive">
       <table class="cm-table">
         <thead>
+		  <tr>
+			  <th colspan="3">
+				  [TABLE_TITLE]
+			  </th>
+		  </tr>
           <tr>
             <th>POSIÇÃO AG-UF</th>
             <th>RAZÃO SOCIAL</th>

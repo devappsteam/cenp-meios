@@ -6,6 +6,11 @@
     <div class="cm-table-responsive">
       <table class="cm-table">
         <thead>
+		  <tr>
+			  <th colspan="3">
+			  	[TABLE_TITLE]
+			  </th>
+		  </tr>
           <tr>
             <th>POSIÇÃO</th>
             <th>RAZÃO SOCIAL</th>
@@ -28,7 +33,7 @@
           ?>
             <tr>
               <td><?php echo $data_ranking[$i]['position']; ?></td>
-              <td><a href="<?php echo (!empty($note_final)) ? get_bloginfo('url') . '/' . $note_final : '#'; ?>" target="_blank" class="cm-note <?php echo (!empty($note_final)) ? 'has-note' : ''; ?>"><?php echo stripslashes($data_ranking[$i]['name']); ?></span></td>
+              <td><a href="<?php echo (!empty($note_final)) ? $note_final : 'javascript:void(0);'; ?>" <?php echo (!empty($note_final)) ? 'target="_blank"' : ''; ?> class="cm-note <?php echo (!empty($note_final)) ? 'has-note' : ''; ?>" style="cursor:<?php echo (!empty($note_final)) ? 'pointer !important' : 'auto !important'; ?>;"><?php echo stripslashes($data_ranking[$i]['name']); ?></a></td>
               <td><?php echo $data_ranking[$i]['state']; ?></td>
             </tr>
           <?php
@@ -41,6 +46,15 @@
 </div>
 
 <div class="cm-section cm-section--white">
+  <div class="cm-title cm-title--right cm-title--dark">
+    <h2 class="cm-title__label">Fonte</h2>
+  </div>
+  <div class="cm-container">
+    <?php echo $post_meta['cm_source_ranking']; ?>
+  </div>
+</div>
+
+<div class="cm-section cm-section--white">
   <div class="cm-container">
     <div class="cm-description">
       <h4 class="cm-center cm-uppercase"><?php echo $post_meta['cm_description_estate']; ?></h4>
@@ -48,6 +62,11 @@
     <div class="cm-table-responsive">
       <table class="cm-table">
         <thead>
+			<tr>
+			  <th colspan="3">
+			  	[TABLE_TITLE]
+			  </th>
+		  </tr>
           <tr>
             <th>POSIÇÃO AG-UF</th>
             <th>RAZÃO SOCIAL</th>
@@ -58,6 +77,7 @@
           <?php
           $state = 'AL';
           $mark = false;
+			
           for ($i = 0; $i < count($data_ranking_uf); $i++) {
           ?>
             <tr class="<?php echo ($mark) ? 'tr-blue' : 'tr-white'; ?>">

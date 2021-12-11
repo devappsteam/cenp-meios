@@ -183,14 +183,14 @@
           function drawChart() {
             var data = google.visualization.arrayToDataTable([
               ['Task', 'Hours per Day'],
-              ['Cinema', 10],
-              ['Internet', 10],
-              ['Jornal', 10],
-              ['OOH/MÍDIA exterior', 10],
-              ['Rádio', 10],
-              ['Revista', 10],
-              ['Televisão aberta', 10],
-              ['Televisão por assinatura', 10],
+              ['Cinema', <?php echo  str_replace('.', '', $data['cinema']['real']); ?>],
+              ['Internet', <?php echo str_replace('.', '', $data['internet']['real']); ?>],
+              ['Jornal', <?php echo  str_replace('.', '', $data['jornal']['real']); ?>],
+              ['OOH/MÍDIA exterior', <?php echo str_replace('.', '', $data['midia_exterior']['real']); ?>],
+              ['Rádio', <?php echo str_replace('.', '', $data['radio']['real']); ?>],
+              ['Revista', <?php echo str_replace('.', '', $data['revista']['real']); ?>],
+              ['Televisão aberta', <?php echo str_replace('.', '', $data['tv_aberta']['real']); ?>],
+              ['Televisão por assinatura', <?php echo str_replace('.', '', $data['tv_assinada']['real']); ?>],
             ]);
 
             var options = {

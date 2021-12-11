@@ -55,11 +55,15 @@ class Cenp_Meios_Utils
 
   public function slugify($text, string $divider = '_')
   {
-    // replace non letter or digits by divider
+    
+	// normaliza a codificação da string
+	$text = utf8_decode($text);
+	  
+	// replace non letter or digits by divider
     $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
-
+	  
     $text = preg_replace(array("/(á|à|ã|â|ä)/", "/(Á|À|Ã|Â|Ä)/", "/(é|è|ê|ë)/", "/(É|È|Ê|Ë)/", "/(í|ì|î|ï)/", "/(Í|Ì|Î|Ï)/", "/(ó|ò|õ|ô|ö)/", "/(Ó|Ò|Õ|Ô|Ö)/", "/(ú|ù|û|ü)/", "/(Ú|Ù|Û|Ü)/", "/(ñ)/", "/(Ñ)/"), explode(" ", "a A e E i I o O u U n N"), $text);
-
+	  
     // trim
     $text = trim($text, $divider);
 

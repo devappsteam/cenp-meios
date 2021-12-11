@@ -27,7 +27,7 @@
                   }
                 ?>
                   <li class="<?php echo !empty($tooltip['legend']) ? 'tooltip' : ''; ?>">
-                    <?php echo $tooltip['indicator'] . ' ' . $agency['name']; ?>
+                    <?php echo '<sup><small>' . $tooltip['indicator'] . "</small></sup>". $agency['name']; ?>
                     <?php
                     if(!empty($tooltip['legend'])){
                     ?>

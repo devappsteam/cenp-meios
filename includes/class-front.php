@@ -33,43 +33,79 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     ), $attr);
 
     $is_ranking = ($attributes['category'] == 'ranking') ? true : false;
-    $categories = $this->getTaxonomies('cenp-category');
-
+	if(!$is_ranking){
+		$taxonomy = 'cenp-category';
+		$categories = $this->getTaxonomies($taxonomy);
+	}else{
+		$taxonomy = 'cenp-ranking';
+		$categories = $this->getRankingsByTaxonomy();
+	}
     if (!empty($categories)) {
       foreach ($categories as $key => $value) {
-        $categories[$key]->posts = $this->getPostsByTaxonomyId($value->term_id);
+        $categories[$key]->posts = $this->getPostsByTaxonomyId($value->term_id, $taxonomy);
       }
     }
-
+	  
     Helpers::load_view('main', compact('is_ranking', 'categories', 'posts'));
   }
-
+  
+  public function getRankingsByTaxonomy(){
+	  return get_terms(array(
+      'taxonomy'         => 'cenp-ranking',
+      'hide_empty'     => true,
+      'orderBy'        => 'name',
+      'order'            => 'DESC',
+	  'meta_query' => array(
+             array(
+                'key'       => 'show_modal',
+                'value'     => 'yes',
+                'compare'   => '='
+             )
+      )
+    ));
+  }
+	
   public function getTaxonomies(string $taxonomy)
   {
     return get_terms(array(
       'taxonomy'         => $taxonomy,
-      'hide_empty'     => true,
+      'hide_empty'     => false,
       'orderBy'        => 'name',
       'order'            => 'DESC',
     ));
   }
 
-  public function getPostsByTaxonomyId(int $taxonomy)
+  public function getPostsByTaxonomyId(int $taxonomy_id, $taxonomy)
   {
-    return query_posts(
+    $posts = query_posts(
       array(
         'post_type' => 'cenp-mean',
         'tax_query' => array(
           array(
-            'taxonomy' => 'cenp-category',
-            'terms' => $taxonomy,
+            'taxonomy' => $taxonomy,
+            'terms' => $taxonomy_id,
             'field' => 'term_id',
           )
         ),
-        'orderby' => 'title',
-        'order' => 'DESC',
+		'orderby' => 'title',
+		'order' => 'DESC',
       )
     );
+	if(empty($posts)){
+		return array();
+	}
+	 $data = array();
+	foreach($posts as $post){
+		array_push($data, (object) array(
+			'ID' => $post->ID,
+			'post_title' => $post->post_title,
+			'period'	=> get_post_meta($post->ID, '_meios', true)['cm_period']
+		));
+	}
+	usort($data, function($a, $b) {
+		return $b->period <=> $a->period;
+	});
+	return $data;
   }
 
   public function find_post_by_id()
@@ -125,9 +161,37 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         }
         break;
       case 2:
+		switch ($post_meta['cm_period']) {
+          case 1:
+            $table_title = 'JAN-MAR' . '/' . $year;
+            break;
+          case 2:
+            $table_title = 'JAN-JUN' . '/' . $year;
+            break;
+          case 3:
+            $table_title = 'JAN-SET' . '/' . $year;
+            break;
+          case 4:
+            $table_title = 'JAN-DEZ' . '/' . $year;
+            break;
+        }
         $html .= $this->render_ranking($post, $post_meta);
         break;
       case 3:
+			switch ($post_meta['cm_period']) {
+          case 1:
+            $table_title = 'JAN-MAR' . '/' . $year;
+            break;
+          case 2:
+            $table_title = 'JAN-JUN' . '/' . $year;
+            break;
+          case 3:
+            $table_title = 'JAN-SET' . '/' . $year;
+            break;
+          case 4:
+            $table_title = 'JAN-DEZ' . '/' . $year;
+            break;
+        }
         $html .= $this->render_ranking_uf($post, $post_meta);
         break;
     }
