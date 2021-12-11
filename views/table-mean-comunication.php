@@ -45,52 +45,52 @@
 
           <!-- MEIO DE INTERNET -->
           <?php if (isset($data['internet']['meios'])) { ?>
-          <tr>
-            <td style="font-size:12px;">ÁUDIO</td>
-            <td style="font-size:12px;border-right-color: transparent;">R$</td>
-            <td style="font-size:12px;" id="total_audio" class="text-right"><?php echo $data['internet']['meios']['audio']['real']; ?></td>
-            <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-            <td style="font-size:12px;text-align: right;" id="dollar_audio"><?php echo $data['internet']['meios']['audio']['dollar']; ?></td>
-            <td style="font-size:12px;text-align: right;" id="share_audio"><?php echo $data['internet']['meios']['audio']['share']; ?>%</td>
-          </tr>
-          <tr>
-            <td style="font-size:12px;">BUSCA</td>
-            <td style="font-size:12px;border-right-color: transparent;">R$</td>
-            <td style="font-size:12px;" id="total_busca" class="text-right"><?php echo $data['internet']['meios']['busca']['real']; ?></td>
-            <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-            <td style="font-size:12px;text-align: right;" id="dollar_busca"><?php echo $data['internet']['meios']['busca']['dollar']; ?></td>
-            <td style="font-size:12px;text-align: right;" id="share_busca"><?php echo $data['internet']['meios']['busca']['share']; ?>%</td>
-          </tr>
+            <tr>
+              <td style="font-size:12px;">ÁUDIO</td>
+              <td style="font-size:12px;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px;" id="total_audio" class="text-right"><?php echo $data['internet']['meios']['audio']['real']; ?></td>
+              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px;text-align: right;" id="dollar_audio"><?php echo $data['internet']['meios']['audio']['dollar']; ?></td>
+              <td style="font-size:12px;text-align: right;" id="share_audio"><?php echo $data['internet']['meios']['audio']['share']; ?>%</td>
+            </tr>
+            <tr>
+              <td style="font-size:12px;">BUSCA</td>
+              <td style="font-size:12px;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px;" id="total_busca" class="text-right"><?php echo $data['internet']['meios']['busca']['real']; ?></td>
+              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px;text-align: right;" id="dollar_busca"><?php echo $data['internet']['meios']['busca']['dollar']; ?></td>
+              <td style="font-size:12px;text-align: right;" id="share_busca"><?php echo $data['internet']['meios']['busca']['share']; ?>%</td>
+            </tr>
 
-          <!-- Outros -->
-          <tr>
-            <td style="font-size:12px;">DISPLAY E OUTROS</td>
-            <td style="font-size:12px;border-right-color: transparent;">R$</td>
-            <td style="font-size:12px;" id="total_outros" class="text-right"><?php echo $data['internet']['meios']['outros']['real']; ?></td>
-            <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-            <td style="font-size:12px;text-align: right;" id="dollar_outros"><?php echo $data['internet']['meios']['outros']['dollar']; ?></td>
-            <td style="font-size:12px;text-align: right;" id="share_outros"><?php echo $data['internet']['meios']['outros']['share']; ?>%</td>
-          </tr>
+            <!-- Outros -->
+            <tr>
+              <td style="font-size:12px;">DISPLAY E OUTROS</td>
+              <td style="font-size:12px;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px;" id="total_outros" class="text-right"><?php echo $data['internet']['meios']['outros']['real']; ?></td>
+              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px;text-align: right;" id="dollar_outros"><?php echo $data['internet']['meios']['outros']['dollar']; ?></td>
+              <td style="font-size:12px;text-align: right;" id="share_outros"><?php echo $data['internet']['meios']['outros']['share']; ?>%</td>
+            </tr>
 
-          <!-- Social -->
-          <tr>
-            <td style="font-size:12px;">SOCIAL</td>
-            <td style="font-size:12px;border-right-color: transparent;">R$</td>
-            <td style="font-size:12px;" id="total_social" class="text-right"><?php echo $data['internet']['meios']['social']['real']; ?></td>
-            <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-            <td style="font-size:12px;text-align: right;" id="dollar_social"><?php echo $data['internet']['meios']['social']['dollar']; ?></td>
-            <td style="font-size:12px;text-align: right;" id="share_social"><?php echo $data['internet']['meios']['social']['share']; ?>%</td>
-          </tr>
+            <!-- Social -->
+            <tr>
+              <td style="font-size:12px;">SOCIAL</td>
+              <td style="font-size:12px;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px;" id="total_social" class="text-right"><?php echo $data['internet']['meios']['social']['real']; ?></td>
+              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px;text-align: right;" id="dollar_social"><?php echo $data['internet']['meios']['social']['dollar']; ?></td>
+              <td style="font-size:12px;text-align: right;" id="share_social"><?php echo $data['internet']['meios']['social']['share']; ?>%</td>
+            </tr>
 
-          <!-- Video -->
-          <tr>
-            <td style="font-size:12px;">VÍDEO</td>
-            <td style="font-size:12px;border-right-color: transparent;">R$</td>
-            <td style="font-size:12px;" id="total_video" class="text-right"><?php echo $data['internet']['meios']['video']['real']; ?></td>
-            <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-            <td style="font-size:12px;text-align: right;" id="dollar_video"><?php echo $data['internet']['meios']['video']['dollar']; ?></td>
-            <td style="font-size:12px;text-align: right;" id="share_video"><?php echo $data['internet']['meios']['video']['share']; ?>%</td>
-          </tr>
+            <!-- Video -->
+            <tr>
+              <td style="font-size:12px;">VÍDEO</td>
+              <td style="font-size:12px;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px;" id="total_video" class="text-right"><?php echo $data['internet']['meios']['video']['real']; ?></td>
+              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px;text-align: right;" id="dollar_video"><?php echo $data['internet']['meios']['video']['dollar']; ?></td>
+              <td style="font-size:12px;text-align: right;" id="share_video"><?php echo $data['internet']['meios']['video']['share']; ?>%</td>
+            </tr>
           <?php } ?>
           <!-- FIM MEIOS DE INTERNET -->
 
