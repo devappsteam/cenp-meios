@@ -19,7 +19,6 @@
  * Author URI:        https://devapps.com.br
  * Text Domain:       cenp-mean
  * 
- * GitHub Plugin URI: devappsteam/cenp-meios
  * GitHub Plugin URI: https://github.com/devappsteam/cenp-meios
  * 
  */
