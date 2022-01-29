@@ -25,7 +25,7 @@
             <td class="text-right"><?php echo $data['acre']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['acre']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['acre']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['acre']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -34,7 +34,7 @@
             <td class="text-right"><?php echo $data['alagoas']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['alagoas']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['alagoas']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['alagoas']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -43,7 +43,7 @@
             <td class="text-right"><?php echo $data['amapa']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['amapa']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['amapa']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['amapa']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -52,7 +52,7 @@
             <td class="text-right"><?php echo $data['amazonas']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['amazonas']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['amazonas']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['amazonas']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -61,7 +61,7 @@
             <td class="text-right"><?php echo $data['bahia']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['bahia']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['bahia']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['bahia']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -70,7 +70,7 @@
             <td class="text-right"><?php echo $data['ceara']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['ceara']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['ceara']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['ceara']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -79,7 +79,7 @@
             <td class="text-right"><?php echo $data['distrito_federal']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['distrito_federal']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['distrito_federal']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['distrito_federal']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -88,7 +88,7 @@
             <td class="text-right"><?php echo $data['espirito_santo']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['espirito_santo']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['espirito_santo']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['espirito_santo']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -97,7 +97,7 @@
             <td class="text-right"><?php echo $data['goias']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['goias']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['goias']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['goias']['share']; ?>%</td>
           </tr>
 
 
@@ -107,7 +107,7 @@
             <td class="text-right"><?php echo $data['maranhao']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['maranhao']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['maranhao']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['maranhao']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -116,7 +116,7 @@
             <td class="text-right"><?php echo $data['mato_grosso']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['mato_grosso']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['mato_grosso']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['mato_grosso']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -125,7 +125,7 @@
             <td class="text-right"><?php echo $data['mato_grosso_do_sul']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['mato_grosso_do_sul']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['mato_grosso_do_sul']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['mato_grosso_do_sul']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -134,7 +134,7 @@
             <td class="text-right"><?php echo $data['minas_gerais']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['minas_gerais']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['minas_gerais']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['minas_gerais']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -143,7 +143,7 @@
             <td class="text-right"><?php echo $data['para']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['para']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['para']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['para']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -152,7 +152,7 @@
             <td class="text-right"><?php echo $data['paraiba']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['paraiba']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['paraiba']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['paraiba']['share']; ?>%</td>
           </tr>
 
 
@@ -162,7 +162,7 @@
             <td class="text-right"><?php echo $data['parana']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['parana']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['parana']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['parana']['share']; ?>%</td>
           </tr>
 
 
@@ -172,7 +172,7 @@
             <td class="text-right"><?php echo $data['pernambuco']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['pernambuco']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['pernambuco']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['pernambuco']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -181,7 +181,7 @@
             <td class="text-right"><?php echo $data['piaui']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['piaui']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['piaui']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['piaui']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -190,7 +190,7 @@
             <td class="text-right"><?php echo $data['rio_de_janeiro']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['rio_de_janeiro']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['rio_de_janeiro']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['rio_de_janeiro']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -199,7 +199,7 @@
             <td class="text-right"><?php echo $data['rio_grande_do_norte']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['rio_grande_do_norte']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['rio_grande_do_norte']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['rio_grande_do_norte']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -208,7 +208,7 @@
             <td class="text-right"><?php echo $data['rio_grande_do_sul']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['rio_grande_do_sul']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['rio_grande_do_sul']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['rio_grande_do_sul']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -217,7 +217,7 @@
             <td class="text-right"><?php echo $data['rondonia']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['rondonia']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['rondonia']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['rondonia']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -226,7 +226,7 @@
             <td class="text-right"><?php echo $data['roraima']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['roraima']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['roraima']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['roraima']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -235,7 +235,7 @@
             <td class="text-right"><?php echo $data['santa_catarina']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['santa_catarina']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['santa_catarina']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['santa_catarina']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -244,7 +244,7 @@
             <td class="text-right"><?php echo $data['sao_paulo']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['sao_paulo']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['sao_paulo']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['sao_paulo']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -253,7 +253,7 @@
             <td class="text-right"><?php echo $data['sergipe']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['sergipe']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['sergipe']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['sergipe']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -262,7 +262,7 @@
             <td class="text-right"><?php echo $data['tocantins']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['tocantins']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['tocantins']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['tocantins']['share']; ?>%</td>
           </tr>
 
           <tr>
@@ -271,7 +271,7 @@
             <td class="text-right"><?php echo $data['brasil']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['brasil']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['brasil']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['brasil']['share']; ?>%</td>
           </tr>
         </tbody>
         <tfoot>

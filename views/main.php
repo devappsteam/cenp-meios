@@ -1,5 +1,9 @@
 <div class="cm-wrapper">
-  <div class="cm-header"></div>
+  <div class="cm-header">
+    <h1 class="cm-header__title">
+      Cenp-Meios<br><?php echo $title; ?>
+    </h1>
+  </div>
   <div class="cm-tools">
     <div class="cm-tools__items">
       <a href="/cenp-meio" class="cm-btn" <?php echo (!$is_ranking) ? 'id="cm_meios"' : '' ?> title="Painéis">Painéis</a>
@@ -33,17 +37,16 @@
         </button>
       </div>
       <div class="cm-modal__body">
+        <p class="cm-modal-legend"><?php echo __('Clique para selecionar um painel/ranking.', CM_TEXT_DOMAIN); ?></p>
         <ul class="cm-list">
           <?php
           foreach ($categories as $category) {
-            if ($category->posts){
-				//if (!$is_ranking) {
-          ?> 
+            if ($category->posts) {
+          ?>
               <li class="cm-list__item cm-bold cm-my-10">
                 <?php echo $category->name; ?>
               </li>
               <?php
-				//}
               foreach ($category->posts as $post) {
                 $meta = get_post_meta($post->ID, '_meios', true);
                 if ($is_ranking) {

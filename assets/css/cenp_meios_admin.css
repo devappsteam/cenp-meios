@@ -2,28 +2,30 @@ body {
   background-color: #f0f0f1 !important;
 }
 
-#sample-permalink a, .row-title, .publish a {
+#sample-permalink a,
+.row-title,
+.publish a {
   color: #2271b1 !important;
 }
 
 .alert {
-  font-size: 16px !important;
+  font-size  : 16px !important;
   line-height: 1.7 !important;
 }
 
 .alert-green {
   background-color: #f8f8f8 !important;
-  color: #32373c !important;
+  color           : #32373c !important;
 }
 
 #meta_box_cm {
-  position: relative !important;
-  min-width: 255px !important;
+  position        : relative !important;
+  min-width       : 255px !important;
   background-color: #fff !important;
-  border-radius: 0.35em !important;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 6%), 0 1px 3px rgb(0 0 0 / 10%) !important;
-  border: none !important;
-  color: #32373c !important;
+  border-radius   : 0.35em !important;
+  box-shadow      : 0 1px 2px rgb(0 0 0 / 6%), 0 1px 3px rgb(0 0 0 / 10%) !important;
+  border          : none !important;
+  color           : #32373c !important;
 }
 
 .form-label {
@@ -31,21 +33,21 @@ body {
 }
 
 .form-control {
-  font-size: initial !important;
-  box-shadow: none !important;
-  transition: all 200ms ease-in-out;
-  border: 1px solid #dfdfdf !important;
-  color: #32373c !important;
-  outline: none;
-  line-height: 1.75em;
+  font-size   : initial !important;
+  box-shadow  : none !important;
+  transition  : all 200ms ease-in-out;
+  border      : 1px solid #dfdfdf !important;
+  color       : #32373c !important;
+  outline     : none;
+  line-height : 1.75em;
   padding-left: 0.75em;
-  width: 100%;
+  width       : 100%;
 }
 
 .custom-file-label {
-  height: 38px;
+  height     : 38px;
   line-height: 1.5;
-  font-size: 1rem !important;
+  font-size  : 1rem !important;
 }
 
 #show_json_error {
@@ -54,12 +56,12 @@ body {
 }
 
 #show_json_error {
-  background: #303030;
-  color: #f1f1f1;
-  padding: 10px 16px;
-  border-radius: 2px;
-  border-top: 4px solid #00aeef;
+  background     : #303030;
+  color          : #f1f1f1;
+  padding        : 10px 16px;
+  border-radius  : 2px;
+  border-top     : 4px solid #00aeef;
   -moz-box-shadow: inset 0 0 10px #000;
-  box-shadow: inset 0 0 10px #000;
-  counter-reset: line !important;
+  box-shadow     : inset 0 0 10px #000;
+  counter-reset  : line !important;
 }

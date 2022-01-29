@@ -18,7 +18,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
    */
   public function enqueue_script()
   {
-	wp_enqueue_script('cm_google_chart', 'https://www.gstatic.com/charts/loader.js', array('jquery'), CM_VERSION, false);
+    wp_enqueue_script('cm_google_chart', 'https://www.gstatic.com/charts/loader.js', array('jquery'), CM_VERSION, false);
     wp_enqueue_style('cm_main', plugins_url('assets/css/cenp_meios.css', CM_PATH_ROOT), array(), CM_VERSION, 'all');
     wp_enqueue_script('cm_main', plugins_url('assets/js/cenp_meios.js', CM_PATH_ROOT), array('jquery', 'cm_google_chart'), CM_VERSION, true);
     wp_localize_script('cm_main', 'cenp_obj', array(
@@ -33,38 +33,41 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     ), $attr);
 
     $is_ranking = ($attributes['category'] == 'ranking') ? true : false;
-	if(!$is_ranking){
-		$taxonomy = 'cenp-category';
-		$categories = $this->getTaxonomies($taxonomy);
-	}else{
-		$taxonomy = 'cenp-ranking';
-		$categories = $this->getRankingsByTaxonomy();
-	}
+    if (!$is_ranking) {
+      $title = "Painéis";
+      $taxonomy = 'cenp-category';
+      $categories = $this->getTaxonomies($taxonomy);
+    } else {
+      $title = "Rankings";
+      $taxonomy = 'cenp-ranking';
+      $categories = $this->getRankingsByTaxonomy();
+    }
     if (!empty($categories)) {
       foreach ($categories as $key => $value) {
         $categories[$key]->posts = $this->getPostsByTaxonomyId($value->term_id, $taxonomy);
       }
     }
-	  
-    Helpers::load_view('main', compact('is_ranking', 'categories', 'posts'));
+
+    Helpers::load_view('main', compact('is_ranking', 'categories', 'posts', 'title'));
   }
-  
-  public function getRankingsByTaxonomy(){
-	  return get_terms(array(
+
+  public function getRankingsByTaxonomy()
+  {
+    return get_terms(array(
       'taxonomy'         => 'cenp-ranking',
       'hide_empty'     => true,
       'orderBy'        => 'name',
       'order'            => 'DESC',
-	  'meta_query' => array(
-             array(
-                'key'       => 'show_modal',
-                'value'     => 'yes',
-                'compare'   => '='
-             )
+      'meta_query' => array(
+        array(
+          'key'       => 'show_modal',
+          'value'     => 'yes',
+          'compare'   => '='
+        )
       )
     ));
   }
-	
+
   public function getTaxonomies(string $taxonomy)
   {
     return get_terms(array(
@@ -87,25 +90,25 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
             'field' => 'term_id',
           )
         ),
-		'orderby' => 'date',
-		'order' => 'asc',
+        'orderby' => 'date',
+        'order' => 'asc',
       )
     );
-	if(empty($posts)){
-		return array();
-	}
-	 $data = array();
-	foreach($posts as $post){
-		array_push($data, (object) array(
-			'ID' => $post->ID,
-			'post_title' => $post->post_title,
-			'period'	=> get_post_meta($post->ID, '_meios', true)['cm_period']
-		));
-	}
-	usort($data, function($a, $b) {
-		return $b->period <=> $a->period;
-	});
-	return $data;
+    if (empty($posts)) {
+      return array();
+    }
+    $data = array();
+    foreach ($posts as $post) {
+      array_push($data, (object) array(
+        'ID' => $post->ID,
+        'post_title' => $post->post_title,
+        'period'  => get_post_meta($post->ID, '_meios', true)['cm_period']
+      ));
+    }
+    usort($data, function ($a, $b) {
+      return $b->period <=> $a->period;
+    });
+    return $data;
   }
 
   public function find_post_by_id()
@@ -161,7 +164,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         }
         break;
       case 2:
-		switch ($post_meta['cm_period']) {
+        switch ($post_meta['cm_period']) {
           case 1:
             $table_title = 'JAN-MAR' . '/' . $year;
             break;
@@ -178,7 +181,7 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
         $html .= $this->render_ranking($post, $post_meta);
         break;
       case 3:
-			switch ($post_meta['cm_period']) {
+        switch ($post_meta['cm_period']) {
           case 1:
             $table_title = 'JAN-MAR' . '/' . $year;
             break;

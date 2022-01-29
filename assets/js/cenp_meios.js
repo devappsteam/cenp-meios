@@ -30,7 +30,7 @@
         }
       });
     });
-	  
+
     var sidebar = jQuery('.cm-main').offset().top;
     $(window).scroll(function (event) {
       var scroll = $(window).scrollTop();
@@ -65,9 +65,9 @@
       window.location.href = $(this).data('href');
     }
   });
-	
-  $(document).ready(function(){
-	  jQuery('.cm-list__link').first().click();
+
+  $(document).ready(function () {
+    jQuery('.cm-list__link').first().click();
   });
 
 })(jQuery);

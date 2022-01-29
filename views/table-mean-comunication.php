@@ -29,7 +29,7 @@
             <td id="total_cinema" class="text-right"><?php echo $data['cinema']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_cinema"><?php echo $data['cinema']['dollar']; ?></td>
-            <td class="text-center" id="share_cinema"><?php echo $data['cinema']['share']; ?>%</td>
+            <td class="text-right" id="share_cinema"><?php echo $data['cinema']['share']; ?>%</td>
             <!-- COM GRUPO -->
           </tr>
           <tr>
@@ -39,57 +39,57 @@
             <td id="total_internet" class="text-right"><?php echo $data['internet']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_internet"><?php echo $data['internet']['dollar']; ?></td>
-            <td class="text-center" id="share_internet"><?php echo $data['internet']['share']; ?>%</td>
+            <td class="text-right" id="share_internet"><?php echo $data['internet']['share']; ?>%</td>
           </tr>
 
 
           <!-- MEIO DE INTERNET -->
           <?php if (isset($data['internet']['meios'])) { ?>
             <tr>
-              <td style="font-size:12px;">ÁUDIO</td>
-              <td style="font-size:12px;border-right-color: transparent;">R$</td>
-              <td style="font-size:12px;" id="total_audio" class="text-right"><?php echo $data['internet']['meios']['audio']['real']; ?></td>
-              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-              <td style="font-size:12px;text-align: right;" id="dollar_audio"><?php echo $data['internet']['meios']['audio']['dollar']; ?></td>
-              <td style="font-size:12px;text-align: right;" id="share_audio"><?php echo $data['internet']['meios']['audio']['share']; ?>%</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;">ÁUDIO</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;" id="total_audio" class="text-right"><?php echo $data['internet']['meios']['audio']['real']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="dollar_audio"><?php echo $data['internet']['meios']['audio']['dollar']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="share_audio"><?php echo $data['internet']['meios']['audio']['share']; ?>%</td>
             </tr>
             <tr>
-              <td style="font-size:12px;">BUSCA</td>
-              <td style="font-size:12px;border-right-color: transparent;">R$</td>
-              <td style="font-size:12px;" id="total_busca" class="text-right"><?php echo $data['internet']['meios']['busca']['real']; ?></td>
-              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-              <td style="font-size:12px;text-align: right;" id="dollar_busca"><?php echo $data['internet']['meios']['busca']['dollar']; ?></td>
-              <td style="font-size:12px;text-align: right;" id="share_busca"><?php echo $data['internet']['meios']['busca']['share']; ?>%</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;">BUSCA</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;" id="total_busca" class="text-right"><?php echo $data['internet']['meios']['busca']['real']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="dollar_busca"><?php echo $data['internet']['meios']['busca']['dollar']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="share_busca"><?php echo $data['internet']['meios']['busca']['share']; ?>%</td>
             </tr>
 
             <!-- Outros -->
             <tr>
-              <td style="font-size:12px;">DISPLAY E OUTROS</td>
-              <td style="font-size:12px;border-right-color: transparent;">R$</td>
-              <td style="font-size:12px;" id="total_outros" class="text-right"><?php echo $data['internet']['meios']['outros']['real']; ?></td>
-              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-              <td style="font-size:12px;text-align: right;" id="dollar_outros"><?php echo $data['internet']['meios']['outros']['dollar']; ?></td>
-              <td style="font-size:12px;text-align: right;" id="share_outros"><?php echo $data['internet']['meios']['outros']['share']; ?>%</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;">DISPLAY E OUTROS</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;" id="total_outros" class="text-right"><?php echo $data['internet']['meios']['outros']['real']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="dollar_outros"><?php echo $data['internet']['meios']['outros']['dollar']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="share_outros"><?php echo $data['internet']['meios']['outros']['share']; ?>%</td>
             </tr>
 
             <!-- Social -->
             <tr>
-              <td style="font-size:12px;">SOCIAL</td>
-              <td style="font-size:12px;border-right-color: transparent;">R$</td>
-              <td style="font-size:12px;" id="total_social" class="text-right"><?php echo $data['internet']['meios']['social']['real']; ?></td>
-              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-              <td style="font-size:12px;text-align: right;" id="dollar_social"><?php echo $data['internet']['meios']['social']['dollar']; ?></td>
-              <td style="font-size:12px;text-align: right;" id="share_social"><?php echo $data['internet']['meios']['social']['share']; ?>%</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;">SOCIAL</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;" id="total_social" class="text-right"><?php echo $data['internet']['meios']['social']['real']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="dollar_social"><?php echo $data['internet']['meios']['social']['dollar']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="share_social"><?php echo $data['internet']['meios']['social']['share']; ?>%</td>
             </tr>
 
             <!-- Video -->
             <tr>
-              <td style="font-size:12px;">VÍDEO</td>
-              <td style="font-size:12px;border-right-color: transparent;">R$</td>
-              <td style="font-size:12px;" id="total_video" class="text-right"><?php echo $data['internet']['meios']['video']['real']; ?></td>
-              <td style="font-size:12px;text-align: left;border-right-color: transparent;">$</td>
-              <td style="font-size:12px;text-align: right;" id="dollar_video"><?php echo $data['internet']['meios']['video']['dollar']; ?></td>
-              <td style="font-size:12px;text-align: right;" id="share_video"><?php echo $data['internet']['meios']['video']['share']; ?>%</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;">VÍDEO</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;border-right-color: transparent;">R$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;" id="total_video" class="text-right"><?php echo $data['internet']['meios']['video']['real']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: left;border-right-color: transparent;">$</td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="dollar_video"><?php echo $data['internet']['meios']['video']['dollar']; ?></td>
+              <td style="font-size:12px !important; background: #f7f7f7; font-style: italic;text-align: right;" id="share_video"><?php echo $data['internet']['meios']['video']['share']; ?>%</td>
             </tr>
           <?php } ?>
           <!-- FIM MEIOS DE INTERNET -->
@@ -101,7 +101,7 @@
             <td id="total_jornal" class="text-right"><?php echo $data['jornal']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_jornal"><?php echo $data['jornal']['dollar']; ?></td>
-            <td class="text-center" id="share_jornal"><?php echo $data['jornal']['share']; ?>%</td>
+            <td class="text-right" id="share_jornal"><?php echo $data['jornal']['share']; ?>%</td>
           </tr>
           <!-- Midia externa -->
           <tr>
@@ -110,7 +110,7 @@
             <td id="total_ext" class="text-right"><?php echo $data['midia_exterior']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_ext"><?php echo $data['midia_exterior']['dollar']; ?></td>
-            <td class="text-center" id="share_ext"><?php echo $data['midia_exterior']['share']; ?>%</td>
+            <td class="text-right" id="share_ext"><?php echo $data['midia_exterior']['share']; ?>%</td>
           </tr>
           <!-- Radio -->
           <tr>
@@ -119,7 +119,7 @@
             <td id="total_radio" class="text-right"><?php echo $data['radio']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_radio"><?php echo $data['radio']['dollar']; ?></td>
-            <td class="text-center" id="share_radio"><?php echo $data['radio']['share']; ?>%</td>
+            <td class="text-right" id="share_radio"><?php echo $data['radio']['share']; ?>%</td>
           </tr>
 
           <!-- Revista -->
@@ -129,7 +129,7 @@
             <td id="total_revista" class="text-right"><?php echo $data['revista']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_revista"><?php echo $data['revista']['dollar']; ?></td>
-            <td class="text-center" id="share_revista"><?php echo $data['revista']['share']; ?>%</td>
+            <td class="text-right" id="share_revista"><?php echo $data['revista']['share']; ?>%</td>
           </tr>
 
           <!-- Tv Aberta -->
@@ -139,7 +139,7 @@
             <td id="total_aberta" class="text-right"><?php echo $data['tv_aberta']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_aberta"><?php echo $data['tv_aberta']['dollar']; ?></td>
-            <td class="text-center" id="share_aberta"><?php echo $data['tv_aberta']['share']; ?>%</td>
+            <td class="text-right" id="share_aberta"><?php echo $data['tv_aberta']['share']; ?>%</td>
           </tr>
 
           <!-- TV Assinada -->
@@ -149,7 +149,7 @@
             <td id="total_assinada" class="text-right"><?php echo $data['tv_assinada']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right" id="dollar_assinada"><?php echo $data['tv_assinada']['dollar']; ?></td>
-            <td class="text-center" id="share_assinada"><?php echo $data['tv_assinada']['share']; ?>%</td>
+            <td class="text-right" id="share_assinada"><?php echo $data['tv_assinada']['share']; ?>%</td>
           </tr>
         </tbody>
         <tfoot>
@@ -173,74 +173,74 @@
   <div class="cm-container">
     <div class="cm-chart" id="cenp-chart-todos-meios"></div>
     <script defer>
-			(function($) {
-				$(document).ready(function(){
-					setTimeout(function(){
-						google.charts.load("current", {
-							packages: ["corechart"]
-						});
-						google.charts.setOnLoadCallback(drawChart);
+      (function($) {
+        $(document).ready(function() {
+          setTimeout(function() {
+            google.charts.load("current", {
+              packages: ["corechart"]
+            });
+            google.charts.setOnLoadCallback(drawChart);
 
-						function drawChart() {
-							var data = google.visualization.arrayToDataTable([
-								['Task', 'Hours per Day'],
-								['Cinema', <?php echo  str_replace('.', '', $data['cinema']['real']); ?>],
-								['Internet', <?php echo str_replace('.', '', $data['internet']['real']); ?>],
-								['Jornal', <?php echo  str_replace('.', '', $data['jornal']['real']); ?>],
-								['OOH/MÍDIA exterior', <?php echo str_replace('.', '', $data['midia_exterior']['real']); ?>],
-								['Rádio', <?php echo str_replace('.', '', $data['radio']['real']); ?>],
-								['Revista', <?php echo str_replace('.', '', $data['revista']['real']); ?>],
-								['Televisão aberta', <?php echo str_replace('.', '', $data['tv_aberta']['real']); ?>],
-								['Televisão por assinatura', <?php echo str_replace('.', '', $data['tv_assinada']['real']); ?>],
-							]);
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable([
+                ['Task', 'Hours per Day'],
+                ['Cinema', <?php echo  str_replace('.', '', $data['cinema']['real']); ?>],
+                ['Internet', <?php echo str_replace('.', '', $data['internet']['real']); ?>],
+                ['Jornal', <?php echo  str_replace('.', '', $data['jornal']['real']); ?>],
+                ['OOH/MÍDIA exterior', <?php echo str_replace('.', '', $data['midia_exterior']['real']); ?>],
+                ['Rádio', <?php echo str_replace('.', '', $data['radio']['real']); ?>],
+                ['Revista', <?php echo str_replace('.', '', $data['revista']['real']); ?>],
+                ['Televisão aberta', <?php echo str_replace('.', '', $data['tv_aberta']['real']); ?>],
+                ['Televisão por assinatura', <?php echo str_replace('.', '', $data['tv_assinada']['real']); ?>],
+              ]);
 
-							var options = {
-								pieSliceTextStyle: {
-									fontSize: 8
-								},
-								sliceVisibilityThreshold: 0,
-								title: "",
-								enableInteractivity: false,
-								is3D: true,
-								pieSliceText: 'none',
-								chartArea: {
-									width: '100%',
-									height: '100%'
-								},
-								legend: {
-									position: 'labeled',
-									alignment: 'center',
-									textStyle: {
-										fontSize: 11,
-										bold: true
-									},
-								},
-								tooltip: {
-									showColorCode: true,
-									text: 'value',
-								},
-							};
+              var options = {
+                pieSliceTextStyle: {
+                  fontSize: 8
+                },
+                sliceVisibilityThreshold: 0,
+                title: "",
+                enableInteractivity: false,
+                is3D: true,
+                pieSliceText: 'none',
+                chartArea: {
+                  width: '100%',
+                  height: '100%'
+                },
+                legend: {
+                  position: 'labeled',
+                  alignment: 'center',
+                  textStyle: {
+                    fontSize: 11,
+                    bold: true
+                  },
+                },
+                tooltip: {
+                  showColorCode: true,
+                  text: 'value',
+                },
+              };
 
-							var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-todos-meios"));
-							chart.draw(data, options);
+              var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-todos-meios"));
+              chart.draw(data, options);
 
-							jQuery(window).resize(function() {
-								chart.draw(data, options);
-								jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-								jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-								jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-								jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-							});
+              jQuery(window).resize(function() {
+                chart.draw(data, options);
+                jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+                jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+                jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+                jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+              });
 
-							jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-							jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-							jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-							jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+              jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+              jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+              jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+              jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
 
-						}
-					},500);
-		  		});
-		  	})(jQuery);
+            }
+          }, 500);
+        });
+      })(jQuery);
     </script>
   </div>
 </div>
@@ -252,61 +252,61 @@
     <div class="cm-container">
       <div class="cm-chart" id="cenp-chart-internet"></div>
       <script defer>
-			 (function($) {
-				$(document).ready(function(){
-					setTimeout(function(){
-						google.charts.load("current", {
-						  packages: ["corechart"]
-						});
-						google.charts.setOnLoadCallback(drawChart);
+        (function($) {
+          $(document).ready(function() {
+            setTimeout(function() {
+              google.charts.load("current", {
+                packages: ["corechart"]
+              });
+              google.charts.setOnLoadCallback(drawChart);
 
-						function drawChart() {
-						  var data = google.visualization.arrayToDataTable([
-							['Task', 'Hours per Day'],
-							['Áudio', <?php echo  str_replace('.', '', $data['internet']['meios']['audio']['real']); ?>],
-							['Busca', <?php echo  str_replace('.', '', $data['internet']['meios']['busca']['real']); ?>],
-							['Display e Outros', <?php echo  str_replace('.', '', $data['internet']['meios']['outros']['real']); ?>],
-							['Social', <?php echo  str_replace('.', '', $data['internet']['meios']['social']['real']); ?>],
-							['Vídeos', <?php echo  str_replace('.', '', $data['internet']['meios']['video']['real']); ?>]
-						  ]);
+              function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                  ['Task', 'Hours per Day'],
+                  ['Áudio', <?php echo  str_replace('.', '', $data['internet']['meios']['audio']['real']); ?>],
+                  ['Busca', <?php echo  str_replace('.', '', $data['internet']['meios']['busca']['real']); ?>],
+                  ['Display e Outros', <?php echo  str_replace('.', '', $data['internet']['meios']['outros']['real']); ?>],
+                  ['Social', <?php echo  str_replace('.', '', $data['internet']['meios']['social']['real']); ?>],
+                  ['Vídeos', <?php echo  str_replace('.', '', $data['internet']['meios']['video']['real']); ?>]
+                ]);
 
-						  var options = {
-							pieSliceTextStyle: {
-							  fontSize: 8
-							},
-							sliceVisibilityThreshold: 0,
-							title: "",
-							is3D: true,
-							pieSliceText: 'none',
-							chartArea: {
-							  width: '100%',
-							  height: '100%'
-							},
-							legend: {
+                var options = {
+                  pieSliceTextStyle: {
+                    fontSize: 8
+                  },
+                  sliceVisibilityThreshold: 0,
+                  title: "",
+                  is3D: true,
+                  pieSliceText: 'none',
+                  chartArea: {
+                    width: '100%',
+                    height: '100%'
+                  },
+                  legend: {
 
-							  position: 'labeled',
-							  alignment: 'center',
-							  textStyle: {
-								fontSize: 11,
-								bold: true
-							  },
-							},
-							tooltip: {
-							  showColorCode: true,
-							  text: 'percentage'
-							},
-						  };
+                    position: 'labeled',
+                    alignment: 'center',
+                    textStyle: {
+                      fontSize: 11,
+                      bold: true
+                    },
+                  },
+                  tooltip: {
+                    showColorCode: true,
+                    text: 'percentage'
+                  },
+                };
 
-						  var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-internet"));
-						  chart.draw(data, options);
+                var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-internet"));
+                chart.draw(data, options);
 
-						  $(window).resize(function() {
-							chart.draw(data, options);
-						  });
-						}
-					},500);
-				});
-			})(jQuery); 
+                $(window).resize(function() {
+                  chart.draw(data, options);
+                });
+              }
+            }, 500);
+          });
+        })(jQuery);
       </script>
     </div>
   </div>

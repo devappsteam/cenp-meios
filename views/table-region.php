@@ -26,7 +26,7 @@
             <td class="text-right"><?php echo $data['centro_oeste']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['centro_oeste']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['centro_oeste']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['centro_oeste']['share']; ?>%</td>
             <!-- COM GRUPO -->
           </tr>
           <tr>
@@ -35,7 +35,7 @@
             <td class="text-right"><?php echo $data['nordeste']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['nordeste']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['nordeste']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['nordeste']['share']; ?>%</td>
           </tr>
           <tr>
             <td style="text-transform: uppercase;">NORTE</td>
@@ -43,7 +43,7 @@
             <td class="text-right"><?php echo $data['norte']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['norte']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['norte']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['norte']['share']; ?>%</td>
           </tr>
           <tr>
             <td style="text-transform: uppercase;">SUDESTE</td>
@@ -51,7 +51,7 @@
             <td class="text-right"><?php echo $data['sudeste']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['sudeste']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['sudeste']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['sudeste']['share']; ?>%</td>
           </tr>
           <tr>
             <td style="text-transform: uppercase;">SUL</td>
@@ -59,7 +59,7 @@
             <td class="text-right"><?php echo $data['sul']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['sul']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['sul']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['sul']['share']; ?>%</td>
           </tr>
           <tr>
             <td style="text-transform: uppercase;">MERC. NACIONAL<sup>[SOURCE_MERCADO]</sup></td>
@@ -67,7 +67,7 @@
             <td class="text-right"><?php echo $data['merc_nascional']['real']; ?></td>
             <td style="border-right-color:transparent;text-align: left;">$</td>
             <td class="text-right"><?php echo $data['merc_nascional']['dollar']; ?></td>
-            <td class="text-center"><?php echo $data['merc_nascional']['share']; ?>%</td>
+            <td class="text-right"><?php echo $data['merc_nascional']['share']; ?>%</td>
           </tr>
         </tbody>
         <tfoot>
