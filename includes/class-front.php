@@ -18,8 +18,8 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
    */
   public function enqueue_script()
   {
+	wp_enqueue_script('cm_google_chart', 'https://www.gstatic.com/charts/loader.js', array('jquery'), CM_VERSION, false);
     wp_enqueue_style('cm_main', plugins_url('assets/css/cenp_meios.css', CM_PATH_ROOT), array(), CM_VERSION, 'all');
-    wp_enqueue_script('cm_google_chart', '//www.gstatic.com/charts/loader.js', array(), CM_VERSION, true);
     wp_enqueue_script('cm_main', plugins_url('assets/js/cenp_meios.js', CM_PATH_ROOT), array('jquery', 'cm_google_chart'), CM_VERSION, true);
     wp_localize_script('cm_main', 'cenp_obj', array(
       'ajax_url' => admin_url('admin-ajax.php')
@@ -87,8 +87,8 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
             'field' => 'term_id',
           )
         ),
-		'orderby' => 'title',
-		'order' => 'DESC',
+		'orderby' => 'date',
+		'order' => 'asc',
       )
     );
 	if(empty($posts)){

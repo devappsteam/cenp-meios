@@ -86,65 +86,67 @@
 <div class="cm-section cm-section--white">
   <div class="cm-container">
     <div class="cm-chart" id="cenp-chart-region"></div>
-    <script>
-      (function($) {
-        $(function() {
-          google.charts.load("current", {
-            packages: ["corechart"]
-          });
-          google.charts.setOnLoadCallback(drawChart);
+    <script defer>
+			(function($) {
+				$(document).ready(function(){
+					setTimeout(function(){
+			  			google.charts.load("current", {
+							packages: ["corechart"]
+						  });
+					  google.charts.setOnLoadCallback(drawChart);
 
-          function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-              ['Task', 'Hours per Day'],
-              ['CENTRO-OESTE', <?php echo str_replace('.', '', $data['centro_oeste']['real']); ?>],
-              ['NORDESTE', <?php echo str_replace('.', '', $data['nordeste']['real']); ?>],
-              ['NORTE', <?php echo str_replace('.', '', $data['norte']['real']); ?>],
-              ['SUDESTE', <?php echo str_replace('.', '', $data['sudeste']['real']); ?>],
-              ['SUL', <?php echo str_replace('.', '', $data['sul']['real']); ?>],
-              ['MERC. NACIONAL', <?php echo str_replace('.', '', $data['merc_nascional']['real']); ?>]
-            ]);
+					  function drawChart() {
+						var data = google.visualization.arrayToDataTable([
+						  ['Task', 'Hours per Day'],
+						  ['CENTRO-OESTE', <?php echo str_replace('.', '', $data['centro_oeste']['real']); ?>],
+						  ['NORDESTE', <?php echo str_replace('.', '', $data['nordeste']['real']); ?>],
+						  ['NORTE', <?php echo str_replace('.', '', $data['norte']['real']); ?>],
+						  ['SUDESTE', <?php echo str_replace('.', '', $data['sudeste']['real']); ?>],
+						  ['SUL', <?php echo str_replace('.', '', $data['sul']['real']); ?>],
+						  ['MERC. NACIONAL', <?php echo str_replace('.', '', $data['merc_nascional']['real']); ?>]
+						]);
 
-            var options = {
-              pieSliceTextStyle: {
-                fontSize: 8
-              },
-              sliceVisibilityThreshold: 0,
-              title: "",
-              is3D: true,
-              pieSliceText: 'none',
-              enableInteractivity: false,
-              chartArea: {
-                width: '100%',
-                height: '100%'
-              },
-              legend: {
+						var options = {
+						  pieSliceTextStyle: {
+							fontSize: 8
+						  },
+						  sliceVisibilityThreshold: 0,
+						  title: "",
+						  is3D: true,
+						  pieSliceText: 'none',
+						  enableInteractivity: false,
+						  chartArea: {
+							width: '100%',
+							height: '100%'
+						  },
+						  legend: {
 
-                position: 'labeled',
-                alignment: 'center',
-                textStyle: {
-                  fontSize: 11,
-                  bold: true
-                },
-              },
-              tooltip: {
-                showColorCode: true,
-                text: 'percentage'
-              },
-            };
+							position: 'labeled',
+							alignment: 'center',
+							textStyle: {
+							  fontSize: 11,
+							  bold: true
+							},
+						  },
+						  tooltip: {
+							showColorCode: true,
+							text: 'percentage'
+						  },
+						};
 
-            var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-region"));
-            chart.draw(data, options);
+						var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-region"));
+						chart.draw(data, options);
 
-            jQuery("#cenp-chart-region > div > div:nth-child(1) > div > svg > g:nth-child(9) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>MERC. NACIONAL<tspan dy ="-10" font-size="8">[SOURCE_MERCADO]</tspan></tspan>`);
+						jQuery("#cenp-chart-region > div > div:nth-child(1) > div > svg > g:nth-child(9) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>MERC. NACIONAL<tspan dy ="-10" font-size="8">[SOURCE_MERCADO]</tspan></tspan>`);
 
-            $(window).resize(function() {
-              chart.draw(data, options);
-              jQuery("#cenp-chart-region > div > div:nth-child(1) > div > svg > g:nth-child(9) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>MERC. NACIONAL<tspan dy ="-10" font-size="8">[SOURCE_MERCADO]</tspan></tspan>`);
-            });
-          }
-        });
-      })(jQuery);
+						$(window).resize(function() {
+						  chart.draw(data, options);
+						  jQuery("#cenp-chart-region > div > div:nth-child(1) > div > svg > g:nth-child(9) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>MERC. NACIONAL<tspan dy ="-10" font-size="8">[SOURCE_MERCADO]</tspan></tspan>`);
+						});
+					  }
+					},500);
+				});
+		  })(jQuery);
     </script>
   </div>
 </div>

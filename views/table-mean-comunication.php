@@ -172,73 +172,75 @@
   </div>
   <div class="cm-container">
     <div class="cm-chart" id="cenp-chart-todos-meios"></div>
-    <script>
-      (function($) {
-        $(function() {
-          google.charts.load("current", {
-            packages: ["corechart"]
-          });
-          google.charts.setOnLoadCallback(drawChart);
+    <script defer>
+			(function($) {
+				$(document).ready(function(){
+					setTimeout(function(){
+						google.charts.load("current", {
+							packages: ["corechart"]
+						});
+						google.charts.setOnLoadCallback(drawChart);
 
-          function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-              ['Task', 'Hours per Day'],
-              ['Cinema', <?php echo  str_replace('.', '', $data['cinema']['real']); ?>],
-              ['Internet', <?php echo str_replace('.', '', $data['internet']['real']); ?>],
-              ['Jornal', <?php echo  str_replace('.', '', $data['jornal']['real']); ?>],
-              ['OOH/MÍDIA exterior', <?php echo str_replace('.', '', $data['midia_exterior']['real']); ?>],
-              ['Rádio', <?php echo str_replace('.', '', $data['radio']['real']); ?>],
-              ['Revista', <?php echo str_replace('.', '', $data['revista']['real']); ?>],
-              ['Televisão aberta', <?php echo str_replace('.', '', $data['tv_aberta']['real']); ?>],
-              ['Televisão por assinatura', <?php echo str_replace('.', '', $data['tv_assinada']['real']); ?>],
-            ]);
+						function drawChart() {
+							var data = google.visualization.arrayToDataTable([
+								['Task', 'Hours per Day'],
+								['Cinema', <?php echo  str_replace('.', '', $data['cinema']['real']); ?>],
+								['Internet', <?php echo str_replace('.', '', $data['internet']['real']); ?>],
+								['Jornal', <?php echo  str_replace('.', '', $data['jornal']['real']); ?>],
+								['OOH/MÍDIA exterior', <?php echo str_replace('.', '', $data['midia_exterior']['real']); ?>],
+								['Rádio', <?php echo str_replace('.', '', $data['radio']['real']); ?>],
+								['Revista', <?php echo str_replace('.', '', $data['revista']['real']); ?>],
+								['Televisão aberta', <?php echo str_replace('.', '', $data['tv_aberta']['real']); ?>],
+								['Televisão por assinatura', <?php echo str_replace('.', '', $data['tv_assinada']['real']); ?>],
+							]);
 
-            var options = {
-              pieSliceTextStyle: {
-                fontSize: 8
-              },
-              sliceVisibilityThreshold: 0,
-              title: "",
-              enableInteractivity: false,
-              is3D: true,
-              pieSliceText: 'none',
-              chartArea: {
-                width: '100%',
-                height: '100%'
-              },
-              legend: {
-                position: 'labeled',
-                alignment: 'center',
-                textStyle: {
-                  fontSize: 11,
-                  bold: true
-                },
-              },
-              tooltip: {
-                showColorCode: true,
-                text: 'value',
-              },
-            };
+							var options = {
+								pieSliceTextStyle: {
+									fontSize: 8
+								},
+								sliceVisibilityThreshold: 0,
+								title: "",
+								enableInteractivity: false,
+								is3D: true,
+								pieSliceText: 'none',
+								chartArea: {
+									width: '100%',
+									height: '100%'
+								},
+								legend: {
+									position: 'labeled',
+									alignment: 'center',
+									textStyle: {
+										fontSize: 11,
+										bold: true
+									},
+								},
+								tooltip: {
+									showColorCode: true,
+									text: 'value',
+								},
+							};
 
-            var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-todos-meios"));
-            chart.draw(data, options);
+							var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-todos-meios"));
+							chart.draw(data, options);
 
-            jQuery(window).resize(function() {
-              chart.draw(data, options);
-              jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-              jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-              jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-              jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-            });
+							jQuery(window).resize(function() {
+								chart.draw(data, options);
+								jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+								jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+								jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+								jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+							});
 
-            jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-            jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-            jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
-            jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+							jQuery('#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(3) > g:nth-child(1) > text').html(`<tspan>Internet<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+							jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(5) > g:nth-child(1) > text").html(`<tspan>Jornal<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+							jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(11) > g:nth-child(1) > text").html(`<tspan>Revista<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
+							jQuery("#cenp-chart-todos-meios svg > g:nth-child(11) > g:nth-child(15) > g:nth-child(1) > text").html(`<tspan>Televisão por Assinatura<tspan dy ="-10" font-size="8">[SOURCE_MIDIA]</tspan></tspan>`);
 
-          }
-        });
-      })(jQuery);
+						}
+					},500);
+		  		});
+		  	})(jQuery);
     </script>
   </div>
 </div>
@@ -249,60 +251,62 @@
     </div>
     <div class="cm-container">
       <div class="cm-chart" id="cenp-chart-internet"></div>
-      <script>
-        (function($) {
-          $(function() {
-            google.charts.load("current", {
-              packages: ["corechart"]
-            });
-            google.charts.setOnLoadCallback(drawChart);
+      <script defer>
+			 (function($) {
+				$(document).ready(function(){
+					setTimeout(function(){
+						google.charts.load("current", {
+						  packages: ["corechart"]
+						});
+						google.charts.setOnLoadCallback(drawChart);
 
-            function drawChart() {
-              var data = google.visualization.arrayToDataTable([
-                ['Task', 'Hours per Day'],
-                ['Áudio', <?php echo  str_replace('.', '', $data['internet']['meios']['audio']['real']); ?>],
-                ['Busca', <?php echo  str_replace('.', '', $data['internet']['meios']['busca']['real']); ?>],
-                ['Display e Outros', <?php echo  str_replace('.', '', $data['internet']['meios']['outros']['real']); ?>],
-                ['Social', <?php echo  str_replace('.', '', $data['internet']['meios']['social']['real']); ?>],
-                ['Vídeos', <?php echo  str_replace('.', '', $data['internet']['meios']['video']['real']); ?>]
-              ]);
+						function drawChart() {
+						  var data = google.visualization.arrayToDataTable([
+							['Task', 'Hours per Day'],
+							['Áudio', <?php echo  str_replace('.', '', $data['internet']['meios']['audio']['real']); ?>],
+							['Busca', <?php echo  str_replace('.', '', $data['internet']['meios']['busca']['real']); ?>],
+							['Display e Outros', <?php echo  str_replace('.', '', $data['internet']['meios']['outros']['real']); ?>],
+							['Social', <?php echo  str_replace('.', '', $data['internet']['meios']['social']['real']); ?>],
+							['Vídeos', <?php echo  str_replace('.', '', $data['internet']['meios']['video']['real']); ?>]
+						  ]);
 
-              var options = {
-                pieSliceTextStyle: {
-                  fontSize: 8
-                },
-                sliceVisibilityThreshold: 0,
-                title: "",
-                is3D: true,
-                pieSliceText: 'none',
-                chartArea: {
-                  width: '100%',
-                  height: '100%'
-                },
-                legend: {
+						  var options = {
+							pieSliceTextStyle: {
+							  fontSize: 8
+							},
+							sliceVisibilityThreshold: 0,
+							title: "",
+							is3D: true,
+							pieSliceText: 'none',
+							chartArea: {
+							  width: '100%',
+							  height: '100%'
+							},
+							legend: {
 
-                  position: 'labeled',
-                  alignment: 'center',
-                  textStyle: {
-                    fontSize: 11,
-                    bold: true
-                  },
-                },
-                tooltip: {
-                  showColorCode: true,
-                  text: 'percentage'
-                },
-              };
+							  position: 'labeled',
+							  alignment: 'center',
+							  textStyle: {
+								fontSize: 11,
+								bold: true
+							  },
+							},
+							tooltip: {
+							  showColorCode: true,
+							  text: 'percentage'
+							},
+						  };
 
-              var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-internet"));
-              chart.draw(data, options);
+						  var chart = new google.visualization.PieChart(document.getElementById("cenp-chart-internet"));
+						  chart.draw(data, options);
 
-              $(window).resize(function() {
-                chart.draw(data, options);
-              });
-            }
-          });
-        })(jQuery);
+						  $(window).resize(function() {
+							chart.draw(data, options);
+						  });
+						}
+					},500);
+				});
+			})(jQuery); 
       </script>
     </div>
   </div>
