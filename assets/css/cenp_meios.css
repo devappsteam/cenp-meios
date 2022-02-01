@@ -130,6 +130,10 @@ ul {
   text-transform: uppercase !important;
 }
 
+.cm-capitalize {
+  text-transform: capitalize !important;
+}
+
 .cm-bold {
   font-weight: bold !important;
 }
@@ -187,7 +191,7 @@ ul {
   font-family   : "Work Sans", sans-serif;
   font-size     : 5rem;
   font-weight   : bold;
-  text-transform: uppercase;
+  text-transform: capitalize;
   text-align    : center;
 }
 
@@ -438,15 +442,39 @@ body.cm-modal-show .cm-modal {
 
 .cm-list__item,
 .cm-list__link {
-  color     : #2e3e4d !important;
-  font-size : 0.9rem !important;
-  list-style: none;
+  display        : flex;
+  color          : #2e3e4d !important;
+  font-size      : 0.9rem !important;
+  list-style     : none;
+  flex-wrap      : nowrap;
+  align-content  : center;
+  justify-content: flex-start;
+  align-items    : baseline;
 }
 
 .cm-list__link:hover,
 .cm-list__link:active,
 .cm-list__link:focus {
   color: #00936c !important;
+}
+
+.cm-list__item.active .cm-checked {
+  display: inline-block !important;
+}
+
+.cm-list__item.active a {
+  color: #00936c !important;
+}
+
+.cm-checked {
+  position     : relative;
+  display      : none;
+  height       : 12px;
+  width        : 10px;
+  margin-right : 5px;
+  transform    : rotate(23deg);
+  border-bottom: 2px solid #00946B;
+  border-right : 2px solid #00946B;
 }
 
 .cm-modal-legend {
@@ -528,7 +556,12 @@ body.cm-modal-show .cm-modal {
 }
 
 @media (max-width: 800px) {
-  .cm-tools {
+  .cm-tools.header {
+    flex-direction: column;
+    height        : 125px;
+  }
+
+  .cm-tools.footer {
     flex-direction: column;
     height        : auto;
   }

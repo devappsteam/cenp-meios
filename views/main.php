@@ -4,7 +4,7 @@
       Cenp-Meios<br><?php echo $title; ?>
     </h1>
   </div>
-  <div class="cm-tools">
+  <div class="cm-tools header">
     <div class="cm-tools__items">
       <a href="/cenp-meio" class="cm-btn" <?php echo (!$is_ranking) ? 'id="cm_meios"' : '' ?> title="Painéis">Painéis</a>
     </div>
@@ -53,6 +53,7 @@
                   if ($meta['cm_type'] == 2 || $meta['cm_type'] == 3) {
               ?>
                     <li class="cm-list__item">
+                      <span class="cm-checked"></span>
                       <a href="javascript:void(0);" data-post="<?php echo $post->ID; ?>" class="cm-list__link"><?php echo $post->post_title; ?></a>
                     </li>
                   <?php
@@ -61,6 +62,7 @@
                   if ($meta['cm_type'] == 1) {
                   ?>
                     <li class="cm-list__item">
+                      <span class="cm-checked"></span>
                       <a href="javascript:void(0);" data-post="<?php echo $post->ID; ?>" class="cm-list__link"><?php echo $post->post_title; ?></a>
                     </li>
                 <?php

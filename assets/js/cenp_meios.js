@@ -67,6 +67,12 @@
   });
 
   $(document).ready(function () {
+
+    jQuery('.cm-list__link').on('click', function () {
+      $('.cm-list__item').removeClass('active');
+      $(this).parent('.cm-list__item').addClass('active');
+    });
+
     jQuery('.cm-list__link').first().click();
   });
 
