@@ -5,11 +5,17 @@
     </h1>
   </div>
   <div class="cm-tools header">
-    <div class="cm-tools__items">
+    <div class="cm-tools__items tooltip">
       <a href="/cenp-meio" class="cm-btn" <?php echo (!$is_ranking) ? 'id="cm_meios"' : '' ?> title="Painéis">Painéis</a>
+      <span class="tooltiptext">
+        Clique para selecionar um Painel
+      </span>
     </div>
-    <div class="cm-tools__items">
+    <div class="cm-tools__items tooltip">
       <a href="/cenp-ranking" class="cm-btn cm-btn--link" <?php echo ($is_ranking) ? 'id="cm_meios"' : '' ?> title="Ranking">Ranking</a>
+      <span class="tooltiptext">
+        Clique para selecione um Ranking
+      </span>
     </div>
     <div class="cm-tools__items">
       <a href="/cenpmeios/#cm_cronog" class="cm-btn cm-btn--link" title="Cronograma">Cronograma</a>

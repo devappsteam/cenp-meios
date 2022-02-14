@@ -579,3 +579,15 @@ body.cm-modal-show .cm-modal {
     padding: 1rem;
   }
 }
+
+#cm_meios::after {
+  content      : "";
+  position     : absolute;
+  height       : 10px;
+  width        : 10px;
+  top          : 38%;
+  right        : 30px;
+  transform    : rotate(45deg);
+  border-bottom: 2px solid #FFF;
+  border-right : 2px solid #FFF;
+}
