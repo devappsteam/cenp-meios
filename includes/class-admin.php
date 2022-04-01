@@ -12,14 +12,12 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     add_action('init', array($this, 'cm_register_taxonomy'));
     add_action('save_post', array($this, 'cm_save'));
     add_filter('mce_buttons_2', array($this, 'cm_mce_buttons_2'));
-	  
-	add_action( 'cenp-ranking_add_form_fields', array($this, 'ranking_add_taxonomy_custom_fields'), 10, 2 );
-	add_action( 'cenp-ranking_edit_form_fields', array($this, 'ranking_edit_taxonomy_custom_fields'), 10, 2 );
-	
-	add_action( 'created_cenp-ranking', array($this, 'save_term_fields') );
-	add_action( 'edited_cenp-ranking', array($this, 'save_term_fields') );
-	  
-	  
+
+    add_action('cenp-ranking_add_form_fields', array($this, 'ranking_add_taxonomy_custom_fields'), 10, 2);
+    add_action('cenp-ranking_edit_form_fields', array($this, 'ranking_edit_taxonomy_custom_fields'), 10, 2);
+
+    add_action('created_cenp-ranking', array($this, 'save_term_fields'));
+    add_action('edited_cenp-ranking', array($this, 'save_term_fields'));
   }
 
   public function admin_scripts()
@@ -132,8 +130,8 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
 
   public function cm_register_taxonomy()
   {
-	  
-	  // Paineis
+
+    // Paineis
     $labels = array(
       'name'                => __('Painéis', CM_TEXT_DOMAIN),
       'singular_name'       => __('Painel', CM_TEXT_DOMAIN),
@@ -159,9 +157,9 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
         'rewrite'             => array('slug' => 'cenp-category'),
       )
     );
-	  
-	// Ranking
-	$labels_ranking = array(
+
+    // Ranking
+    $labels_ranking = array(
       'name'                => __('Rankings', CM_TEXT_DOMAIN),
       'singular_name'       => __('Ranking', CM_TEXT_DOMAIN),
       'search_items'        => __('Buscar Ranking', CM_TEXT_DOMAIN),
@@ -187,39 +185,42 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
       )
     );
   }
-	
-  public function ranking_add_taxonomy_custom_fields($tag){
-?>  
-  
-	<tr class="form-field">  
-		<th scope="row" valign="top">  
-			<label for="show_modal"><?php _e('Exibir na modal de seleção:'); ?>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="show_modal" id="show_modal" value="yes"></label>  
-		</th>
-	</tr>  
-  
-<?php  
+
+  public function ranking_add_taxonomy_custom_fields($tag)
+  {
+?>
+
+    <tr class="form-field">
+      <th scope="row" valign="top">
+        <label for="show_modal"><?php _e('Exibir na modal de seleção:'); ?>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="show_modal" id="show_modal" value="yes"></label>
+      </th>
+    </tr>
+
+  <?php
   }
-	
-  public function ranking_edit_taxonomy_custom_fields($term, $taxonomy){
-    $value = get_term_meta( $term->term_id, 'show_modal', true );
-?>  
-  
-	<tr class="form-field">  
-		<th scope="row" valign="top">  
-			<label for="show_modal"><?php _e('Exibir na modal de seleção:'); ?></label>  
-		</th>
-		<td>
-		<input type="checkbox" name="show_modal" id="show_modal" value="yes" <?php echo ($value == 'yes') ? 'checked': ''; ?> >
-		</td>
-	</tr>  
-  
-<?php  
+
+  public function ranking_edit_taxonomy_custom_fields($term, $taxonomy)
+  {
+    $value = get_term_meta($term->term_id, 'show_modal', true);
+  ?>
+
+    <tr class="form-field">
+      <th scope="row" valign="top">
+        <label for="show_modal"><?php _e('Exibir na modal de seleção:'); ?></label>
+      </th>
+      <td>
+        <input type="checkbox" name="show_modal" id="show_modal" value="yes" <?php echo ($value == 'yes') ? 'checked' : ''; ?>>
+      </td>
+    </tr>
+
+<?php
   }
-	
-  public function save_term_fields($term_id){
-	  update_term_meta( $term_id, 'show_modal', $_POST[ 'show_modal' ]);
+
+  public function save_term_fields($term_id)
+  {
+    update_term_meta($term_id, 'show_modal', $_POST['show_modal']);
   }
-	
+
   public function cm_register_meta_box()
   {
     add_meta_box('meta_box_cm', __('Importar Planilha', CM_TEXT_DOMAIN), array($this, 'meta_box_cm_form'), 'cenp-mean', 'normal', 'high');
@@ -242,7 +243,7 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
       'cm_type'                 => $_POST['cm_type'],
       'cm_update'               => $_POST['cm_update'],
       'cm_description'          => $_POST['cm_description'],
-	  'cm_source_ranking'       => $_POST['cm_source_ranking'],
+      'cm_source_ranking'       => $_POST['cm_source_ranking'],
       'cm_source'               => $_POST['cm_source'],
       'cm_note'                 => $_POST['cm_note'],
       'cm_agency_title'         => $_POST['cm_agency_title'],
@@ -361,10 +362,10 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
     global $wpdb;
     $data = array_map(function ($item) use ($post_id) {
       $name = (isset($item['nome'])) ? "'" . addslashes(esc_sql($item['nome'])) . "'" : 'null';
-      return "($post_id,'" . esc_sql($item['posicao']) . "'," . $name . ",'" . esc_sql($item['uf']) . "')";
+      return "($post_id,'" . esc_sql($item['posicao']) . "'," . $name . ",'" . esc_sql($item['uf']) . "','" . esc_sql($item['posicao_anterior']) . "')";
     }, $values['ranking']);
     $table_spreadsheet = $wpdb->prefix . "cm_spreadsheets_ranking";
-    $sql = "INSERT INTO $table_spreadsheet (`post_id`,`position`,`name`,`state`) VALUES " . implode(',', $data);
+    $sql = "INSERT INTO $table_spreadsheet (`post_id`,`position`,`name`,`state`, `last_position`) VALUES " . implode(',', $data);
     $wpdb->query($sql);
 
     if (!empty($values['estado'])) {

@@ -125,8 +125,13 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
       wp_die();
     }
 
-    $year = get_the_terms($post->ID, 'cenp-category');
-    $year = (!empty($year)) ? (int) filter_var($year[0]->name, FILTER_SANITIZE_NUMBER_INT) : '';
+    $year_painel = get_the_terms($post->ID, 'cenp-category');
+    $year_painel = (!empty($year_painel)) ? (int) filter_var($year_painel[0]->name, FILTER_SANITIZE_NUMBER_INT) : '';
+
+    $year_ranking = get_the_terms($post->ID, 'cenp-ranking');
+    $year_ranking = (!empty($year_ranking)) ? (int) filter_var($year_ranking[0]->name, FILTER_SANITIZE_NUMBER_INT) : '';
+
+    $old_year_ranking = $year_ranking - 1;
 
     $post_meta = get_post_meta($post->ID, '_meios', true);
 
@@ -141,21 +146,21 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
       default:
         switch ($post_meta['cm_period']) {
           case 1:
-            $table_title = 'JAN-MAR' . '/' . $year;
+            $table_title = 'JAN-MAR' . '/' . $year_painel;
             $html .= $this->render_mean_comunication($post, $post_meta);
             break;
           case 2:
-            $table_title = 'JAN-JUN' . '/' . $year;
+            $table_title = 'JAN-JUN' . '/' . $year_painel;
             $html .= $this->render_mean_comunication($post, $post_meta);
             $html .= $this->render_region($post, $post_meta);
             break;
           case 3:
-            $table_title = 'JAN-SET' . '/' . $year;
+            $table_title = 'JAN-SET' . '/' . $year_painel;
             $html .= $this->render_mean_comunication($post, $post_meta);
             $html .= $this->render_region($post, $post_meta);
             break;
           case 4:
-            $table_title = 'JAN-DEZ' . '/' . $year;
+            $table_title = 'JAN-DEZ' . '/' . $year_painel;
             $html .= $this->render_mean_comunication($post, $post_meta);
             $html .= $this->render_region($post, $post_meta);
             $html .= $this->render_mean_region($post, $post_meta);
@@ -166,33 +171,35 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
       case 2:
         switch ($post_meta['cm_period']) {
           case 1:
-            $table_title = 'JAN-MAR' . '/' . $year;
+            $table_title = 'JAN-MAR' . '/' . $year_ranking;
             break;
           case 2:
-            $table_title = 'JAN-JUN' . '/' . $year;
+            $table_title = 'JAN-JUN' . '/' . $year_ranking;
             break;
           case 3:
-            $table_title = 'JAN-SET' . '/' . $year;
+            $table_title = 'JAN-SET' . '/' . $year_ranking;
             break;
           case 4:
-            $table_title = 'JAN-DEZ' . '/' . $year;
+            $table_title = 'JAN-DEZ' . '/' . $year_ranking;
             break;
         }
         $html .= $this->render_ranking($post, $post_meta);
+        $html = str_replace('[OLD_YEAR]', $old_year_ranking, $html);
+        $html = str_replace('[YEAR]', $year_ranking, $html);
         break;
       case 3:
         switch ($post_meta['cm_period']) {
           case 1:
-            $table_title = 'JAN-MAR' . '/' . $year;
+            $table_title = 'JAN-MAR' . '/' . $year_ranking;
             break;
           case 2:
-            $table_title = 'JAN-JUN' . '/' . $year;
+            $table_title = 'JAN-JUN' . '/' . $year_ranking;
             break;
           case 3:
-            $table_title = 'JAN-SET' . '/' . $year;
+            $table_title = 'JAN-SET' . '/' . $year_ranking;
             break;
           case 4:
-            $table_title = 'JAN-DEZ' . '/' . $year;
+            $table_title = 'JAN-DEZ' . '/' . $year_ranking;
             break;
         }
         $html .= $this->render_ranking_uf($post, $post_meta);

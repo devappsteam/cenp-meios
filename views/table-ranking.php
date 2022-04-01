@@ -6,13 +6,14 @@
     <div class="cm-table-responsive">
       <table class="cm-table">
         <thead>
-		  <tr>
-			  <th colspan="3">
-			  	[TABLE_TITLE]
-			  </th>
-		  </tr>
           <tr>
-            <th>POSIÇÃO</th>
+            <th colspan="4">
+              [TABLE_TITLE]
+            </th>
+          </tr>
+          <tr>
+            <th style="background: #dc3545;">POSIÇÃO [OLD_YEAR]</th>
+            <th>POSIÇÃO [YEAR]</th>
             <th>RAZÃO SOCIAL</th>
             <th>UF</th>
           </tr>
@@ -32,6 +33,7 @@
             }
           ?>
             <tr>
+              <td><?php echo $data_ranking[$i]['last_position']; ?></td>
               <td><?php echo $data_ranking[$i]['position']; ?></td>
               <td><a href="<?php echo (!empty($note_final)) ? $note_final : 'javascript:void(0);'; ?>" <?php echo (!empty($note_final)) ? 'target="_blank"' : ''; ?> class="cm-note <?php echo (!empty($note_final)) ? 'has-note' : ''; ?>" style="cursor:<?php echo (!empty($note_final)) ? 'pointer !important' : 'auto !important'; ?>;"><?php echo stripslashes($data_ranking[$i]['name']); ?></a></td>
               <td><?php echo $data_ranking[$i]['state']; ?></td>
@@ -62,11 +64,11 @@
     <div class="cm-table-responsive">
       <table class="cm-table">
         <thead>
-			<tr>
-			  <th colspan="3">
-			  	[TABLE_TITLE]
-			  </th>
-		  </tr>
+          <tr>
+            <th colspan="3">
+              [TABLE_TITLE]
+            </th>
+          </tr>
           <tr>
             <th>POSIÇÃO AG-UF</th>
             <th>RAZÃO SOCIAL</th>
@@ -77,7 +79,7 @@
           <?php
           $state = 'AL';
           $mark = false;
-			
+
           for ($i = 0; $i < count($data_ranking_uf); $i++) {
           ?>
             <tr class="<?php echo ($mark) ? 'tr-blue' : 'tr-white'; ?>">

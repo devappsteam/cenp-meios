@@ -12,7 +12,7 @@
  * Plugin Name:       Cenp Meios
  * Plugin URI:        https://github.com/devappsteam/cenp-meios
  * Description:       Efetua a importação do meios de comunicação atráves de uma matriz XLSX e disponibiliza os dados em uma página atraves de shortcode.
- * Version:           1.2.1
+ * Version:           1.3.0
  * Requires at least: 5.2
  * Requires PHP:      7.2
  * Author:            DevApps Consultoria e Desenvolvimento de Software
@@ -27,7 +27,7 @@
 defined('ABSPATH') || exit;
 
 // Constantes
-define('CM_VERSION', '1.2.1');
+define('CM_VERSION', '1.3.0');
 define('CM_TEXT_DOMAIN', 'cenp-mean');
 define('CM_PATH_ROOT', plugin_basename(__FILE__));
 define('CM_PATH', plugin_dir_path(__FILE__));
@@ -47,6 +47,11 @@ function activate()
   global $wpdb;
 
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+  include_once("wp-config.php");
+  include_once("wp-includes/wp-db.php");
+
+  $version = get_option('cm_version', '0.0.1');
 
   $table_region                     = $wpdb->prefix . "cm_states_region";
   $table_spreadsheet                = $wpdb->prefix . "cm_spreadsheets";
@@ -191,6 +196,13 @@ function activate()
       ('Tocantins', 1);";
 
   dbDelta($sql);
+
+  if (version_compare($version, CM_VERSION, '<')) {
+    $sql = "ALTER TABLE `$table_spreadsheet_ranking` 
+    ADD COLUMN `last_position` VARCHAR(5) NULL DEFAULT NULL;";
+    $wpdb->query($sql);
+    update_option('cm_version', CM_VERSION);
+  }
 }
 
 function init_cenp_meios()

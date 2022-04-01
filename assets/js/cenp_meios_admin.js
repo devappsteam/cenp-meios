@@ -141,7 +141,9 @@ jQuery(document).ready(function ($) {
 
     if (parseInt(type) == 2) {
       $('#cm_description_estate_wrapper').show();
+      $('#cm_source_ranking_wrapper').show();
     } else {
+      $('#cm_source_ranking_wrapper').hide();
       $('#cm_description_estate_wrapper').hide();
     }
 
