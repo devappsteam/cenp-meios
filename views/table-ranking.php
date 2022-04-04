@@ -12,8 +12,18 @@
             </th>
           </tr>
           <tr>
-            <th style="background: #dc3545;">POSIÇÃO [OLD_YEAR]</th>
-            <th>POSIÇÃO [YEAR]</th>
+            <?php
+            $current = '';
+            $old = '';
+            if ($show_history == 'yes') {
+              $current = 'background: #00946c;';
+              $old = '';
+            ?>
+              <th style="<?php echo $old ?>">POSIÇÃO [OLD_YEAR]</th>
+            <?php
+            }
+            ?>
+            <th style="<?php echo $current ?>">POSIÇÃO [YEAR]</th>
             <th>RAZÃO SOCIAL</th>
             <th>UF</th>
           </tr>
@@ -33,7 +43,13 @@
             }
           ?>
             <tr>
-              <td><?php echo $data_ranking[$i]['last_position']; ?></td>
+              <?php
+              if ($show_history == 'yes') {
+              ?>
+                <td><?php echo $data_ranking[$i]['last_position']; ?></td>
+              <?php
+              }
+              ?>
               <td><?php echo $data_ranking[$i]['position']; ?></td>
               <td><a href="<?php echo (!empty($note_final)) ? $note_final : 'javascript:void(0);'; ?>" <?php echo (!empty($note_final)) ? 'target="_blank"' : ''; ?> class="cm-note <?php echo (!empty($note_final)) ? 'has-note' : ''; ?>" style="cursor:<?php echo (!empty($note_final)) ? 'pointer !important' : 'auto !important'; ?>;"><?php echo stripslashes($data_ranking[$i]['name']); ?></a></td>
               <td><?php echo $data_ranking[$i]['state']; ?></td>

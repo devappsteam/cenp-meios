@@ -195,13 +195,19 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
         <label for="show_modal"><?php _e('Exibir na modal de seleção:'); ?>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="show_modal" id="show_modal" value="yes"></label>
       </th>
     </tr>
+    <tr class="form-field">
+      <th scope="row" valign="top">
+        <label for="show_history"><?php _e('Exibir histórico:'); ?>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="show_history" id="show_history" value="yes"></label>
+      </th>
+    </tr>
 
   <?php
   }
 
   public function ranking_edit_taxonomy_custom_fields($term, $taxonomy)
   {
-    $value = get_term_meta($term->term_id, 'show_modal', true);
+    $modal = get_term_meta($term->term_id, 'show_modal', true);
+    $history = get_term_meta($term->term_id, 'show_history', true);
   ?>
 
     <tr class="form-field">
@@ -209,7 +215,16 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
         <label for="show_modal"><?php _e('Exibir na modal de seleção:'); ?></label>
       </th>
       <td>
-        <input type="checkbox" name="show_modal" id="show_modal" value="yes" <?php echo ($value == 'yes') ? 'checked' : ''; ?>>
+        <input type="checkbox" name="show_modal" id="show_modal" value="yes" <?php echo ($modal == 'yes') ? 'checked' : ''; ?>>
+      </td>
+    </tr>
+
+    <tr class="form-field">
+      <th scope="row" valign="top">
+        <label for="show_history"><?php _e('Exibir histórico:'); ?></label>
+      </th>
+      <td>
+        <input type="checkbox" name="show_history" id="show_history" value="yes" <?php echo ($history == 'yes') ? 'checked' : ''; ?>>
       </td>
     </tr>
 
@@ -219,6 +234,7 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
   public function save_term_fields($term_id)
   {
     update_term_meta($term_id, 'show_modal', $_POST['show_modal']);
+    update_term_meta($term_id, 'show_history', $_POST['show_history']);
   }
 
   public function cm_register_meta_box()
@@ -425,9 +441,6 @@ class Cenp_Meios_Admin extends Cenp_Meios_Utils
       $wpdb->query($sql);
     }
   }
-
-
-
 
   public function cm_mce_buttons_2($buttons)
   {

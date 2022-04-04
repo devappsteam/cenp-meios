@@ -357,7 +357,10 @@ class Cenp_Meios_Front extends Cenp_Meios_Utils
     ob_start();
     $data_ranking = $this->get_data_ranking($post->ID);
     $data_ranking_uf = $this->get_data_ranking_uf($post->ID);
-    Helpers::load_view('table-ranking', compact('data_ranking', 'data_ranking_uf', 'post', 'post_meta'));
+    $terms = wp_get_object_terms($post->ID, 'cenp-ranking', array('fields' => 'ids'));
+    $term = array_pop(array_reverse($terms));
+    $show_history = get_term_meta($term, 'show_history', true);
+    Helpers::load_view('table-ranking', compact('data_ranking', 'data_ranking_uf', 'post', 'post_meta', 'show_history'));
     $html = ob_get_contents();
     ob_end_clean();
     return $html;
